@@ -25,20 +25,8 @@ var myFeature = {
        $(myFeature.config.canvas).gridmanager(myFeature.config.rte);
     },
 
-    getContent : function($li) {
-        $li.append(myFeature.config.container);
-        var url = myFeature.buildUrl($li);
-        $li.find(myFeature.config.container).load(url);
-    },
 
-    showContent : function($li) {
-        $li.find('div').show();
-        myFeature.hideContent($li.siblings());
-    },
 
-    hideContent : function($elements) {
-        $elements.find('div').hide();
-    }
 };
 
 
