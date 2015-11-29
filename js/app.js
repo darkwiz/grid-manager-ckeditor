@@ -15,7 +15,7 @@ var App = {
                     },
 
         },
-        url: 'settings_editor.json',
+        url: 'data.json',
    },
    helper: {
         inouts: {},
@@ -62,16 +62,21 @@ var App = {
       },
 
     handleDesignerResponse: function(response) {
-      App.helper.inputs = response.inputs;
-      App.helper.outputs = response.outputs;
-      App.helper.props = response.props;
+      App.helper.inputs = response.settings.inputs;
+      App.helper.outputs = response.settings.outputs;
+      App.helper.props = response.settings.props;
 
       var i = 1;
 
       $.each(App.helper.inputs, function(ind, elem) {
         var val = elem.value;
+        if( !elem.hidden || elem.hidden === undefined ){
          $.each(App.helper.outputs, function(index, el) {
-             if(val === el.value){
+          if( !el.hidden || el.hidden === undefined ){
+            // console.log("Labelinputs:" + elem.label + "; hidden:", !elem.hidden , "; value:",  elem.value == "");
+            // console.log("Labeloutputs:" + el.label + "; hidden:",  !el.hidden , "; value:",  el.value == "");
+
+             if( val.value !== "" && el.value !== "" && val === el.value ){
                 //creo un nuovo oggetto per i pin in/out
                 el.label = "pininout" + i;
                 el.pintype = "inout";
@@ -84,21 +89,27 @@ var App = {
                 i++;
                 return false;
               }
+            }
             });
          //Aggiungo il pin in se al termine della scansione non trovo corrispondenza su value, non posso aggiungere elem perchè non sarebbe aggiornato
 
        if ( App.helper.inputs[ind] !== undefined ){
          App.helper.inputs[ind].pintype = "in";
          App.config.rte.ckeditor.customValues.pins.push(App.helper.inputs[ind]);
+        }
        }
       });
       //se è rimasto almeno un pin in out li aggiungo eventualmente
       $.each(App.helper.outputs, function(index, el) {
          if ( App.helper.outputs[index] !== undefined ){
+          if( !el.hidden || el.hidden === undefined ){
             App.helper.outputs[index].pintype = "out";
             App.config.rte.ckeditor.customValues.pins.push(el);
           }
+          }
         });
+
+       console.log("PINS:", App.config.rte.ckeditor.customValues.pins);
     }
 
 };
