@@ -33,6 +33,7 @@ var App = {
             });
             App.buildGrid();
             App.getProcessSettings(App.handleDesignerResponse);
+            App.clearEditor();
     },
 
     buildGrid : function() {
@@ -109,9 +110,16 @@ var App = {
           }
         });
 
-       console.log("PINS:", App.config.rte.ckeditor.customValues.pins);
-    }
+    },
+    //clear divs right after initializing editor (test required)
+      clearEditor: function () {
+      CKEDITOR.on( 'instanceReady', function( evt ) {
+        $.each(CKEDITOR.instances, function(index, instance){
+        CKEDITOR.instances[index].setData('');
+        });
 
+      });
+    }
 };
 
 
