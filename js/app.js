@@ -10,7 +10,8 @@ var App = {
                         customConfig: 'config.js',
                         customValues: {
                           pins: [],
-                          props: {}
+                          props: {},
+                          picked:{}
                         }
                     },
 
