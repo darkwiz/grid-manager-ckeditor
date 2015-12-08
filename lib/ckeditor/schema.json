@@ -1,0 +1,28 @@
+{"text": {
+	"type":"text",
+	"values":[""],
+	"checked":""
+},
+"boolean": {
+	"type":"checkbox",
+	"values":[""],
+	"checked":"checked"
+},
+"datetime": {
+	"type":"text",
+	"values":[""],
+	"checked":"checked",
+	"class":"date-picker",
+	"js":"$(\".date-pick\").datepicker({dateFormat:\"dd-mm-yy\",onSelect: function(){var value = $(this).datepicker(\"getDate\");$(this).attr(\"value\", value);}});"
+},
+"tp": {
+	"type":"radio",
+	"values":["E", "I", "U"],
+	"checked":"checked"
+},
+"acl": {
+	"type":"radio",
+	"values":["NORMAL","EDIT","FULL"],
+	"checked":"checked"
+}
+}
