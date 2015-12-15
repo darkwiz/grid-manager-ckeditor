@@ -130,8 +130,3 @@ a > img {
 	border: none;
 	outline: 1px solid #0782C1;
 }
-/* User defined style */
-
-.ui-widget {
-  font-size: 11px;
-}

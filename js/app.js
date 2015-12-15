@@ -82,6 +82,7 @@ var App = {
                 //creo un nuovo oggetto per i pin in/out
                 el.label = "pininout" + i;
                 el.pintype = "inout";
+                el.name = index; //per non perdere il nome del pin
                 App.config.rte.ckeditor.customValues.pins.push(el);
 
                 //elimino i singoli pin di in e out fusi in uno inout
@@ -97,6 +98,7 @@ var App = {
 
        if ( App.helper.inputs[ind] !== undefined ){
          App.helper.inputs[ind].pintype = "in";
+         App.helper.inputs[ind].name = ind;
          App.config.rte.ckeditor.customValues.pins.push(App.helper.inputs[ind]);
         }
        }
@@ -106,11 +108,12 @@ var App = {
          if ( App.helper.outputs[index] !== undefined ){
           if( !el.hidden || el.hidden === undefined ){
             App.helper.outputs[index].pintype = "out";
+            el.name = index;
             App.config.rte.ckeditor.customValues.pins.push(el);
+
           }
           }
         });
-
     },
     //clear divs right after initializing editor (test required)
       clearEditor: function () {
