@@ -1,28 +1,114 @@
 {"text": {
 	"type":"text",
 	"values":[""],
-	"checked":""
+	"class":{
+			"label":"",
+			"elem":"form-control",
+			"container": "text"
+		},
+	"help":"help-block"
 },
-"boolean": {
+"checkbox": {
+	"__comment":"do not add form-group to class-> elem, sets width 100%",
 	"type":"checkbox",
 	"values":[""],
-	"checked":"checked"
+	"class":{
+			"label":"",
+			"elem":"",
+			"container": "checkbox"
+		},
+	"help":"help-block"
 },
 "datetime": {
 	"type":"text",
 	"values":[""],
-	"checked":"checked",
-	"class":"date-picker",
-	"js":"$(\".date-pick\").datepicker({dateFormat:\"dd-mm-yy\",onSelect: function(){var value = $(this).datepicker(\"getDate\");$(this).attr(\"value\", value);}});"
+	"class":{
+			"label":"",
+			"elem":"date-pick",
+			"container": "datetime"
+		},
+	"js":"$(\".date-pick\").datepicker({dateFormat:\"dd-mm-yy\",onSelect: function(){var value = $(this).datepicker(\"getDate\");$(this).attr(\"value\", value);}});",
+	"help":"help-block"
 },
 "tp": {
 	"type":"radio",
 	"values":["E", "I", "U"],
-	"checked":"checked"
+	"class":{
+			"label":"",
+			"elem":"",
+			"container": "radio"
+		},
+	"help":"help-block"
 },
 "acl": {
 	"type":"radio",
 	"values":["NORMAL","EDIT","FULL"],
-	"checked":"checked"
+	"class":{
+			"label":"",
+			"elem":"",
+			"container": "radio"
+		},
+	"help":"help-block"
+},
+"cf": {
+	"type":"text",
+	"values":[],
+	"class":{
+			"label":"",
+			"elem":"form-control",
+			"container": "text"
+		},
+		"validators":{
+			"cf":{
+						"minlength": "16",
+						"regex":"/[A-Z]{6}[\\d]{2}[A-Z][\\d]{2}[A-Z][\\d]{3}[A-Z]/",
+						"failureMessage": "Codice Fiscale errato"
+			},
+			"piva":{
+						"regex":"/[0-9]{11}/",
+						"failureMessage": "Partita IVA errata"
+			}
+		},
+	"help":"help-block"
+},
+"email": {
+	"type":"email",
+	"values":[],
+	"class":{
+			"label":"",
+			"elem":"form-control",
+			"container": "text"
+		},
+		"validators":{
+		"minlength": "5",
+		"email":"true"
+		},
+	"help":"help-block"
+},
+"anno": {
+	"type":"text",
+	"values":[],
+	"class":{
+			"label":"",
+			"elem":"form-control ",
+			"container": "col-lg-3"
+		},
+	"validators":{
+		"minlength": "3",
+		"maxlength":"4",
+		"digits":"true"
+		},
+	"help":"help-block"
+},
+"textarea": {
+	"type":"textarea",
+	"values":[],
+	"class":{
+			"label":"",
+			"elem":"form-control",
+			"container": "text"
+		},
+	"rows":"3",
+	"help":"help-block"
 }
 }
