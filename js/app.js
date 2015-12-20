@@ -33,8 +33,8 @@ var App = {
                  $(App.config.dialogId).dialog(App.config.uiOptions);
             });
             App.buildGrid();
-            App.getProcessSettings(App.handleDesignerResponse);
             App.clearEditor();
+            App.getProcessSettings(App.handleDesignerResponse);
     },
 
     buildGrid : function() {
@@ -118,10 +118,13 @@ var App = {
     //clear divs right after initializing editor (test required)
       clearEditor: function () {
       CKEDITOR.on( 'instanceReady', function( evt ) {
-        $.each(CKEDITOR.instances, function(index, instance){
-        CKEDITOR.instances[index].setData('');
+         evt.editor.on('focus', function() {
+          if (this.element && this.element.getName() == "div"){
+              if (this.element.getChild( 0 ).getAttribute('class') == "init")
+                this.element.getChild( 0 ).remove();
+          //console.log('focused', this.element);
+         }
         });
-
       });
     }
 };
