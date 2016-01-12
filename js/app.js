@@ -1,11 +1,16 @@
-var App = {
-    config : {
+define([
+  'jquery',
+  'underscore',
+  'backbone'
+],function($, _, Backbone){
+
+var config = {
         dialogId : '#dialog',
         wrapper : '#open',
         canvas: '#mycanvas',
         uiOptions : {width: 1280, autoOpen: true, modal: true},
         rte: {
-                    debug: 1,
+                    //debug: 1,
                     ckeditor: {
                         customConfig: 'config.js',
                         customValues: {
@@ -17,33 +22,43 @@ var App = {
 
         },
         url: 'data.json',
-   },
-   helper: {
+        helper : {
         inouts: {},
         inputs: {},
         outputs: {},
         props: {}
-   },
+      }
+    };
 
-    init : function(config, settings) {
-        $.extend(App.config, config);
-        $.extend(App.settings, settings);
-        $(App.config.wrapper).find('button').
+  Backbone.Singleton = {
+   getInstance: function () {
+     if (this._instance === undefined) {
+       this._instance = new this();
+     }
+     return this._instance;
+   }
+ }
+
+return {
+
+    init : function() {
+       //$.extend(config, conf);
+        $(config.wrapper).find('button').
             click(function() {
-                 $(App.config.dialogId).dialog(App.config.uiOptions);
+                 $(config.dialogId).dialog(config.uiOptions);
             });
-            App.buildGrid();
-            App.clearEditor();
-            App.getProcessSettings(App.handleDesignerResponse);
+            this.buildGrid();
+            this.clearEditor(); //don't work well...
+            this.getProcessSettings(this.handleDesignerResponse);
     },
 
     buildGrid : function() {
-       $(App.config.canvas).gridmanager(App.config.rte);
+       $(config.canvas).gridmanager(config.rte);
     },
 
     getProcessSettings: function(successCallBack) {
       $.ajax({
-        url: App.config.url,
+        url: config.url,
         type: 'GET',
         contentType: 'application/json',
         dataType: 'json'
@@ -64,16 +79,16 @@ var App = {
       },
 
     handleDesignerResponse: function(response) {
-      App.helper.inputs = response.settings.inputs;
-      App.helper.outputs = response.settings.outputs;
-      App.helper.props = response.settings.props;
+      config.helper.inputs = response.settings.inputs;
+      config.helper.outputs = response.settings.outputs;
+      config.helper.props = response.settings.props;
 
       var i = 1;
 
-      $.each(App.helper.inputs, function(ind, elem) {
+      $.each(config.helper.inputs, function(ind, elem) {
         var val = elem.value;
         if( !elem.hidden || elem.hidden === undefined ){
-         $.each(App.helper.outputs, function(index, el) {
+         $.each(config.helper.outputs, function(index, el) {
           if( !el.hidden || el.hidden === undefined ){
             // console.log("Labelinputs:" + elem.label + "; hidden:", !elem.hidden , "; value:",  elem.value == "");
             // console.log("Labeloutputs:" + el.label + "; hidden:",  !el.hidden , "; value:",  el.value == "");
@@ -83,11 +98,11 @@ var App = {
                 el.label = "pininout" + i;
                 el.pintype = "inout";
                 el.name = index; //per non perdere il nome del pin
-                App.config.rte.ckeditor.customValues.pins.push(el);
+                config.config.rte.ckeditor.customValues.pins.push(el);
 
                 //elimino i singoli pin di in e out fusi in uno inout
-                delete App.helper.outputs[index];
-                delete App.helper.inputs[ind];
+                delete config.helper.outputs[index];
+                delete config.helper.inputs[ind];
 
                 i++;
                 return false;
@@ -96,20 +111,20 @@ var App = {
             });
          //Aggiungo il pin in se al termine della scansione non trovo corrispondenza su value, non posso aggiungere elem perchè non sarebbe aggiornato
 
-       if ( App.helper.inputs[ind] !== undefined ){
-         App.helper.inputs[ind].pintype = "in";
-         App.helper.inputs[ind].name = ind;
-         App.config.rte.ckeditor.customValues.pins.push(App.helper.inputs[ind]);
+       if ( config.helper.inputs[ind] !== undefined ){
+         config.helper.inputs[ind].pintype = "in";
+         config.helper.inputs[ind].name = ind;
+         config.rte.ckeditor.customValues.pins.push(config.helper.inputs[ind]);
         }
        }
       });
       //se è rimasto almeno un pin in out li aggiungo eventualmente
-      $.each(App.helper.outputs, function(index, el) {
-         if ( App.helper.outputs[index] !== undefined ){
+      $.each(config.helper.outputs, function(index, el) {
+         if ( config.helper.outputs[index] !== undefined ){
           if( !el.hidden || el.hidden === undefined ){
-            App.helper.outputs[index].pintype = "out";
+            config.helper.outputs[index].pintype = "out";
             el.name = index;
-            App.config.rte.ckeditor.customValues.pins.push(el);
+            config.rte.ckeditor.customValues.pins.push(el);
 
           }
           }
@@ -117,28 +132,30 @@ var App = {
     },
     //clear divs right after initializing editor (test required)
       clearEditor: function () {
-      CKEDITOR.on( 'instanceReady', function( evt ) {
+        //JQuery wrapper version
+        CKEDITOR.on( 'instanceReady', function( evt ) {
          evt.editor.on('focus', function() {
-          if (this.element && this.element.getName() == "div"){
-              if (this.element.getChild( 0 ).getAttribute('class') == "init")
-                this.element.getChild( 0 ).remove();
-          //console.log('focused', this.element);
-         }
-        });
-      });
+                  var init = $(this.element.$).find('p.init')
+                  if ( init )
+                    init.remove();
+                  console.log( 'Focus fired ' + evt.name );
+                  $(this.element.$).unbind();
+
+          });
+          });
+      //CKEditor wrapper version
+      // CKEDITOR.on( 'instanceReady', function( evt ) {
+      //    evt.editor.on('focus', function() {
+      //     if (this.element && this.element.getName() == "div"){
+      //         if (this.element.getChild( 0 ).getAttribute('class') == "init")
+      //           this.element.getChild( 0 ).remove();
+      //     //console.log('focused', this.element);
+      //    }
+      //   });
+      // });
     }
 };
+});
 
 
-
-$(document).ready(function() {
-  App.init();
-
-  //Solve problems jquery ui dialog- ckeditor/tinymce
-  $(this).on('focusin', function(e) {
-                  if ($(e.target).closest(" .cke_dialog").length) {
-                          e.stopImmediatePropagation();
-  }
-})
-  });
 

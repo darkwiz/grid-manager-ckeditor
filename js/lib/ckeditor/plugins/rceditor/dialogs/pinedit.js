@@ -1,4 +1,4 @@
-CKEDITOR.dialog.add( 'pinin', function( editor ) {
+﻿CKEDITOR.dialog.add( 'pinedit', function( editor ) {
 
     function removeAllOptions( combo ) {
         combo = getSelect( combo );
@@ -53,16 +53,6 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
             field[ check ? 'enable' : 'disable' ]();
         }
 
-    function convertDate( dateString ) {
-        var date = new Date(dateString);
-        return date.getDate()+"/"+date.getMonth()+"/"+date.getFullYear();
-    }
-
-
-    function toggleField( field, check ) {
-            field[ check ? 'enable' : 'disable' ]();
-        }
-
         function getControl ( context ) {
           var control,
               content,
@@ -70,18 +60,17 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
               pin = editor.config.customValues.picked;
           var controls = {
             text: function() {
-                var text = new SpanControl(definition, pin, context.elem);
-                text.setDomElem(); //add class text, for now..
+                var text = new HTMLControl(definition, pin, context.elem);
+                text.setDomElem();
                 context.elem.append( text.getDomElem() );
-                },
+            },
             checkbox: function () {
                 var checkbox = new HTMLControl(definition, pin, context.elem);
                 checkbox.setDomElem();
                 context.elem.append( checkbox.getDomElem() );
-
             },
             datetime: function () {
-                var datetime = new SpanControl(definition, pin, context.elem);
+                var datetime = new DateTimeControl(definition, pin, context.elem);
                 datetime.setDomElem();
                 context.elem.append( datetime.getDomElem() );
 
@@ -103,11 +92,10 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                     var tp = new HTMLControl(definition, pin, context.elem);
                     tp.setDomElem();
                     context.elem.append( tp.getDomElem() );
-
                  }
             },
             cf: function() {
-                 var cf = new SpanControl(definition, pin, context.elem);
+                 var cf = new HTMLControl(definition, pin, context.elem);
                  cf.setDomElem();
                  context.elem.append( cf.getDomElem() );
             },
@@ -117,12 +105,12 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                  context.elem.append( textarea.getDomElem() );
             },
             email: function() {
-                 var email = new SpanControl(definition, pin, context.elem);
+                 var email = new HTMLControl(definition, pin, context.elem);
                  email.setDomElem();
                  context.elem.append( email.getDomElem() );
             },
             anno: function() {
-                 var anno = new SpanControl(definition, pin, context.elem);
+                 var anno = new HTMLControl(definition, pin, context.elem);
                  anno.setDomElem();
                  context.elem.append( anno.getDomElem() );
             }
@@ -139,7 +127,7 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
 
 
     return { //dialog definition
-        title: editor.lang.rceditor.pinin.title,
+        title: editor.lang.rceditor.pinout.title,
         minWidth: 400,
         minHeight: 200,
 
@@ -188,45 +176,37 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                         }
         },
         onOk: function() {
-        //da rivedere la gerarchia di elementi html creata (il formgroup viene generato in automatico?)
-            var editor = this.getParentEditor(),
-                element = this.htmlElement, //attualmente inutile, serve per gestire la modalità editing tramite menù contestuale
-                label = this.label, // idem come sopra
-                formgroup = this.formgroup,
-                isInsertMode = !element,
-                container = this.container;
+
+
+            //Ricorda in onOK, onshow etc..: dialog = this, mentre in onchange è this.getDialog()
+            var dialog = this,
+                editor = dialog.getParentEditor(),
+                element = dialog.htmlElement,
+                label = dialog.label,
+                isInsertMode = !element;
 
 
             if ( isInsertMode ) {
-                var fake = CKEDITOR.htmlParser.fragment.fromHtml( '<div></div>' )
-                label = editor.document.createElement( 'label' );
+                label = editor.document.createElement( 'h4' );
                 element = editor.document.createElement( 'div' );
                 element.addClass('controls');
-                var writer = new CKEDITOR.htmlParser.basicWriter();
-                fake.writeHtml( writer );
-                var container = CKEDITOR.dom.element.createFromHtml( writer.getHtml(), editor.document );
-                container.append( label );
-                container.append( element );
 
             }
 
-            var data = { element: element , label: label, container: container };
+            var data = { element: element , label: label };
 
             if ( isInsertMode ){
-                editor.insertElement(data.container);
-                //editor.insertElement( data.label );
-                //editor.insertElement( data.element ); // trovare un modo per aggiungere più elementi
-                //wrapping inside default div, add bootstrap class to it
-                //formgroup =  label.getParent() || element.getParent();
-                container.addClass('form-group');
-                }
+                editor.insertElement( data.label );
+                editor.insertElement( data.element ); // trovare un modo per aggiungere più elementi
+                formgroup =  label.getParent() || element.getParent();
+                formgroup.addClass('form-group');
+            }
 
-            this.commitContent( data );
+            dialog.commitContent( data );
 
             // Element might be replaced by commitment.
             if ( !isInsertMode )
                 editor.getSelection().selectElement( data.element );
-
         },
 
         contents: [{
@@ -240,62 +220,60 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                         {
                             id: 'label',
                             type: 'text',
-                            label: 'Label',
+                            label: 'PIN Label',
                             'default': editor.config.customValues.picked.label,
                             commit: function(data) {
                               var label = data.label,
                                   dialog = this.getDialog();
                                     id = dialog.getContentElement("tab-adv", "id");
 
-                                    label.setText( this.getValue() + ": " );
+                                    label.setText( this.getValue() );
 
                                     label.setAttribute('for',  id.getValue() );
                             }
-                        },
-                        //put here other children
-                     ]
-                  },
-                    {
+                        }
+                    ]},
+                       {
                         type: 'hbox',
                         widths: [ '50%', '50%' ],
                         children: [
-                        {
+                         {
                             id: 'typeselect',
                             type: 'select',
                             label: "Tipo Controllo",
                             'default': 'text',
                             items: [ [ "<none>",    '' ] ],
                                onChange: function() {
-                                    var selected = this.getValue(),
-                                        dialog = this.getDialog(),
-                                        field = dialog.getContentElement("tab-basic", "addlabel");
-                                  if( selected == 'checkbox')
-                                        {  toggleField(field, selected); }
-                                        else {
-                                            toggleField(field, false);
-                                            field.setValue('');
-                                         }
+                                var selected = this.getValue(),
+                                    dialog = this.getDialog(),
+                                    field = dialog.getContentElement("tab-basic", "addlabel");
+
+                                    if( selected == 'checkbox')
+                                    {  toggleField(field, selected); }
+                                    else {
+                                        toggleField(field, false);
+                                        field.setValue('');
+                                     }
+
                             },
                             setup: function( element ) {
                                 this.setValue( element.getAttribute( 'value' ) );
                             },
                             commit: function( data ) {
-                                var element = data.element,
+                             var element = data.element,
                                     self = this,
                                     head = CKEDITOR.document.getHead();
                                     //console.log(element); //element è l'elemento in costruzione
-                                    //this è l'elemento della dialog
+                                //this è l'elemento della dialog
 
-                                  var data = CKEDITOR.ajax.load( 'lib/ckeditor/schema.json' , function( response ) {
-                                    if( response !== null ){
-                                        var schema = JSON.parse(response);
-                                        var control = getControl({type: self.getValue() , elem: element, schema: schema, head: head });
-                                        } else {
-                                              console.log("Unable to get a response from the server.");
-                                        }
-                                    });
-
-
+                            var data = CKEDITOR.ajax.load( 'schema.json' , function( response ) {
+                                if( response !== null ){
+                                    var schema = JSON.parse(response);
+                                    var control = getControl({type: self.getValue() , elem: element, schema: schema, head: head });
+                                    } else {
+                                          console.log("Unable to get a response from the server.");
+                                    }
+                                });
 
                             }
                         },
@@ -311,9 +289,9 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                                 //this.setValue( element.getAttribute('id'));
                             }
                          }
-                    ]}
-                 ]
-                }
+                         ]
+                       }
+               ]}
                 ,{
                 id: 'tab-adv',
                 label: 'Advanced Settings',
@@ -328,14 +306,13 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                         },
                         commit: function(data) {
                               //set element id (default or )
-                              var element = data.element;
+                              var elem = data.element;
 
-                              element.id =  this.getValue();
+                              elem.setAttribute('id',  this.getValue() );
 
                             }
                     }
                 ]}
             ]
-        }
-    });
-
+         };
+      });

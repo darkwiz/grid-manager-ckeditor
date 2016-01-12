@@ -1,0 +1,44 @@
+[{
+  "labelCss": "textcss",
+  "labelValue": "",
+  "elem":"text",
+  "elementType": "text",
+  "elementId": "pippo",
+  "options": {
+    "text":"Generico",
+    "value":"text"
+  },
+  "elementValues": [""],
+  "elementCss": "form-control",
+  "helpCss": "help-block",
+  "helpValue": ""
+}, {
+  "labelCss": "checkcss",
+  "labelValue": "",
+  "elem":"boolean",
+  "elementType": "checkbox",
+  "elementValues": [""],
+  "elementCss": "",
+  "helpCss": "help-block",
+  "helpValue": ""
+},
+{
+  "labelCss": "aclcss",
+  "labelValue": "",
+  "elem":"acl",
+  "elementType": "radio",
+  "elementValues": ["NORMAL","EDIT","FULL"],
+  "elementCss": "",
+  "helpCss": "help-block",
+  "helpValue": ""
+},
+{
+  "labelCss": "aclcss",
+  "labelValue": "",
+  "elem":"tp",
+  "elementType": "radio",
+  "elementValues": ["E","I","U"],
+  "elementCss": "",
+  "helpCss": "help-block",
+  "helpValue": ""
+}]

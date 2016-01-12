@@ -268,7 +268,7 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                                     //console.log(element); //element è l'elemento in costruzione
                                 //this è l'elemento della dialog
 
-                            var data = CKEDITOR.ajax.load( 'lib/ckeditor/schema.json' , function( response ) {
+                            var data = CKEDITOR.ajax.load( 'schema.json' , function( response ) {
                                 if( response !== null ){
                                     var schema = JSON.parse(response);
                                     var control = getControl({type: self.getValue() , elem: element, schema: schema, head: head });
