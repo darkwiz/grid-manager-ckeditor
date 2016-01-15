@@ -4,3 +4,6 @@
 br {
   clear: both;
 }
+:disabled{
+  cursor:not-allowed;
+};

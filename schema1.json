@@ -1,0 +1,125 @@
+[
+ {
+ 	"id":1,
+ 	"__data":"text",
+	"type":"text",
+	"values":[""],
+	"class":{
+			"label":"",
+			"elem":"form-control",
+			"container": "text"
+		},
+	"help":"help-block"
+},
+{	"id":2,
+	"__data":"checkbox",
+	"__comment":"do not add form-group to class-> elem, sets width 100%",
+	"type":"checkbox",
+	"values":[""],
+	"class":{
+			"label":"",
+			"elem":"",
+			"container": "checkbox"
+		},
+	"help":"help-block"
+},
+{	"id":3,
+	"__data":"datetime",
+	"type":"text",
+	"values":[""],
+	"class":{
+			"label":"",
+			"elem":"date-pick",
+			"container": "datetime"
+		},
+	"js":"$(\".date-pick\").datepicker({dateFormat:\"dd-mm-yy\",onSelect: function(){var value = $(this).datepicker(\"getDate\");$(this).attr(\"value\", value);}});",
+	"help":"help-block"
+},
+{	"id":4,
+	"__data":"tp",
+	"type":"radio",
+	"values":["E", "I", "U"],
+	"class":{
+			"label":"",
+			"elem":"",
+			"container": "radio"
+		},
+	"help":"help-block"
+},
+{	"id":5,
+	"__data":"acl",
+	"type":"radio",
+	"values":["NORMAL","EDIT","FULL"],
+	"class":{
+			"label":"",
+			"elem":"",
+			"container": "radio"
+		},
+	"help":"help-block"
+},
+ {"id":6,
+ 	"__data":"cf",
+	"type":"text",
+	"values":[],
+	"class":{
+			"label":"",
+			"elem":"form-control",
+			"container": "text"
+		},
+		"validators":{
+			"cf":{
+						"minlength": "16",
+						"regex":"/[A-Z]{6}[\\d]{2}[A-Z][\\d]{2}[A-Z][\\d]{3}[A-Z]/",
+						"failureMessage": "Codice Fiscale errato"
+			},
+			"piva":{
+						"regex":"/[0-9]{11}/",
+						"failureMessage": "Partita IVA errata"
+			}
+		},
+	"help":"help-block"
+},
+{	"id":7,
+	"__data":"email",
+	"type":"email",
+	"values":[],
+	"class":{
+			"label":"",
+			"elem":"form-control",
+			"container": "text"
+		},
+		"validators":{
+		"minlength": "5",
+		"email":"true"
+		},
+	"help":"help-block"
+},
+{	"id":8,
+	"__data":"anno",
+	"type":"text",
+	"values":[],
+	"class":{
+			"label":"",
+			"elem":"form-control ",
+			"container": "col-lg-3"
+		},
+	"validators":{
+		"minlength": "3",
+		"maxlength":"4",
+		"digits":"true"
+		},
+	"help":"help-block"
+},
+{ "id":9,
+	"__data":"textarea",
+	"type":"textarea",
+	"values":[],
+	"class":{
+			"label":"",
+			"elem":"form-control",
+			"container": "text"
+		},
+	"rows":"3",
+	"help":"help-block"
+}
+]
