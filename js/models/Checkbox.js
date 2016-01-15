@@ -4,8 +4,8 @@ define(['models/Base'], function (Base) {
       defaults: _.extend({
         labelCss:"checkboxcss",
         elem: "boolean",
-        elementValues: [""],
         elementType: "checkbox",
+        elementValues: [""],
         elementCss : "",
       }, Base.prototype.defaults)
     });

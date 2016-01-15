@@ -1,9 +1,18 @@
-define(['models/Span', 'models/Checkbox', 'models/Acl', 'models/Tp', 'views/View'], function (Span, Checkbox, Acl, Tp, View) {
+define(['models/Span',
+        'models/Checkbox',
+        'models/Acl',
+        'models/Tp',
+        'models/Date',
+        'models/Year',
+        'models/Textarea',
+        'views/View'], function (Span, Checkbox, Acl, Tp, Date, Year, Textarea,  View) {
   return Backbone.Collection.extend({
       //url: 'controls',
       model: function(attrs, options) {
-        switch(attrs.elem) {
+        switch(options.type) {
               case 'text':
+              case 'email':
+              case 'cf':
                 return new Span(attrs, options);
               case 'boolean':
                 return new Checkbox(attrs, options);
@@ -11,10 +20,14 @@ define(['models/Span', 'models/Checkbox', 'models/Acl', 'models/Tp', 'views/View
                 return new Acl(attrs, options);
               case 'tp':
                 return new Tp(attrs, options);
+              case'date':
+                return new Date(attrs, options);
+              case'year':
+                return new Year(attrs, options);
               case'textarea':
-                return new TextArea(attrs, options);
+                return new Textarea(attrs, options);
               default:
-               alert("kernel panic");
+               throw new Error('Input type "' + options.type + '" not supported.');
             }
       },
       initialize: function() {
@@ -30,11 +43,11 @@ define(['models/Span', 'models/Checkbox', 'models/Acl', 'models/Tp', 'views/View
           });  //this.removeOne
       },
       addOne: function(control){
-        console.log(control);
-        console.log(this);
+        // console.log(control);
+        // console.log(this);
         view = new View({model: control});
         view.render();
-       // this._viewPointers[control.cid] = view;
+        //this._viewPointers[control.cid] = view;
       },
       removeOne: function(control) {
         this._viewPointers[control.cid].remove();

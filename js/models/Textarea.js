@@ -4,6 +4,8 @@ define(['models/Base'], function (Base) {
       defaults: _.extend({
         elem: 'textarea',
         rows: 3,
+        disabled: 'true',
+        elementCss:"form-control"
       }, Base.prototype.defaults)
     });
   });

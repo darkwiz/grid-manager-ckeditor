@@ -1,5 +1,4 @@
 // View.js
-// ------- text!templates/simpleinput.html
 define(["jquery", "underscore","backbone", "handlebars", "templates/templates"],
 
     function($, _, Backbone, Handlebars, templates){
@@ -15,19 +14,29 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates"],
 
             // template: Handlebars.compile(template),
 
-            getTemplate: function(serializedModel){
-                        console.log(serializedModel.elementType);
-                         if (serializedModel.elementType == "text"){
-                            return Handlebars.compile(templates.singleSpan);
-                        }
-                            return Handlebars.compile(templates.single);
+            getTemplate: function(model){
+                         var type = model.get('elem');
+                         switch(type) {
+                              case 'text':
+                                return templates.singleSpan;
+                              case'year':
+                              case'date':
+                                return templates.singleDate;
+                              case 'textarea':
+                                return templates.singleTextarea;
+                              default:
+                               return templates.single;
+                            }
+
                     },
 
             // View constructor
             initialize: function() {
                 this.getEditorArea()
                 _.bindAll(this, 'render'); // every function that uses 'this' as the current object should be in here
-                this.model.on('change', this.render, this);
+                console.log(this.collection);
+                //this.model.on('change', this.render, this);
+                //this.collection.on('add', console.log("pippo"));
                 // Calls the view's render method
                 //viene chiamato in inizializzazione
 
@@ -41,11 +50,16 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates"],
             // Renders the view's template to the UI
             render: function() {
                 console.log("render");
+                this.template = this.getTemplate(this.model);
+
                // var domelem = CKEDITOR.dom.element.createFromHtml( this.template(this.model.toJSON()) );
                 //JQuery dom manipulation lib  version
-                var serializedModel = this.model.toJSON();
-                this.template = this.getTemplate(serializedModel);
-                $(this.el).html(this.template(serializedModel));
+                if (this.model.get('elem') == 'date' ) {
+
+                }
+                console.log(this.model.toJSON());
+
+                $(this.el).html(this.template(this.model.toJSON()));
                 //CKEditor dom manipulation lib wrapper version
                // this.el.append(domelem);
                 //if this.el è editor..this.el.container
@@ -60,21 +74,23 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates"],
                    {
                             var editor = window.CKEDITOR.instances[name];
                             this.el = editor.element.$;
-                            console.log( 'The editor named ' + editor.name + ' is now focused');
+                           // console.log( 'The editor named ' + editor.name + ' is now focused');
+                           $(editor.element.$).unbind();
 
                     }
 
-            //Funzia bugsss
-            //             var self = this;
-            //             CKEDITOR.inline('pippo1', {
-            //                  on: {
-            //                     instanceReady: function(e) {
-            //                     var editor = this;
-            //                         self.el = editor.element.$;
-            //                         console.log( 'The editor named ' + e.editor.name + ' is now focused' );
-            //                 }
-            //             }
-            // });
+            /* Funziona con  bug
+                        var self = this;
+                        CKEDITOR.inline('pippo1', {
+                             on: {
+                                instanceReady: function(e) {
+                                var editor = this;
+                                    self.el = editor.element.$;
+                                    console.log( 'The editor named ' + e.editor.name + ' is now focused' );
+                            }
+                        }
+             });
+            */
         }
     });
 

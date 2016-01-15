@@ -25,14 +25,14 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                          case 'textRef':
                                 var collection = CollectionManager.getCollection('collection');
                                 optionNames = new Array("Generico","Boolean","Data","Tipo Protocollazione","ACL","Codice Fiscale", "Email", "Anno", "TextArea");
-                                optionVal = new Array("text","boolean","datetime","tp","acl","cf","email","anno","textarea");
+                                optionVal = new Array("text","boolean","date","tp","acl","cf","email","year","textarea");
                                 //IN this way we skip the model function of the collection!
                                 // collection.success(function(collection, response, options){
                                 //     editor._collection = collection;
                                 //     console.log("resp: \n",collection ,"resp:\n",response,"opt:\n", options );
                                 //     editor._model  = editor._collection.findWhere({elem: 'text'});
                                 // })
-                                editor._model = collection.add({elem:'text'});
+                                editor._model = collection.add({}, {type:'text'});
                                 editor._collection = collection;
 
                                 //OLD fetch
@@ -153,7 +153,7 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                                         //Setting model on change
                                          if (editor._model)
                                             editor._collection.remove(editor._model);
-                                        editor._model = editor._collection.add({elem: selected});
+                                        editor._model = editor._collection.add({},{type: selected});
                                         // console.log(editor._model);
                                         // console.log(editor._collection.toJSON());
 
@@ -176,7 +176,8 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                                         //data.type = this.getValue();
                                         // se ci sono problemi di sync el:editor
                                         //se uso il DOM ckeditor a el passo element
-                                   //  var control = getView({model: editor._model, el: editor.element.$});
+                                     /* Riga da rivedere passiamo ancora l'editor e la model al commit finale... */
+                                     var control = getView({model: editor._model, el: editor.element.$});
 
                             }
                         },
