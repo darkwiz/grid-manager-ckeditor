@@ -49,18 +49,18 @@ CKEDITOR.plugins.add( 'rceditor',
                   $.each( this._.items , function(index, el){
                    if ( value == index ){
                            if ( el.pintype == "in") {
-                             config.customValues.picked = el;
+                             config.customValues.pin = el;
                              editor.execCommand('pinin');
                              return true;
                           }
                           else if( el.pintype == "out" ){
-                              config.customValues.picked = el;
+                              config.customValues.pin = el;
                               editor.execCommand('pinout');
 
                               return true;
                           }
                           else {
-                              config.customValues.picked = el;
+                              config.customValues.pin = el;
                               editor.execCommand('pininout');
 
                           }

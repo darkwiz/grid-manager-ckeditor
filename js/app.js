@@ -134,25 +134,22 @@ return {
       clearEditor: function () {
         //JQuery wrapper version
         CKEDITOR.on( 'instanceReady', function( evt ) {
-         evt.editor.on('focus', function() {
-                  var init = $(this.element.$).find('p.init')
-                  if ( init )
-                    init.remove();
-                  console.log( 'Focus fired ' + evt.name );
-                  $(this.element.$).unbind();
+         evt.editor.editable().on('click', function(ev) {
+            console.log( 'Focus fired ' + ev.name );
+                  var target = ev.data.getTarget();
+                  console.log(target);
+                  // var wrapper = new CKEDITOR.dom.element( 'div' );
+                  //     wrapper.setAttribute( 'class', 'wrapper' );
+                  if ( target.is('p') ){
+                      // var ascElement = target && target.getAscendant('div', true);
+                      target.remove();
+                      // ascElement.append( wrapper );
+                     }
+                   ev.removeListener();
 
           });
+
           });
-      //CKEditor wrapper version
-      // CKEDITOR.on( 'instanceReady', function( evt ) {
-      //    evt.editor.on('focus', function() {
-      //     if (this.element && this.element.getName() == "div"){
-      //         if (this.element.getChild( 0 ).getAttribute('class') == "init")
-      //           this.element.getChild( 0 ).remove();
-      //     //console.log('focused', this.element);
-      //    }
-      //   });
-      // });
     }
 };
 });

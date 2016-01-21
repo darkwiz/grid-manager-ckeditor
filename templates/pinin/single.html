@@ -1,8 +1,7 @@
 <div class="form-group">
 <label >{{pinLabel}}</label>
 <div class="control">
-<br />
-<!-- IL div è un wrapper necessario ad appendere il nodo al DOM, se metto qualcosa prima non viene appeso il resto-->
+
 <label class="{{labelCss}}" id="{{labelId}}">
   {{#each elementValues}}
   <input type="{{../elementType}}" name="{{../elementName}}" class="{{../elementCss}} formelement" id="{{../elementId}}" value="{{this}}" disabled>
