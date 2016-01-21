@@ -1,4 +1,4 @@
-// View.js
+  // View.js
 define(["jquery", "underscore","backbone", "handlebars", "templates/templates", "views/ControlView"],
 
     function($, _, Backbone, Handlebars, templates, ControlView){
@@ -8,7 +8,7 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
         var View = Backbone.View.extend({
 
             // The DOM Element associated with this view
-             //el: undefined,
+             //el: ,
             //'div.editor',
             //model: new Model, or passed dinamically
 
@@ -16,7 +16,10 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
             _viewPointers: null,
 
             // View constructor
-            initialize: function() {
+            initialize: function(options) {
+              //Set el dinamically getting
+                this.setElement(this.getEditorInstanceName(options.el));
+
                 _.bindAll(this, 'render', 'addOne'); // every function that uses 'this' as the current object should be in here
                 // This will be called when an item is added. pushed or unshifted
                 this.collection.on('add', this.addOne, this);
@@ -32,9 +35,12 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
             },
 
         addOne: function(control){
-          console.log("added")
+          console.log("added", this.$el);
           var view = new ControlView({model: control});
           this._viewPointers[control.cid] = view;
+          //Jquery wrapped el
+          this.$el.html(view.render().el);
+
 
         },
         removeOne: function(control) {
@@ -45,6 +51,10 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
           console.log("updated" )
           var view = this._viewPointers[control.cid];
           view.render();
+        },
+
+        getEditorInstanceName: function(name) {
+          return "#"+ name ;
         }
 
     });

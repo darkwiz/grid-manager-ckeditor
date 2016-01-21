@@ -134,16 +134,17 @@ return {
       clearEditor: function () {
         //JQuery wrapper version
         CKEDITOR.on( 'instanceReady', function( evt ) {
-         evt.editor.editable().on('click', function(ev) {
-            console.log( 'Focus fired ' + ev.name );
+          var editorname = evt.editor.name;
+           evt.editor.element.on('click', function(ev) {
+            console.log( 'Event fired ',  ev.name );
                   var target = ev.data.getTarget();
-                  console.log(target);
-                  // var wrapper = new CKEDITOR.dom.element( 'div' );
-                  //     wrapper.setAttribute( 'class', 'wrapper' );
+
+                  var ascElement = target && target.getAscendant('div', true);
+                  ascElement.setAttribute( 'id', editorname );
                   if ( target.is('p') ){
-                      // var ascElement = target && target.getAscendant('div', true);
+
                       target.remove();
-                      // ascElement.append( wrapper );
+
                      }
                    ev.removeListener();
 

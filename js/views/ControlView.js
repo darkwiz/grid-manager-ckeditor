@@ -1,4 +1,4 @@
-// View.js
+// ControlView.js
 define(["jquery", "underscore","backbone", "handlebars", "templates/templates"],
 
     function($, _, Backbone, Handlebars, templates){
@@ -6,6 +6,8 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates"],
         "use strict";
 
         var ControlView = Backbone.View.extend({
+
+            tagName:  "div",
 
             getTemplate: function(model){
                          var type = model.get('elem');
@@ -30,33 +32,15 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates"],
 
             // View constructor
             initialize: function() {
-                this.getEditorArea();
                 _.bindAll(this, 'render'); // every function that uses 'this' as the current object should be in here
 
                 //questo viene fatto in automatico
-                this.$el = $(this.el);
+                //this.$el = $(this.el);
 
-                this.render();
-
-            },
-
-             getEditorArea: function() {
-                //per rendere più rovbusto si può assegnare un id in app
-                //in base al nome istanza e poi fare lo stesso per recuperare
-                //lo span qui
-                var editor = CKEDITOR.currentInstance;
-                this.el = editor.element.find('div.wrapper').$
-
-                //this.el = $(editor.element.find('span');
-            },
-            // un-comment per far funzionare il remove
-            remove: function() {
-                  $(this.el).find('div').remove();
             },
 
             // Renders the view's template to the UI
             render: function() {
-
                 this.template = this.getTemplate(this.model);
 
                 this.$el.html(this.template(this.model.toJSON()));
