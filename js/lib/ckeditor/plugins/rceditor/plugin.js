@@ -40,7 +40,8 @@ CKEDITOR.plugins.add( 'rceditor',
               var self = this,
                   pins =  editor.config.customValues.pins;
                   for (var i in pins) {
-                      self.add(pins[i].value, pins[i].label + "("+ pins[i].type +")", pins[i]);
+                      //From richcombo source: add(value, html, text) -but!- if(text) item = text
+                      self.add(pins[i].value, pins[i].label + " ["+ pins[i].type +"] [" + pins[i].pintype + "]" , pins[i]);
                   }
               },
 

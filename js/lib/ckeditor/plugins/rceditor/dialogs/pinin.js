@@ -12,7 +12,7 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
 
         onShow: function() {
             var self = this;
-            require(['collectionmanager', 'views/View'], function(CollectionManager, View){
+            require(['collectionmanager', 'views/View', 'viewmanager'], function(CollectionManager, View, ViewManager){
                var values = self.getContentElement('tab-basic', 'typeselect'),
                 selectedPin = editor.config.customValues.pin;
                 self.getContentElement("tab-basic", "addlabel").disable();
@@ -23,9 +23,8 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                                 optionNames = new Array("<Scegli un controllo>","Generico","Boolean","Data","Tipo Protocollazione","ACL","Codice Fiscale", "Email", "Anno", "TextArea");
                                 optionVal = new Array("none","text","boolean","date","tp","acl","cf","email","year","textarea");
 
-                                editor._model = simpleCollection.add({pinName: selectedPin.name}, {type:'text'});
                                 editor._collection = simpleCollection;
-                                new View({collection: simpleCollection, el: CKEDITOR.currentInstance.name});
+                                new View({collection: simpleCollection});
 
                                 break;
                             case 'document':
@@ -208,7 +207,7 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                     // this = CKEDITOR.ui.dialog.button
                     var dialog = this.getDialog(),
                         editor = dialog.getParentEditor();
-                        var control = editor._collection.pop();
+                        var control = editor._collection.remove(editor._model);
                         console.log(control);
                         // alert( 'Clicked: ' + this.id );
                          }

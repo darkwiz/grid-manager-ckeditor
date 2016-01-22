@@ -136,11 +136,12 @@ return {
         CKEDITOR.on( 'instanceReady', function( evt ) {
           var editorname = evt.editor.name;
            evt.editor.element.on('click', function(ev) {
-            console.log( 'Event fired ',  ev.name );
+            console.log( 'Event fired ',  ev );
                   var target = ev.data.getTarget();
 
                   var ascElement = target && target.getAscendant('div', true);
                   ascElement.setAttribute( 'id', editorname );
+                  ascElement.data('instance-elem', '#'+ editorname);
                   if ( target.is('p') ){
 
                       target.remove();
@@ -149,6 +150,14 @@ return {
                    ev.removeListener();
 
           });
+          evt.editor.element.on( 'focusout', function( e ){
+                //trigger blur event
+                var leaving = e.data.getTarget(),
+                    formgroup = leaving.find('div.form-group');
+                //  if formgroup exist and focusout -> trigger blur on formgroup
+                 if (formgroup.$.length > 0)
+                    $(formgroup.$).trigger('blur');
+            });
 
           });
     }
