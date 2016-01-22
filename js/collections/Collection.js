@@ -29,28 +29,19 @@ define(['models/Span',
               default:
                throw new Error('Input type "' + options.type + '" not supported.');
             }
-      },
-      initialize: function() {
-           // This will be called when an item is added. pushed or unshifted
-          this.on('add', this.addOne, this); //this è la collection
-          // This will be called when an item is removed, popped or shifted
-          this.on('remove',  function(model) {
-              console.log('something got removed');
-          });
-          // This will be called when an item is updated
-          this.on('change', function(model) {
-              console.log('something got changed');
-          });  //this.removeOne
-      },
-      addOne: function(control){
-        // console.log(control);
-        // console.log(this);
-        view = new View({model: control});
-        view.render();
-        //this._viewPointers[control.cid] = view;
-      },
-      removeOne: function(control) {
-        this._viewPointers[control.cid].remove();
-      }
+    },
+       add: function(models, options){
+        var duplicates = this.filter(function(_models) {
+        //  console.log("LabelID:", _models.get('pinName'), "(== : !=) ", models.pinName);
+            return _models.get('pinName') == models.pinName;
+
+        });
+
+        if (! _(duplicates).length > 0) {
+            this.remove(duplicates, {silent:true});
+        }
+
+       return Backbone.Collection.prototype.add.call(this, models, options);
+    }
   });
 });

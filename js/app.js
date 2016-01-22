@@ -134,25 +134,32 @@ return {
       clearEditor: function () {
         //JQuery wrapper version
         CKEDITOR.on( 'instanceReady', function( evt ) {
-         evt.editor.on('focus', function() {
-                  var init = $(this.element.$).find('p.init')
-                  if ( init )
-                    init.remove();
-                  console.log( 'Focus fired ' + evt.name );
-                  $(this.element.$).unbind();
+          var editorname = evt.editor.name;
+           evt.editor.element.on('click', function(ev) {
+            console.log( 'Event fired ',  ev );
+                  var target = ev.data.getTarget();
+
+                  var ascElement = target && target.getAscendant('div', true);
+                  ascElement.setAttribute( 'id', editorname );
+                  ascElement.data('instance-elem', '#'+ editorname);
+                  if ( target.is('p') ){
+
+                      target.remove();
+
+                     }
+                   ev.removeListener();
 
           });
+          evt.editor.element.on( 'focusout', function( e ){
+                //trigger blur event
+                var leaving = e.data.getTarget(),
+                    formgroup = leaving.find('div.form-group');
+                //  if formgroup exist and focusout -> trigger blur on formgroup
+                 if (formgroup.$.length > 0)
+                    $(formgroup.$).trigger('blur');
+            });
+
           });
-      //CKEditor wrapper version
-      // CKEDITOR.on( 'instanceReady', function( evt ) {
-      //    evt.editor.on('focus', function() {
-      //     if (this.element && this.element.getName() == "div"){
-      //         if (this.element.getChild( 0 ).getAttribute('class') == "init")
-      //           this.element.getChild( 0 ).remove();
-      //     //console.log('focused', this.element);
-      //    }
-      //   });
-      // });
     }
 };
 });

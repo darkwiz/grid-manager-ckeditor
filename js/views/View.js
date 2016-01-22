@@ -1,97 +1,73 @@
-// View.js
-define(["jquery", "underscore","backbone", "handlebars", "templates/templates"],
+  // View.js
+define(["jquery", "underscore","backbone", "handlebars", "templates/templates", "views/ControlView"],
 
-    function($, _, Backbone, Handlebars, templates){
+    function($, _, Backbone, Handlebars, templates, ControlView){
 
         "use strict";
 
         var View = Backbone.View.extend({
 
             // The DOM Element associated with this view
-            //el: CKEDITOR.editor.element.$,
+             el: 'body',
             //'div.editor',
             //model: new Model, or passed dinamically
 
             // template: Handlebars.compile(template),
+            _viewPointers: null,
 
-            getTemplate: function(model){
-                         var type = model.get('elem');
-                         switch(type) {
-                              case 'text':
-                                return templates.singleSpan;
-                              case'year':
-                              case'date':
-                                return templates.singleDate;
-                              case 'textarea':
-                                return templates.singleTextarea;
-                              default:
-                               return templates.single;
-                            }
+             // View Event Handlers
+            events: {
+                "blur .form-group": "onClose"
+            },
 
-                    },
 
             // View constructor
-            initialize: function() {
-                this.getEditorArea()
-                _.bindAll(this, 'render'); // every function that uses 'this' as the current object should be in here
-                console.log(this.collection);
-                //this.model.on('change', this.render, this);
-                //this.collection.on('add', console.log("pippo"));
-                // Calls the view's render method
-                //viene chiamato in inizializzazione
+            initialize: function(options) {
+              //Set el dinamically getting
+                this.setElement(this.getEditorInstanceName());
+
+                _.bindAll(this, 'render', 'addOne'); // every function that uses 'this' as the current object should be in here
+                // This will be called when an item is added. pushed or unshifted
+                this.collection.on('add', this.addOne, this);
+                // This will be called when an item is removed, popped or shifted
+                this.collection.on('remove',  this.removeOne, this);
+                // This will be called when an item is updated
+                // var self = this;
+                 this.collection.on('change', this.updateOne, this);
+                //chiamato una volta on init
+                // this.render();
+                this._viewPointers = {};
 
             },
 
-            // View Event Handlers
-            events: {
-                "click #pippo": "popup"
-            },
+        addOne: function(control){
 
-            // Renders the view's template to the UI
-            render: function() {
-                console.log("render");
-                this.template = this.getTemplate(this.model);
+          var view = new ControlView({model: control});
+          this._viewPointers[control.cid] = view;
+          //Jquery wrapped el
+          this.$el.html(view.render().el);
+        },
+        removeOne: function(control) {
+          console.log('view removed', this._viewPointers[control.cid]);
+          this._viewPointers[control.cid].remove();
+        },
+        updateOne: function(control) {
+          console.log("updated" )
+          var view = this._viewPointers[control.cid];
+          view.render();
+        },
 
-               // var domelem = CKEDITOR.dom.element.createFromHtml( this.template(this.model.toJSON()) );
-                //JQuery dom manipulation lib  version
-                if (this.model.get('elem') == 'date' ) {
+        getEditorInstanceName: function() {
 
-                }
-                console.log(this.model.toJSON());
+          return CKEDITOR.currentInstance.element.data('instance-elem') ;
+        },
 
-                $(this.el).html(this.template(this.model.toJSON()));
-                //CKEditor dom manipulation lib wrapper version
-               // this.el.append(domelem);
-                //if this.el è editor..this.el.container
-                // Maintains chainability
-                return this;
-
-            },
-            //non funziona, non si riesce a recuperare l'editor
-            getEditorArea: function() {
-                //var self = this;
-                 for(var name in window.CKEDITOR.instances)
-                   {
-                            var editor = window.CKEDITOR.instances[name];
-                            this.el = editor.element.$;
-                           // console.log( 'The editor named ' + editor.name + ' is now focused');
-                           $(editor.element.$).unbind();
-
-                    }
-
-            /* Funziona con  bug
-                        var self = this;
-                        CKEDITOR.inline('pippo1', {
-                             on: {
-                                instanceReady: function(e) {
-                                var editor = this;
-                                    self.el = editor.element.$;
-                                    console.log( 'The editor named ' + e.editor.name + ' is now focused' );
-                            }
-                        }
-             });
-            */
+        onClose: function( event ){
+              this.collection.off("add", this.addOne);
+              this.collection.off('remove',  this.removeOne);
+              this.collection.off('change', this.updateOne);
         }
+
     });
 
         // Returns the View class

@@ -17,7 +17,7 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
             var self = this;
             require(['collectionmanager'], function(CollectionManager){
                var values = self.getContentElement('tab-basic', 'typeselect'),
-                selectedPin = editor.config.customValues.picked;
+                selectedPin = editor.config.customValues.pin;
                 self.getContentElement("tab-basic", "addlabel").disable();
 
             switch(selectedPin.type)
@@ -115,7 +115,7 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                             id: 'label',
                             type: 'text',
                             label: 'Label',
-                            'default': editor.config.customValues.picked.label,
+                            'default': editor.config.customValues.pin.label,
                             commit: function(data) {
                               var label = data.label,
                                   self =this,
@@ -206,7 +206,7 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                         type: 'text',
                         id: 'id',
                         label: 'Id',
-                        'default': editor.config.customValues.picked.value,
+                        'default': editor.config.customValues.pin.value,
                         setup: function( element ) {
                             this.setValue( element.getAttribute('id'));
                         },
