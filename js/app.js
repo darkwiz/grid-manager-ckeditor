@@ -98,7 +98,7 @@ return {
                 el.label = "pininout" + i;
                 el.pintype = "inout";
                 el.name = index; //per non perdere il nome del pin
-                config.config.rte.ckeditor.customValues.pins.push(el);
+                config.rte.ckeditor.customValues.pins.push(el);
 
                 //elimino i singoli pin di in e out fusi in uno inout
                 delete config.helper.outputs[index];
@@ -130,15 +130,14 @@ return {
           }
         });
     },
-    //clear divs right after initializing editor (test required)
+    //clear divs right after initializing editor
+    //add data-* attibute to get the right instance id
       clearEditor: function () {
         //JQuery wrapper version
         CKEDITOR.on( 'instanceReady', function( evt ) {
           var editorname = evt.editor.name;
            evt.editor.element.on('click', function(ev) {
-            console.log( 'Event fired ',  ev );
                   var target = ev.data.getTarget();
-
                   var ascElement = target && target.getAscendant('div', true);
                   ascElement.setAttribute( 'id', editorname );
                   ascElement.data('instance-elem', '#'+ editorname);

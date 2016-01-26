@@ -1,10 +1,7 @@
 CKEDITOR.dialog.add( 'pinout', function( editor ) {
- var self = this;
+    var self = this;
     require(["utils"], function(utils){
-
         _.extend(self, utils);
-        //$.extend(pinindef, self);
-
          });
 
     return { //dialog definition
@@ -15,91 +12,94 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
 
         onShow: function() {
             var self = this;
-            require(['collectionmanager'], function(CollectionManager){
+            require(['collectionmanager', 'views/View', 'viewmanager'], function(CollectionManager, View, ViewManager){
                var values = self.getContentElement('tab-basic', 'typeselect'),
                 selectedPin = editor.config.customValues.pin;
                 self.getContentElement("tab-basic", "addlabel").disable();
-
             switch(selectedPin.type)
                      {   case 'text':
                          case 'textRef':
-                                var collection = CollectionManager.getCollection('collection');
-                                optionNames = new Array("Generico","Boolean","Data","Tipo Protocollazione","ACL","Codice Fiscale", "Email", "Anno", "TextArea");
-                                optionVal = new Array("text","boolean","date","tp","acl","cf","email","year","textarea");
-                                //IN this way we skip the model function of the collection!
-                                // collection.success(function(collection, response, options){
-                                //     editor._collection = collection;
-                                //     console.log("resp: \n",collection ,"resp:\n",response,"opt:\n", options );
-                                //     editor._model  = editor._collection.findWhere({elem: 'text'});
-                                // })
-                                editor._model = collection.add({}, {type:'text'});
-                                editor._collection = collection;
+                                var simpleCollection = CollectionManager.getCollection('collection');
+                                optionNames = new Array("<Scegli un controllo>","Generico","Boolean","Tipo Protocollazione","ACL","Codice Fiscale", "Email", "TextArea");
+                                optionVal = new Array("none","text","boolean","tp","acl","cf","email","textarea");
 
-                                //OLD fetch
-                                // collection.fetch({
-                                //     success: function(collection, response, options){
-                                //      //Collectionmanager.setColletion(editor);
-                                //      editor._collection = collection;
-                                //      editor._model  = editor._collection.findWhere({elem: 'text'});
-                                //         }
-                                //   });
+                                editor._collection = simpleCollection;
+                                new View({collection: simpleCollection});
+
                                 break;
-                            case 'document':
-                                optionNames = new Array("Other");
-                                //qui i "sottotipi" potrebbero essere presi dinamicamente
-                                // da valutare la soluzione
-                                optionVal = new Array("other");
+                        case 'date':
+                                var simpleCollection = CollectionManager.getCollection('collection');
+                                optionNames = new Array("<Scegli un controllo>","Calendar","Select");
+                                optionVal = new Array("none","calendar","date");
+                                //testare
+                                editor._collection = simpleCollection;
+                                new View({collection: simpleCollection});
+
                                 break;
-                            case 'soggetto':
-                                optionNames = new Array("soggetto/PersonaFisica", "soggetto/PersonaGiuridica", "soggetto/Amministrazione");
-                                optionVal = new Array("soggettopf", "soggettopg", "soggettoam");
+                        case 'year':
+                              var simpleCollection = CollectionManager.getCollection('collection');
+                                optionNames = new Array("<Scegli un controllo>","Select");
+                                optionVal = new Array("none","year");
+                                //testare
+                                editor._collection = simpleCollection;
+                                new View({collection: simpleCollection});
+
                                 break;
-                            case 'object':
-                                optionNames = new Array("Object/ACL");
-                                optionVal = new Array("objectacl");
-                                break;
-                            default:
-                                optionNames = new Array("<none>"),
-                                optionVal = new Array("");
-                                //qui vanno tutti gli altri che non hanno sotto opzioni( classifica, cartella etc.)
+                        case 'document':
+                            optionNames = new Array("Other");
+                            //qui i "sottotipi" potrebbero essere presi dinamicamente
+                            // da valutare la soluzione
+                            optionVal = new Array("other");
+                            break;
+                        case 'soggetto':
+                            optionNames = new Array("soggetto/PersonaFisica", "soggetto/PersonaGiuridica", "soggetto/Amministrazione");
+                            optionVal = new Array("soggettopf", "soggettopg", "soggettoam");
+                            break;
+                        case 'object':
+                            optionNames = new Array("Object/ACL");
+                            optionVal = new Array("objectacl");
+                            break;
+                        default:
+                            optionNames = new Array("<none>"),
+                            optionVal = new Array("");
+                            //qui vanno tutti gli altri che non hanno sotto opzioni( classifica, cartella etc.)
                         }
 
-                       removeAllOptions( values );
+                        removeAllOptions( values );
 
                         for ( var i = 0 ; i < optionNames.length ; i++){
                             var oOption = addOption( values, optionNames[ i ], optionVal[ i ], self.getParentEditor().document);
-                            if ( i == 0 )
-                            {
-                                oOption.setAttribute('selected', 'selected');
-                                oOption.selected = true;
-                            }
+                            // if ( i == 0 )
+                            // {
+                            //     oOption.setAttribute('selected', 'selected');
+                            //     oOption.selected = true;
+                            // }
                         }
             });
         },
         onOk: function() {
-        //da rivedere la gerarchia di elementi html creata (il formgroup viene generato in automatico?)
             var editor = this.getParentEditor(),
                 element = this.element,
                 isInsertMode = !element;
 
 
-            if ( isInsertMode ) {
-               element = editor.document.createElement( 'span' );
+            // if ( isInsertMode ) {
+            //    element = editor.document.createElement( 'span' );
 
 
-            }
+            // }
            // element: element ,
             var data = { element: element };
 
-            if ( isInsertMode ){
-                editor.insertElement(data.element);
-                }
+            // if ( isInsertMode ){
+            //     editor.insertElement(data.element);
+            //     }
 
             this.commitContent( data );
 
             // Element might be replaced by commitment.
-            if ( !isInsertMode )
-                editor.getSelection().selectElement( data.element );
+            // if ( !isInsertMode )
+            //     editor.getSelection().selectElement( data.element );
 
         },
 
@@ -126,7 +126,6 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                                   //data.type = this.getValue();
                                   editor._model.set({pinLabel: this.getValue(), labelId: id.getValue()})
 
-
                                     // label.setText( this.getValue() + ": " );
 
                                     // label.setAttribute('for',  id.getValue() );
@@ -143,21 +142,15 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                             id: 'typeselect',
                             type: 'select',
                             label: "Tipo Controllo",
-                            'default': 'text',
+                            'default': 'none',
                             items: [ [ "<none>",    '' ] ],
                             onChange: function() {
                                     var selected = this.getValue(),
                                         dialog = this.getDialog(),
-                                        editor = dialog.getParentEditor();
-                                        field = dialog.getContentElement("tab-basic", "addlabel");
-                                        //Setting model on change
-                                         if (editor._model)
-                                            editor._collection.remove(editor._model);
-                                        editor._model = editor._collection.add({},{type: selected});
-                                        // console.log(editor._model);
-                                        // console.log(editor._collection.toJSON());
-
-                                        //editor._model = editor._collection.findWhere({elem: selected});
+                                        editor = dialog.getParentEditor(),
+                                        field = dialog.getContentElement("tab-basic", "addlabel"),
+                                         selectedPin = editor.config.customValues.pin;
+                                        editor._model = editor._collection.add({pinName: selectedPin.name},{type: selected, PIN: selectedPin});
 
                                   if( selected == 'boolean')
                                         {  toggleField(field, selected); }
@@ -173,11 +166,9 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                                     var head = CKEDITOR.document.getHead(),
                                         dialog = this.getDialog(),
                                         editor = dialog.getParentEditor();
-                                        //data.type = this.getValue();
-                                        // se ci sono problemi di sync el:editor
-                                        //se uso il DOM ckeditor a el passo element
+
                                      /* Riga da rivedere passiamo ancora l'editor e la model al commit finale... */
-                                     var control = getView({model: editor._model, el: editor.element.$});
+                                     // var control = getView({model: editor._model, el: editor.element.$});
 
                             }
                         },
@@ -211,11 +202,6 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                             this.setValue( element.getAttribute('id'));
                         },
                         commit: function(data) {
-                              //set element id (default or )
-                              // var element = data.element;
-                              // element.id =  this.getValue();
-
-
                               var dialog = this.getDialog(),
                                   editor = dialog.getParentEditor();
 
@@ -224,8 +210,26 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                             }
                     }
                 ]}
-            ]
+
+            ],
+            buttons: [
+            CKEDITOR.dialog.okButton,
+            CKEDITOR.dialog.cancelButton,
+                {
+                 type: 'button',
+                 id: 'resetButton',
+                 label: 'Reset',
+                 title: 'My title',
+                  onClick: function() {
+                    // this = CKEDITOR.ui.dialog.button
+                    var dialog = this.getDialog(),
+                        editor = dialog.getParentEditor();
+                        var control = editor._collection.remove(editor._model);
+                        console.log(control);
+                        // alert( 'Clicked: ' + this.id );
+                         }
+                    } ]
         }
 
+    });
 
-});

@@ -4,7 +4,7 @@ paths :{
   "jquery": "lib/jquery.min",
   "jquery.bootstrap": "lib/bootstrap.min",
   "jquery.ui": "lib/jquery-ui.min",
-  "underscore": "lib/underscore-min",
+  "underscore": "lib/lodash-min",
   "backbone": "lib/backbone.min",
   "text": "lib/text",
   "domReady":"lib/domready",

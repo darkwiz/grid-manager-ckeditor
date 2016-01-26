@@ -1,27 +1,30 @@
 // ControlView.js
 define(["jquery", "underscore","backbone", "handlebars", "templates/templates"],
 
-    function($, _, Backbone, Handlebars, templates){
+    function($, _, Backbone, Handlebars, Templates){
 
         "use strict";
 
         var ControlView = Backbone.View.extend({
 
             tagName:  "div",
-
+            //Sostituire lo switch con Templates['idtemplate']
             getTemplate: function(model){
                          var type = model.get('elem');
-                         switch(type) {
-                              case 'text':
-                                return templates.singleSpan;
-                              case'year':
-                              case'date':
-                                return templates.singleDate;
-                              case 'textarea':
-                                return templates.singleTextarea;
-                              default:
-                               return templates.single;
-                            }
+                         return Templates[type];
+                         // switch(type) {
+                         //      case 'text':
+                         //        return Templates.singleSpan;
+                         //      case'year':
+                         //      case'date':
+                         //        return Templates.singleDate;
+                         //      case 'textarea':
+                         //        return Templates.singleTextarea;
+                         //      case 'objacl':
+                         //        return Templates.objacl;
+                         //      default:
+                         //       return Templates.single;
+                         //    }
 
                     },
             // View Event Handlers
