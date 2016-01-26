@@ -1,10 +1,10 @@
 //This  Manager is responsible for instantiating collections and fetching them
 // Need to solve fetch sync problems :() -- see line 14,
-define(["collections/Collection", "collections/DocumentCollection","collections/SimpleCollection"], function (Collection, DocumentCollection, SimpleCollection){
+define(["collections/Collection", "collections/ObjectCollection", ], function (Collection, ObjectCollection){
 
   var constructors = {
     'collection': Collection,
-    'simple': SimpleCollection
+    'obj': ObjectCollection
   };
   var collections = {};
 

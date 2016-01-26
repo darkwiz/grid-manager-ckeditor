@@ -3,7 +3,7 @@ define(['models/Base'], function (Base) {
     return Base.extend({
       defaults: _.extend({
         labelCss:"yearcss",
-        elem: "year",
+        elem: "date",
         elementValues: [""],
         elementCss : "",
       }, Base.prototype.defaults),

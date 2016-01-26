@@ -20,31 +20,54 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                      {   case 'text':
                          case 'textRef':
                                 var simpleCollection = CollectionManager.getCollection('collection');
-                                optionNames = new Array("<Scegli un controllo>","Generico","Boolean","Data","Tipo Protocollazione","ACL","Codice Fiscale", "Email", "Anno", "TextArea");
-                                optionVal = new Array("none","text","boolean","date","tp","acl","cf","email","year","textarea");
+                                optionNames = new Array("<Scegli un controllo>","Generico","Boolean","Tipo Protocollazione","ACL","Codice Fiscale", "Email", "TextArea");
+                                optionVal = new Array("none","text","boolean","tp","acl","cf","email","textarea");
 
                                 editor._collection = simpleCollection;
                                 new View({collection: simpleCollection});
 
                                 break;
-                            case 'document':
-                                optionNames = new Array("Other");
-                                //qui i "sottotipi" potrebbero essere presi dinamicamente
-                                // da valutare la soluzione
-                                optionVal = new Array("other");
+                        case 'date':
+                                var simpleCollection = CollectionManager.getCollection('collection');
+                                optionNames = new Array("<Scegli un controllo>","Calendar","Select");
+                                optionVal = new Array("none","calendar","date");
+                                //testare
+                                editor._collection = simpleCollection;
+                                new View({collection: simpleCollection});
+
                                 break;
-                            case 'soggetto':
-                                optionNames = new Array("soggetto/PersonaFisica", "soggetto/PersonaGiuridica", "soggetto/Amministrazione");
-                                optionVal = new Array("soggettopf", "soggettopg", "soggettoam");
+                        case 'year':
+                              var simpleCollection = CollectionManager.getCollection('collection');
+                                optionNames = new Array("<Scegli un controllo>","Select");
+                                optionVal = new Array("none","year");
+                                //testare
+                                editor._collection = simpleCollection;
+                                new View({collection: simpleCollection});
+
                                 break;
-                            case 'object':
-                                optionNames = new Array("Object/ACL");
-                                optionVal = new Array("objectacl");
-                                break;
-                            default:
-                                optionNames = new Array("<none>"),
-                                optionVal = new Array("");
-                                //qui vanno tutti gli altri che non hanno sotto opzioni( classifica, cartella etc.)
+                        case 'document':
+                            optionNames = new Array("Other");
+                            //qui i "sottotipi" potrebbero essere presi dinamicamente
+                            // da valutare la soluzione
+                            optionVal = new Array("other");
+                            break;
+                        case 'soggetto':
+                            optionNames = new Array("soggetto/PersonaFisica", "soggetto/PersonaGiuridica", "soggetto/Amministrazione");
+                            optionVal = new Array("soggettopf", "soggettopg", "soggettoam");
+
+                            break;
+                        case 'object':
+                            optionNames = new Array("<Scegli un controllo>","Object/ACL");
+                            optionVal = new Array("<none>","objectacl");
+                            var objCollection = CollectionManager.getCollection('obj');
+
+                            editor._collection = objCollection;
+                            new View({collection: objCollection});
+                            break;
+                        default:
+                            optionNames = new Array("<none>"),
+                            optionVal = new Array("");
+                            //qui vanno tutti gli altri che non hanno sotto opzioni( classifica, cartella etc.)
                         }
 
                         removeAllOptions( values );
@@ -133,7 +156,7 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                                         field = dialog.getContentElement("tab-basic", "addlabel"),
                                          selectedPin = editor.config.customValues.pin;
 
-                                        editor._model = editor._collection.add({pinName: selectedPin.name},{type: selected});
+                                        editor._model = editor._collection.add({pinName: selectedPin.name},{type: selected, PIN: selectedPin});
 
                                   if( selected == 'boolean')
                                         {  toggleField(field, selected); }
