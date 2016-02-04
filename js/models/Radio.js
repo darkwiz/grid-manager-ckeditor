@@ -14,6 +14,7 @@ define(['models/Base'], function (Base) {
 
   var AclRadio = Radio.extend({
     defaults: {
+        type:"acl",
         elem: "radio",
         elementValues: {
           a: "NORMAL",
@@ -32,6 +33,7 @@ define(['models/Base'], function (Base) {
 
     var TpRadio = Radio.extend({
     defaults: {
+        type:"tp",
         elem: "radio",
         elementValues: {
           a: "E",
@@ -55,23 +57,11 @@ define(['models/Base'], function (Base) {
     _.defaultsDeep(TpRadio.prototype.defaults, Radio.prototype.defaults);
     _.defaultsDeep(ReadOnlyTpRadio.prototype.defaults, TpRadio.prototype.defaults);
 
-     var AclProto = {
-      elem: "acl",
-      elementType: "radio",
-        elementValues: {
-          a: "NORMAL",
-          b: "EDIT",
-          c: "FULL"
-        },
-        disabled: true,
-    };
-
   return {
     Radio: Radio,
     AclRadio : AclRadio,
     ReadOnlyAclRadio : ReadOnlyAclRadio,
     TpRadio: TpRadio,
-    ReadOnlyTpRadio: ReadOnlyTpRadio,
-    AclProto: AclProto
+    ReadOnlyTpRadio: ReadOnlyTpRadio
   }
   });

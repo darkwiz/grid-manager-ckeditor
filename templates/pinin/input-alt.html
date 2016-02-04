@@ -1,0 +1,7 @@
+  {{#each elementValues}}
+    <label class="{{labelCss}}" id="{{labelId}}">
+     <input type="{{../elementType}}" name="{{../elementName}}" class="{{../elementCss}} formelement" id="{{../elementId}}" value="{{this}}" {{ disabledIf ../disabled }}>
+    {{../labelValue}} {{this}}
+    </label>
+  {{/each}}
+

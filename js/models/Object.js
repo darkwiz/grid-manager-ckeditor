@@ -5,12 +5,13 @@ define(['models/Radio',
           function (Radio, Base, Span) {
 
    var ObjectAcl = Base.extend({
-      defaults: _.extend({
+      defaults: {
         elem: 'objacl',
+        type: 'objacl',
         elementCss:"form-control",
-        right: Radio.AclProto,
-        actor: Span
-      }, Base.prototype.defaults),
+        right: _.extend({}, Radio.ReadOnlyAclRadio.prototype.defaults),
+        actor: _.extend({}, Span.prototype.defaults),
+      },
 
 
        initialize: function(attrs, options) {

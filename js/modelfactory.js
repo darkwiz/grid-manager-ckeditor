@@ -57,21 +57,17 @@ define(["backbone",
 
         createControl: function(attrs, options){
 
-        /*Find out if a particular book meta-data combination has been created before*/
+        /*Find out if a particular obj has been created before*/
 
-            var existingControl = existingControls[options.type];
+              var existingControl = existingControls[options.PIN.name +"_"+ options.type];
                if(existingControl){
-
-                    return existingControl[options.PIN.pintype];
-
+                    console.log("Po");
+                    return existingControl;
                 } else {
+                //[text/bool...][in/out]
+                var control = new constructors[options.type][options.PIN.pintype](attrs, options);
 
-                /*if not, let's create a new instance of it and store it*/
-
-                var control = new constructors[options.type][options.PIN.pintype](attrs, options); //occhio al passaggio parametri
-
-                existingControls[options.type] = {};
-                existingControls[options.type][options.PIN.pintype] =  control;
+                existingControls[options.PIN.name +"_"+ options.type] =  control;
 
                 return control;
 

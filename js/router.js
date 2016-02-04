@@ -1,17 +1,27 @@
-define(["jquery", "backbone", "models/ControlModel", "views/View", "collections/ControlCollection"],
+define(["jquery", "backbone", "models/Form" ,"views/FormView"],
 
-    function($, Backbone, ControlModel, View, ControlCollection) {
+    function($, Backbone, Form,  FormView) {
 
         var Router = Backbone.Router.extend({
 
-            view: null,
-            model:null,
-            element:null,
+            // constructor: function (options) {
+            //     this.on("all", this.storeRoute);
+            //     this.history = [];
+
+            //     Backbone.Router.prototype.constructor.call(this, options);
+            // },
+
+            // storeRoute: function(){
+            //   this.history.push(Backbone.history.fragment);
+            // },
+
+            // previous: function() {
+            //   if (this.history.length > 1) {
+            //     this.navigate(this.history[this.history.length - 2], true);
+            //   }
+            // },
 
             initialize: function( options ) {
-                this.model = options.model;
-                this.element = options.element;
-
                 // Tells Backbone to start watching for hashchange events
                 if (!Backbone.History.started)
                   Backbone.history.start();
@@ -20,21 +30,26 @@ define(["jquery", "backbone", "models/ControlModel", "views/View", "collections/
 
             // All of your Backbone Routes (add more)
             routes: {
-                "view": "newInputText",
+                //"editor": "showEditor",
+                "test/*datasource": "test",
                 // When there is no hash on the url, the home method is called
-                 "*action": "defaultRoute",
+                 "": "index",
 
             },
 
-          newInputText: function() {
+          showEditor: function() {
+               var form = new Form();
+               this.view = new FormView({model: form});
 
-                console.log("Handler called")
-               this.view = new View({ model: this.model, el: this.element});
-               this.view.render();
-           // this.entity.setElementType(this.data.type);
           },
-          defaultRoute: function(action){
-               console.log('Invalid. You attempted to reach:' + action);
+          test: function(datasource) {
+               var form = new Form({},{datapath: datasource});
+               this.view = new FormView({model: form});
+
+          },
+          index: function(){
+              if (this.view)
+                this.view.close();
            }
 
         });

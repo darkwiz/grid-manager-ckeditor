@@ -1,55 +1,63 @@
 define([
   'jquery',
   'underscore',
-  'backbone'
-],function($, _, Backbone){
+  'backbone',
+  "handlebars",
+   "text!templates/dialog.html",
+   "router",
+   "appconfig"
+],function($, _, Backbone, Handlebars, dialog, Router, config){
 
-var config = {
-        dialogId : '#dialog',
-        wrapper : '#open',
-        canvas: '#mycanvas',
-        uiOptions : {width: 1280, autoOpen: true, modal: true},
-        rte: {
-                    //debug: 1,
-                    ckeditor: {
-                        customConfig: 'config.js',
-                        customValues: {
-                          pins: [],
-                          props: {},
-                          picked:{}
-                        }
-                    },
+// var config = {
+//         dialogId : '#container',
+//         // wrapper : '#open',
+//         canvas: '#mycanvas',
+//         // uiOptions : {width: 1280, autoOpen: true, modal: true},
+//         rte: {
+//                     //debug: 1,
+//                     ckeditor: {
+//                         customConfig: 'config.js',
+//                         customValues: {
+//                           pins: [],
+//                           props: {},
+//                           picked:{}
+//                         }
+//                     },
 
-        },
-        url: 'data.json',
-        helper : {
-        inouts: {},
-        inputs: {},
-        outputs: {},
-        props: {}
-      }
-    };
-
-  Backbone.Singleton = {
-   getInstance: function () {
-     if (this._instance === undefined) {
-       this._instance = new this();
-     }
-     return this._instance;
-   }
- }
+//         },
+//         url: 'data.json',
+//         helper : {
+//         inouts: {},
+//         inputs: {},
+//         outputs: {},
+//         props: {}
+//       }
+//     };
 
 return {
 
     init : function() {
        //$.extend(config, conf);
-        $(config.wrapper).find('button').
-            click(function() {
-                 $(config.dialogId).dialog(config.uiOptions);
-            });
-            this.buildGrid();
-            this.clearEditor(); //don't work well...
-            this.getProcessSettings(this.handleDesignerResponse);
+       //INSETR ROUTER??
+        $(config.dialogId).html(dialog);
+        // $("#myBtn").click(function(){
+        //           $("#tallModal").modal()
+        // });
+        // $(".modal-wide").on("show.bs.modal", function() {
+        //   var height = $(window).height() - 200;
+        //   $(this).find(".modal-body").css("max-height", height);
+        // });
+        var router = new Router();
+
+        // $(config.wrapper).find('button').
+        //     click(function() {
+
+        //          $(config.dialogId).dialog(config.uiOptions);
+        //     });
+
+        //this.buildGrid();
+        this.clearEditor(); //don't work well...
+        //this.getProcessSettings(this.handleDesignerResponse);
     },
 
     buildGrid : function() {
@@ -150,12 +158,23 @@ return {
 
           });
           evt.editor.element.on( 'focusout', function( e ){
-                //trigger blur event
+                //trigger blur(editor) event
                 var leaving = e.data.getTarget(),
                     formgroup = leaving.find('div.form-group');
-                //  if formgroup exist and focusout -> trigger blur on formgroup
+                //  if formgroup exist and focusout -> trigger blur on formgroup(bubble)
                  if (formgroup.$.length > 0)
                     $(formgroup.$).trigger('blur');
+            });
+
+          evt.editor.element.on( 'focusin', function( e ){
+                //trigger focus(editor) event
+                var entering = e.data.getTarget(),
+                    formgroup = entering.find('div.form-group');
+                //  if formgroup exist and focusout -> trigger focus on formgroup(bubble)
+                if (formgroup.$.length > 0){
+                    $(formgroup.$).trigger('focusin');
+                   // console.log("focusin")
+                  }
             });
 
           });

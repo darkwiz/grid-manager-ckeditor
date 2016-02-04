@@ -2,12 +2,12 @@
 // --------
 define(function () {
   return Backbone.Model.extend({
+    //idAttribute: 'pinName',
    // general state and behavior for all pinin controls elements
     defaults: {
-        pinName:"",
+        pinName: "",
         labelCss:"",
         labelValue:"",
-        helpCss:"help-block"
     }
 });
 });

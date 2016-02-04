@@ -2,8 +2,9 @@
 <label >{{pinLabel}}</label>
 <div class="control">
 
-{{> inputPartial}}
+{{> (whichPartial this.elem) }}
 
-<p class="{{helpCss}}">{{helpValue}}</p>
+
+<p class="help-block">{{helpValue}}</p>
 </div>
 </div>

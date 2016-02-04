@@ -39,6 +39,7 @@ CKEDITOR.plugins.add( 'rceditor',
               this.startGroup( "PIN" );
               var self = this,
                   pins =  editor.config.customValues.pins;
+                  console.log(pins);
                   for (var i in pins) {
                       //From richcombo source: add(value, html, text) -but!- if(text) item = text
                       self.add(pins[i].value, pins[i].label + " ["+ pins[i].type +"] [" + pins[i].pintype + "]" , pins[i]);

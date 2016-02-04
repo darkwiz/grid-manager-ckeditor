@@ -2,7 +2,8 @@
 define(['models/Base'], function (Base) {
     var EditableTextarea = Base.extend({
       defaults: _.extend({
-        elem: 'textarea',
+        elem: "textarea",
+        type:"textarea",
         rows: 3,
         disabled: false,
         elementCss:"form-control"

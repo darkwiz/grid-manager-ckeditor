@@ -8,14 +8,20 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
         title: editor.lang.rceditor.pinout.title,
         minWidth: 400,
         minHeight: 200,
-
-
+        onLoad: function() {
+            var select = this.getContentElement('tab-basic', 'colselect'),
+            opts = self.getColOpts();
+            for ( var i = 0 ; i < opts.length ; i++){
+                select.add(opts[i][0], opts[i][1]);
+            }
+            this.getContentElement("tab-basic", "colselect").disable();
+        },
         onShow: function() {
             var self = this;
             require(['collectionmanager', 'views/View', 'viewmanager'], function(CollectionManager, View, ViewManager){
                var values = self.getContentElement('tab-basic', 'typeselect'),
                 selectedPin = editor.config.customValues.pin;
-                self.getContentElement("tab-basic", "addlabel").disable();
+                // self.getContentElement("tab-basic", "addlabel").disable();
             switch(selectedPin.type)
                      {   case 'text':
                          case 'textRef':
@@ -134,7 +140,7 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                         //put here other children
                      ]
                   },
-                    {
+                    { //ROW 2
                         type: 'hbox',
                         widths: [ '50%', '50%' ],
                         children: [
@@ -148,16 +154,20 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                                     var selected = this.getValue(),
                                         dialog = this.getDialog(),
                                         editor = dialog.getParentEditor(),
-                                        field = dialog.getContentElement("tab-basic", "addlabel"),
+                                        // checkbox = dialog.getContentElement("tab-basic", "addlabel"),
+                                        wselect = dialog.getContentElement("tab-basic", "colselect"),
                                          selectedPin = editor.config.customValues.pin;
-                                        editor._model = editor._collection.add({pinName: selectedPin.name},{type: selected, PIN: selectedPin});
+                                         console.log(editor.name);
+                                        editor._model = editor._collection.add({pinName: selectedPin.name, editorName:editor.name},{type: selected, PIN: selectedPin});
+                                            toggleField(wselect, selected);
 
-                                  if( selected == 'boolean')
-                                        {  toggleField(field, selected); }
-                                        else {
-                                            toggleField(field, false);
-                                            field.setValue('');
-                                         }
+
+                                  // if( selected == 'boolean')
+                                  //       {  toggleField(checkbox, selected); }
+                                  //       else {
+                                  //           toggleField(checkbox, false);
+                                  //           checkbox.setValue('');
+                                  //        }
                             },
                             setup: function( element ) {
                                 this.setValue( element.getAttribute( 'value' ) );
@@ -186,7 +196,39 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                                   editor._model.set({labelValue: this.getValue()});
                             }
                          }
-                    ]}
+                    ]}, //END ROW 2
+                     { //ROW 3
+                        type: 'hbox',
+                        widths: [ '50%', '50%' ],
+                        children: [
+                        {
+                            id: 'colselect',
+                            type: 'select',
+                            label: "Larghezza Controllo",
+                            'default': 'none',
+                            items:  [['--- Select Field Width ---',0]],
+                            onChange: function() {
+                                    var selected = this.getValue(),
+                                        dialog = this.getDialog(),
+                                        editor = dialog.getParentEditor();
+                                        editor._model.setcontainerClass(selected);
+
+                            }
+                        },
+                          {
+                            type: 'text',
+                            id: 'other',
+                            label: 'Other',
+                            'default': '',
+                            commit: function( data ) {
+                                // var element = data.element;
+                                //     element.desc = this.getValue();
+                                  var dialog = this.getDialog(),
+                                  editor = dialog.getParentEditor();
+
+                            }
+                         }
+                    ]}, //END ROW3
                  ]
                 }
                 ,{
@@ -224,8 +266,8 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                     // this = CKEDITOR.ui.dialog.button
                     var dialog = this.getDialog(),
                         editor = dialog.getParentEditor();
-                        var control = editor._collection.remove(editor._model);
-                        console.log(control);
+                        //var control = editor._collection.remove(editor._model);
+                        console.log(editor._collection.toJSON());
                         // alert( 'Clicked: ' + this.id );
                          }
                     } ]

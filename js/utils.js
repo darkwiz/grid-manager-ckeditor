@@ -1,7 +1,13 @@
 //utils.js
-define(function() {
+define(['underscore'],  function( _ ) {
 
   return {
+      getColOpts: function() {
+        var arr = [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
+        return _.map(arr, function(n){
+            return ['col-sm-' + n , n ];
+        });
+      },
      removeAllOptions: function( combo ) {
         combo = getSelect( combo );
         while ( combo.getChild( 0 ) && combo.getChild( 0 ).remove() ) {
@@ -158,6 +164,5 @@ define(function() {
   // return built chosen control, for debug purpose
   return  control;
 }
-
   }
 } )

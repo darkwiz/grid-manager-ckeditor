@@ -6,6 +6,7 @@ define(["models/Base"], function (Base) {
     defaults: {
         labelCss:"spancss",
         elem:"text",
+        type:"text",
         elementType:"text",
         elementValues: [""],
         elementCss:"form-control"

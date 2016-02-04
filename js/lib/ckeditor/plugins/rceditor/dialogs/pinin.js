@@ -72,13 +72,17 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
 
                         removeAllOptions( values );
 
+                        if (editor._model){
+                            var model = editor._collection.get(editor._model);
+                        }
                         for ( var i = 0 ; i < optionNames.length ; i++){
+                            console.log("for ok")
                             var oOption = addOption( values, optionNames[ i ], optionVal[ i ], self.getParentEditor().document);
-                            // if ( i == 0 )
-                            // {
-                            //     oOption.setAttribute('selected', 'selected');
-                            //     oOption.selected = true;
-                            // }
+                             if ( model && optionVal[ i ] == model.get('type') )
+                            {
+                                oOption.setAttribute('selected', 'selected');
+                                oOption.selected = true;
+                            }
                         }
             });
         },
@@ -156,7 +160,7 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                                         field = dialog.getContentElement("tab-basic", "addlabel"),
                                          selectedPin = editor.config.customValues.pin;
 
-                                        editor._model = editor._collection.add({pinName: selectedPin.name},{type: selected, PIN: selectedPin});
+                                        editor._model = editor._collection.add({pinName: selectedPin.name, type: selected},{type: selected, PIN: selectedPin});
 
                                   if( selected == 'boolean')
                                         {  toggleField(field, selected); }
@@ -230,8 +234,8 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                     // this = CKEDITOR.ui.dialog.button
                     var dialog = this.getDialog(),
                         editor = dialog.getParentEditor();
-                        var control = editor._collection.remove(editor._model);
-                        console.log(control);
+                        //var control = editor._collection.remove(editor._model);
+                        console.log(editor._collection);
                         // alert( 'Clicked: ' + this.id );
                          }
                     } ]

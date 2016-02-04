@@ -8,6 +8,7 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates"],
         var ControlView = Backbone.View.extend({
 
             tagName:  "div",
+            className: "div-container",
             //Sostituire lo switch con Templates['idtemplate']
             getTemplate: function(model){
                          var type = model.get('elem');
