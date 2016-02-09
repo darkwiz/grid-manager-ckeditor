@@ -1,0 +1,97 @@
+{
+  "_comment": "Test fascicolo",
+  "settings": {
+    "inputs": {
+      "comment": {
+        "label": "Commento",
+        "value": "",
+        "type": "string",
+        "hidden": true
+      },
+      "listaFascicoli": {
+        "label": "listaFascicoli",
+        "type": "fascicolo",
+        "value": "fascicoli",
+        "dynamic": true,
+        "isCollection": true,
+        "hidden": false
+      },
+      "fascicolo_nuovo": {
+        "label": "fascicolo_nuovo",
+        "type": "fascicolo",
+        "value": "fascicolo_nuovo",
+        "dynamic": true,
+        "isCollection": false,
+        "hidden": false
+      },
+      "fascicolo_attuale": {
+        "label": "fascicolo_attuale",
+        "type": "fascicolo",
+        "value": "fasc_proc",
+        "dynamic": true,
+        "isCollection": false,
+        "hidden": false
+      },
+      "scelta_padre": {
+        "label": "scelta_padre",
+        "type": "textRef",
+        "value": "scelta_padre",
+        "dynamic": true,
+        "isCollection": false,
+        "hidden": false
+      }
+    },
+    "outputs": {
+      "reason": {
+        "label": "Motivazione",
+        "value": "",
+        "type": "key",
+        "hidden": true
+      },
+      "userToken": {
+        "label": "Actual Owner",
+        "value": "humanToken",
+        "type": "userToken",
+        "hidden": false
+      },
+      "indice_fascicolo": {
+        "label": "indice_fascicolo",
+        "type": "textRef",
+        "value": "indice_fascicolo",
+        "dynamic": true,
+        "isCollection": false,
+        "hidden": false
+      },
+      "scelta_padre": {
+        "label": "scelta_padre",
+        "type": "textRef",
+        "value": "scelta_padre",
+        "dynamic": true,
+        "isCollection": false,
+        "hidden": false
+      },
+      "fascicolo_nuovo": {
+        "label": "fascicolo_nuovo",
+        "type": "fascicolo",
+        "value": "fascicolo_nuovo",
+        "dynamic": true,
+        "isCollection": false,
+        "hidden": false
+      }
+    },
+    "props": {
+      "name": {
+        "label": "Nome",
+        "value": "Crea fascicolo procedimento",
+        "type": "text",
+        "hidden": false
+      },
+      "description": {
+        "label": "Note",
+        "value": "",
+        "type": "note",
+        "hidden": false
+      }
+    }
+  }
+}

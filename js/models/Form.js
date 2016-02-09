@@ -10,7 +10,7 @@ define(["jquery","underscore", "backbone", "appconfig"], function ($, _,  Backbo
       },
       url: function(){
           console.log(this.options);
-          return this.options.datapath;
+          return "test/" + this.options.data_path;
       },
       parse: function (response) {
         var outputs = this.flattenArray(response.settings.outputs, 'out');

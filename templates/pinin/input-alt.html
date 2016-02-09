@@ -1,7 +1,10 @@
-  {{#each elementValues}}
-    <label class="{{labelCss}}" id="{{labelId}}">
-     <input type="{{../elementType}}" name="{{../elementName}}" class="{{../elementCss}} formelement" id="{{../elementId}}" value="{{this}}" {{ disabledIf ../disabled }}>
-    {{../labelValue}} {{this}}
-    </label>
-  {{/each}}
+<label class="{{labelCss}}">{{labelValue}}</label>
+<div class="{{containerCss}}">
+    {{#each elementValues}}
+        <label>
+            <input type="{{../elementType}}" name="{{../pinValue}}" class="{{../elementCss}}" id="{{../elementId}}" value="{{@key}}" {{ disabledIf ../disabled }}>
+            {{this}}
+        </label>
+    {{/each}}
+</div>
 

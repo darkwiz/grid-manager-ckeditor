@@ -6,7 +6,9 @@ define(["backbone",
 	"models/Date",
 	"models/Textarea",
 	"models/Span",
-  "models/Object"], function(Backbone, Base, Radio, Input, Year, Date, Textarea, Span, Object) {
+    "models/Object",
+    "models/Soggetto",
+    "models/List"], function(Backbone, Base, Radio, Input, Year, Date, Textarea, Span, Object, Soggetto, List) {
 
 
 /*Control Factory singleton */
@@ -23,16 +25,16 @@ define(["backbone",
 				'out': Input.CheckboxInput
 			},
 			'date': {
-        'in':Date
-      },
-			'tp': {
-        'in': Radio.ReadOnlyTpRadio,
-        'out': Radio.TpRadio,
-      },
-			'acl':{
-        'in': Radio.ReadOnlyAclRadio,
-        'out': Radio.AclRadio,
-      },
+				'in':Date
+			  },
+		    'tp': {
+				'in': Radio.ReadOnlyTpRadio,
+				'out': Radio.TpRadio,
+			  },
+		    'acl':{
+				'in': Radio.ReadOnlyAclRadio,
+				'out': Radio.AclRadio,
+			  },
 			'cf': {
 				'in': Span,
 				'out': Input.Input
@@ -41,16 +43,24 @@ define(["backbone",
 				'in': Span,
 				'out': Input.Input
 				},
+			'list': {
+				out: List
+			},
 			'year': {
-        'in':Year
-      },
+				'in':Year
+			  },
 			'textarea': {
 				'in': Textarea.ReadOnlyTextarea,
 				'out': Textarea.EditableTextarea
 			},
-      'objectacl': {
-        'in': Object.ObjectAcl
-      }
+			'objectacl': {
+				'in': Object.ObjectAclReadOnly,
+                'out': Object.ObjectAcl
+			 },
+			'soggetto': {
+				'in': Soggetto.SoggettoReadOnly,
+				'inout': Soggetto.Soggetto
+			}
 		};
 
     return {
@@ -61,7 +71,6 @@ define(["backbone",
 
               var existingControl = existingControls[options.PIN.name +"_"+ options.type];
                if(existingControl){
-                    console.log("Po");
                     return existingControl;
                 } else {
                 //[text/bool...][in/out]

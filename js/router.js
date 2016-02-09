@@ -43,7 +43,7 @@ define(["jquery", "backbone", "models/Form" ,"views/FormView"],
 
           },
           test: function(datasource) {
-               var form = new Form({},{datapath: datasource});
+               var form = new Form({},{data_path: datasource});
                this.view = new FormView({model: form});
 
           },

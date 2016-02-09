@@ -160,7 +160,7 @@ return {
           evt.editor.element.on( 'focusout', function( e ){
                 //trigger blur(editor) event
                 var leaving = e.data.getTarget(),
-                    formgroup = leaving.find('div.form-group');
+                    formgroup = leaving.find('div.form-group'); //TODO:Check focusin on form-group! too many editor instances
                 //  if formgroup exist and focusout -> trigger blur on formgroup(bubble)
                  if (formgroup.$.length > 0)
                     $(formgroup.$).trigger('blur');

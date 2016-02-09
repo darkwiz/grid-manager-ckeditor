@@ -8,7 +8,6 @@ define(["jquery", "underscore","backbone", "handlebars", "text!templates/form.ht
 
         var FormView = Backbone.View.extend({
 
-
             el: "#tallModal",
 
             template: Handlebars.compile(template),
@@ -21,14 +20,13 @@ define(["jquery", "underscore","backbone", "handlebars", "text!templates/form.ht
             initialize: function() {
                 _.bindAll(this, 'render'); // every function that uses 'this' as the current object should be in here
                 this.model.on('change', this.render, this);
-                //questo viene fatto in automatico
+
                 this.model.fetch();
 
             },
 
             // Renders the view's template to the UI
             render: function() {
-               //var $modalEl = $("#tallModal");
 
                 this.$el.find('#mycanvas').html(this.template(this.model.toJSON()));
                 $(config.canvas).gridmanager(config.rte);

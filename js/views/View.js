@@ -10,7 +10,7 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
             // The DOM Element associated with this view
              el: 'body',
             //'div.editor',
-            //model: new Model, or passed dinamically
+            //model: new Model, or passed dynamically
 
             // template: Handlebars.compile(template),
             _viewPointers: null,
@@ -28,7 +28,7 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
                 this.setElement(this.getEditorInstanceName());
 
                 _.bindAll(this, 'render', 'addOne'); // every function that uses 'this' as the current object should be in here
-                // This will be called when an item is added. pushed or unshifted
+                // This will be called when an item is added. pushed or unshift
                 this.collection.on('add', this.addOne, this);
                 // This will be called when an item is removed, popped or shifted
                 this.collection.on('remove',  this.removeOne, this);
@@ -42,7 +42,7 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
             },
 
         addOne: function(control){
-           console.log("add" );
+          console.log("add", control.toJSON() );
           var view = new ControlView({model: control});
           this._viewPointers[control.cid] = view;
           //Jquery wrapped el
@@ -58,7 +58,6 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
         },
 
         getEditorInstanceName: function() {
-
           return CKEDITOR.currentInstance.element.data('instance-elem') ;
         },
 

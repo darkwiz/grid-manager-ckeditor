@@ -18,7 +18,7 @@ define(function () {
 
         },
         url: 'data.json',
-        helper : {
+        helper : { //TODO: cleanup unused variables
         inouts: {},
         inputs: {},
         outputs: {},

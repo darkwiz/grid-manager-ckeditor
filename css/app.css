@@ -1,44 +1,56 @@
 /* line 3, ../sass/app.sass */
 form {
   border: 1px solid red;
-  margin: 0 auto;
+  display: block;
+  margin-top: 0em;
 }
 
-/* line 7, ../sass/app.sass */
-.form-group {
-  margin: 2% 2%;
-  padding: 2% 5%;
-}
-
-/* line 11, ../sass/app.sass */
+/* line 8, ../sass/app.sass */
 br {
   clear: both;
 }
 
-/* line 14, ../sass/app.sass */
+/* line 11, ../sass/app.sass */
 :disabled {
   cursor: not-allowed;
 }
 
-/* line 18, ../sass/app.sass */
-div.div-container {
-  height: auto;
-  margin: 0 auto;
-  border: 1px solid blue;
+/* line 14, ../sass/app.sass */
+span {
+  padding-top: 7px;
+  margin-bottom: 0;
 }
-/* line 22, ../sass/app.sass */
+
+/* line 19, ../sass/app.sass */
+div.div-container {
+  padding: 45px 15px 15px;
+  margin: 0 -15px 15px;
+  border: 1px solid #e5e5e5;
+  overflow: hidden;
+}
+/* line 25, ../sass/app.sass */
 div.header {
   text-align: center;
   height: auto;
   margin: 0 auto;
 }
 
-/* line 27, ../sass/app.sass */
+@media (min-width: 768px) {
+  /* line 32, ../sass/app.sass */
+  div.div-container {
+    margin-right: 0;
+    margin-left: 0;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px 4px 0 0;
+  }
+}
+/* line 40, ../sass/app.sass */
 .modal.modal-wide .modal-dialog {
   width: 90%;
 }
 
-/* line 30, ../sass/app.sass */
+/* line 43, ../sass/app.sass */
 .modal-wide .modal-body {
   overflow-y: auto;
 }

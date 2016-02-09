@@ -2,11 +2,8 @@
 
 form
   border: 1px solid red
-  margin: 0 auto
-
-.form-group
-  margin: 2% 2%
-  padding: 2% 5%
+  display: block
+  margin-top: 0em
 
 br
   clear: both
@@ -14,15 +11,31 @@ br
 \:disabled
   cursor: not-allowed
 
+span
+  padding-top: 7px
+  margin-bottom: 0
+
 div
   &.div-container
-    height: auto
-    margin: 0 auto
-    border: 1px solid blue
+    padding: 45px 15px 15px
+    margin: 0 -15px 15px
+    border: 1px solid #e5e5e5
+    overflow: hidden
+
   &.header
     text-align: center
     height: auto
     margin: 0 auto
+
+@media (min-width: 768px)
+  div
+    &.div-container
+      margin-right: 0
+      margin-left: 0
+      background-color: #fff
+      border: 1px solid #ddd
+      border-radius: 4px 4px 0 0
+
 
 .modal.modal-wide .modal-dialog
   width: 90%

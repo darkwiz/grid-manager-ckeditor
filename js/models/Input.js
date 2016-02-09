@@ -4,40 +4,27 @@ define(["models/Base"], function (Base) {
   var Input = Base.extend({
    // general state and behavior for all pinin controls elements
     defaults: _.extend({
-        labelCss:"control-label",
         type:"text",
         elem:"input",
         elementType:"text",
         elementCss:"form-control",
         elementValues: [""],
-        containerCss:""
-      }, Base.prototype.defaults),
-
-    setcontainerClass: function(width) {
-              var part = 'col-sm-',
-              container = this.get('containerCss'),
-              label = this.get('labelCss');
-
-              this.set('containerCss', part + width );
-              width = 12 - width;
-              this.set('labelCss', "control-label" + " " + part + width);
-      }
+      }, Base.prototype.defaults)
   });
 
   var CheckboxInput = Input.extend({
     defaults: {
-        labelCss: "",
         type:"boolean",
-        elem: "radio",
+        elem: "checkbox",
         elementType: "checkbox",
         elementCss : "",
-        disabled: false,
+        disabled: false
     }
   });
 
   var ReadOnlyCheckboxInput = Input.extend({
     defaults: {
-        disabled: true,
+        disabled: true
     }
   });
 
