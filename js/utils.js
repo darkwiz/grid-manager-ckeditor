@@ -12,7 +12,7 @@ define(['underscore'],  function( _ ) {
             });
         },
         removeAllOptions: function( combo ) {
-            combo = getSelect( combo );
+            combo = this.getSelect( combo );
             while ( combo.getChild( 0 ) && combo.getChild( 0 ).remove() ) {
 
             }
@@ -27,7 +27,7 @@ define(['underscore'],  function( _ ) {
 
         // Add a new option to a SELECT object (combo or list).
         addOption: function ( combo, optionText, optionValue, documentObject, index ) {
-            combo = getSelect( combo );
+            combo = this.getSelect( combo );
             var oOption;
             if ( documentObject )
                 oOption = documentObject.createElement( 'OPTION' );
@@ -59,11 +59,11 @@ define(['underscore'],  function( _ ) {
             return oOption;
         },
         getSelectedIndex: function( combo ) {
-            combo = getSelect( combo );
+            combo = this.getSelect( combo );
             return combo ? combo.$.selectedIndex : -1;
         },
         setSelectedIndex: function( combo, index ) {
-            combo = getSelect( combo );
+            combo = this.getSelect( combo );
             if ( index < 0 )
                 return null;
             var count = combo.getChildren().count();
@@ -72,10 +72,10 @@ define(['underscore'],  function( _ ) {
         },
         // Remove all selected options from a SELECT object.
         removeSelectedOptions: function( combo ) {
-            combo = getSelect( combo );
+            combo = this.getSelect( combo );
 
             // Save the selected index
-            var iSelectedIndex = getSelectedIndex( combo );
+            var iSelectedIndex = this.getSelectedIndex( combo );
 
             // Remove all selected options.
             for ( var i = combo.getChildren().count() - 1; i >= 0; i-- ) {
@@ -84,7 +84,7 @@ define(['underscore'],  function( _ ) {
             }
 
             // Reset the selection based on the original selected index.
-            setSelectedIndex( combo, iSelectedIndex );
+            this.setSelectedIndex( combo, iSelectedIndex );
         },
         toggleField: function ( field, check ) {
             field[ check ? 'enable' : 'disable' ]();
@@ -101,7 +101,7 @@ define(['underscore'],  function( _ ) {
             }[key]);
         },
         toggleTabs: function( id ) {
-            var pages  = getPages(id);
+            var pages  = this.getPages(id);
             for (var i in tabs) {
                 this.hidePage( tabs[i] );
             }
