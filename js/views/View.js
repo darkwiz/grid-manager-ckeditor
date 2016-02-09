@@ -10,14 +10,15 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
             // The DOM Element associated with this view
              el: 'body',
             //'div.editor',
-            //model: new Model, or passed dinamically
+            //model: new Model, or passed dynamically
 
             // template: Handlebars.compile(template),
             _viewPointers: null,
 
              // View Event Handlers
             events: {
-                "blur .form-group": "onClose"
+                "blur .form-group": "onClose",
+                "focus .form-group": "onOpen"
             },
 
 
@@ -27,7 +28,7 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
                 this.setElement(this.getEditorInstanceName());
 
                 _.bindAll(this, 'render', 'addOne'); // every function that uses 'this' as the current object should be in here
-                // This will be called when an item is added. pushed or unshifted
+                // This will be called when an item is added. pushed or unshift
                 this.collection.on('add', this.addOne, this);
                 // This will be called when an item is removed, popped or shifted
                 this.collection.on('remove',  this.removeOne, this);
@@ -41,7 +42,7 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
             },
 
         addOne: function(control){
-
+          console.log("add", control.toJSON() );
           var view = new ControlView({model: control});
           this._viewPointers[control.cid] = view;
           //Jquery wrapped el
@@ -52,13 +53,11 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
           this._viewPointers[control.cid].remove();
         },
         updateOne: function(control) {
-          console.log("updated" )
           var view = this._viewPointers[control.cid];
           view.render();
         },
 
         getEditorInstanceName: function() {
-
           return CKEDITOR.currentInstance.element.data('instance-elem') ;
         },
 
@@ -66,6 +65,12 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
               this.collection.off("add", this.addOne);
               this.collection.off('remove',  this.removeOne);
               this.collection.off('change', this.updateOne);
+        },
+
+        onOpen: function( event ){
+              this.collection.on("add", this.addOne, this);
+              this.collection.on('remove',  this.removeOne, this);
+              this.collection.on('change', this.updateOne, this);
         }
 
     });

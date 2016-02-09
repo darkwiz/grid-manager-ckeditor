@@ -19,25 +19,24 @@
 
 </head>
 <body>
-    <div class="container">
-        <h1>Float grid demo</h1>
+    <div class="header"><h1>Editor Demo</h1>
 
         <div id="open">
-           <button class="btn btn-primary">Open Dialog</button>
-        </div>
-
-        <br/>
-        <div id="dialog" title="Basic dialog" style="display:none;">
-        <div class="container-fluid">
-        <div id="mycanvas">
-                <div class="row">
-                    <div class="col-md-6 initial" id="pippo"><p class="init">Click here</p></div>
-                    <div class="col-md-6 initial"><p class="init">Or here</p></div>
-                </div>
-            </div>
-        </div>
+           <a id="normalModalBtn" href="#test/text.json" class="btn btn-primary">Text Test</a>
+           <a id="normalModalBtn" href="#test/document.json" class="btn btn-primary">Document Test</a>
+           <a id="normalModalBtn" href="#test/data.json" class="btn btn-primary">Data Test</a>
+           <a id="normalModalBtn" href="#test/object.json" class="btn btn-primary">Object Test</a>
+           <a id="normalModalBtn" href="#test/actor.json" class="btn btn-primary">Actor Test</a>
+           <a id="normalModalBtn" href="#test/soggetto.json" class="btn btn-primary">Soggetto Test</a>
+           <!--  <button class="btn btn-primary">Open Dialog</button> -->
+            <!-- <button type="button" class="btn btn-primary" id="#normalModal">Open Editor</button> -->
         </div>
     </div>
+
+
+    <div class="container" id="container">
+    </div>
+</div>
 
 </body>
 </html>

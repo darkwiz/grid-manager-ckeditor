@@ -1,0 +1,34 @@
+{
+  "settings": {
+    "inputs": {
+      "data_in":{
+        "label":"Data inizio",
+        "value":"data_inizio",
+        "type":"date",
+        "hidden":false
+      }
+    },
+    "outputs": {
+      "ud_definitiva_out":{
+        "label":"Data Fine",
+        "value":"data_fine",
+        "type":"date",
+        "hidden":false
+      }
+    },
+    "props": {
+      "name": {
+        "label": "Nome",
+        "value": "Form esempio tipo data",
+        "type": "text",
+        "hidden": false
+      },
+      "description": {
+        "label": "Note",
+        "value": "example",
+        "type": "note",
+        "hidden": false
+      }
+    }
+  }
+}

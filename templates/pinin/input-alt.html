@@ -1,0 +1,10 @@
+<label class="{{labelCss}}">{{labelValue}}</label>
+<div class="{{containerCss}}">
+    {{#each elementValues}}
+        <label>
+            <input type="{{../elementType}}" name="{{../pinValue}}" class="{{../elementCss}}" id="{{../elementId}}" value="{{@key}}" {{ disabledIf ../disabled }}>
+            {{this}}
+        </label>
+    {{/each}}
+</div>
+

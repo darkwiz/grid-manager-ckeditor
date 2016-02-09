@@ -1,0 +1,39 @@
+{
+  "_comment": "Test Obj",
+  "settings":{
+    "inputs":{
+      "tipologie":{
+        "label":"Tipologie documentarie in",
+        "type":"object",
+        "value":"example_obj_1"
+      }
+    },
+    "outputs":{
+      "reason":{
+        "label":"Motivazione",
+        "value":"",
+        "type":"key",
+        "hidden":true
+      },
+      "tipologie":{
+        "label":"Tipologie documentarie out",
+        "type":"object",
+        "value":"example_obj_2"
+      }
+    },
+    "props":{
+      "name":{
+        "label":"Nome",
+        "value":"Modifica unità documentaria",
+        "type":"text",
+        "hidden":false
+      },
+      "description":{
+        "label":"Note",
+        "value":"Form esempio Object",
+        "type":"note",
+        "hidden":false
+      }
+    }
+  }
+}

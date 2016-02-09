@@ -1,12 +1,12 @@
 //OLD module
 define(function () {
     return {
-        dialogId : '#dialog',
-        wrapper : '#open',
+        dialogId : '#container',
+        // wrapper : '#open',
         canvas: '#mycanvas',
-        uiOptions : {width: 1280, autoOpen: true, modal: true},
+        // uiOptions : {width: 1280, autoOpen: true, modal: true},
         rte: {
-                    debug: 1,
+                    //debug: 1,
                     ckeditor: {
                         customConfig: 'config.js',
                         customValues: {
@@ -18,11 +18,11 @@ define(function () {
 
         },
         url: 'data.json',
-        helper : {
+        helper : { //TODO: cleanup unused variables
         inouts: {},
         inputs: {},
         outputs: {},
         props: {}
-   }
+      }
   };
 });

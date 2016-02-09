@@ -3,27 +3,28 @@
 define(["models/Base"], function (Base) {
   var Input = Base.extend({
    // general state and behavior for all pinin controls elements
-    defaults: {
-        labelCss:"inputcss",
+    defaults: _.extend({
+        type:"text",
         elem:"input",
         elementType:"text",
+        elementCss:"form-control",
         elementValues: [""],
-        elementCss:"form-control"
-    }
-}, Base.prototype.defaults);
+      }, Base.prototype.defaults)
+  });
 
   var CheckboxInput = Input.extend({
     defaults: {
-        elem: "input",
+        type:"boolean",
+        elem: "checkbox",
         elementType: "checkbox",
         elementCss : "",
-        disabled: false,
+        disabled: false
     }
   });
 
   var ReadOnlyCheckboxInput = Input.extend({
     defaults: {
-        disabled: true,
+        disabled: true
     }
   });
 

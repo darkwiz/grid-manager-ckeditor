@@ -8,24 +8,11 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates"],
         var ControlView = Backbone.View.extend({
 
             tagName:  "div",
-            //Sostituire lo switch con Templates['idtemplate']
+            className: "div-container",
+
             getTemplate: function(model){
                          var type = model.get('elem');
-                         return Templates[type];
-                         // switch(type) {
-                         //      case 'text':
-                         //        return Templates.singleSpan;
-                         //      case'year':
-                         //      case'date':
-                         //        return Templates.singleDate;
-                         //      case 'textarea':
-                         //        return Templates.singleTextarea;
-                         //      case 'objacl':
-                         //        return Templates.objacl;
-                         //      default:
-                         //       return Templates.single;
-                         //    }
-
+                         return Templates.getTemplate(type);
                     },
             // View Event Handlers
             events: {

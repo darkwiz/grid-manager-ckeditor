@@ -1,13 +1,9 @@
 <div class="form-group">
-<label>{{pinLabel}}</label>
-<div class="control">
-<label class="{{labelCss}}" id="{{labelId}}">
- Actor:  {{> spanPartial actor}}
- </label>
-<br />
-<label class="{{labelCss}}" id="{{labelId}}">
- Rights:  {{> inputPartial right}}
-</label>
-<p class="{{helpCss}}">{{helpValue}}</p>
+    {{> (whichPartial actor.elem) actor}}
+</div>
+<div class="form-group">
+    {{> radio right}}
+</div>
+<p class="help-block">{{helpValue}}</p>
 </div>
 </div>

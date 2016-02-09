@@ -1,0 +1,9 @@
+<label class="{{labelCss}}">{{labelValue}}</label>
+<div class="{{containerCss}}">
+    {{#if elementValues}}
+    <select class="{{elementCss}}">
+        {{#each elementValues}}
+        <option value="{{this}}" selected="{{> selected ../this}}">{{this}}</option>
+        {{/each}}
+    </select>{{/if}}
+</div>

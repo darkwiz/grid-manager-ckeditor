@@ -6,7 +6,9 @@ define(["backbone",
 	"models/Date",
 	"models/Textarea",
 	"models/Span",
-  "models/Object"], function(Backbone, Base, Radio, Input, Year, Date, Textarea, Span, Object) {
+    "models/Object",
+    "models/Soggetto",
+    "models/List", "models/Document"], function(Backbone, Base, Radio, Input, Year, Date, Textarea, Span, Object, Soggetto, List, Document) {
 
 
 /*Control Factory singleton */
@@ -14,64 +16,84 @@ define(["backbone",
     var existingControls = {};
 
     var constructors = {
-			'text': {
-				'in': Span,
-				'out': Input.Input
-				},
-			'boolean': {
-				'in': Input.ReadOnlyCheckboxInput,
-				'out': Input.CheckboxInput
-			},
-			'date': {
-        'in':Date
-      },
-			'tp': {
-        'in': Radio.ReadOnlyTpRadio,
-        'out': Radio.TpRadio,
-      },
-			'acl':{
-        'in': Radio.ReadOnlyAclRadio,
-        'out': Radio.AclRadio,
-      },
-			'cf': {
-				'in': Span,
-				'out': Input.Input
-				},
-			'email': {
-				'in': Span,
-				'out': Input.Input
-				},
-			'year': {
-        'in':Year
-      },
-			'textarea': {
-				'in': Textarea.ReadOnlyTextarea,
-				'out': Textarea.EditableTextarea
-			},
-      'objectacl': {
-        'in': Object.ObjectAcl
-      }
-		};
+		'text': {
+			in: Span,
+			out: Input.Input,
+            inout: Input.Input
+		},
+		'boolean': {
+			in: Input.ReadOnlyCheckboxInput,
+			out: Input.CheckboxInput,
+            inout:Input.CheckboxInput
+		},
+		'tp': {
+			in: Radio.ReadOnlyTpRadio,
+			out: Radio.TpRadio,
+            inout: Radio.TpRadio
+		},
+		'acl':{
+			in: Radio.ReadOnlyAclRadio,
+			out: Radio.AclRadio,
+            inout: Radio.AclRadio
+		},
+		'cf': {
+			in: Span,
+			out: Input.Input,
+            inout: Input.Input
+		},
+		'email': {
+			in: Span,
+			out: Input.Input,
+            inout: Input.Input
+		},
+		'list': {
+			out: List,
+            inout: List
+		},
+		'year': {
+			in: Year.ReadOnlyDate,
+			out:Year,
+            inout:Year
+		},
+		'date': {
+			out:Date.Date,
+			in: Date.ReadOnlyDate,
+            inout: Date.Date
+		},
+		'textarea': {
+			in: Textarea.ReadOnlyTextarea,
+			out: Textarea.EditableTextarea,
+            inout: Textarea.EditableTextarea
+		},
+		'objectacl': {
+			in: Object.ObjectAclReadOnly,
+			out: Object.ObjectAcl,
+            inout: Object.ObjectAcl
+		},
+		'soggetto': {
+			in: Soggetto.SoggettoReadOnly,
+            out: Soggetto.Soggetto,
+			inout: Soggetto.Soggetto
+		},
+        'document': {
+            in: Document.DocumentReadOnly
+        }
+	};
 
     return {
 
         createControl: function(attrs, options){
 
-        /*Find out if a particular book meta-data combination has been created before*/
+        /*Find out if a particular obj has been created before*/
 
-            var existingControl = existingControls[options.type];
+              var existingControl = existingControls[options.PIN.name +"_"+ options.type];
                if(existingControl){
-
-                    return existingControl[options.PIN.pintype];
-
+                    return existingControl;
                 } else {
+                //[text/bool...][in/out]
+                var control = new constructors[options.type][options.PIN.pintype](attrs, options);
 
-                /*if not, let's create a new instance of it and store it*/
-
-                var control = new constructors[options.type][options.PIN.pintype](attrs, options); //occhio al passaggio parametri
-
-                existingControls[options.type] = {};
-                existingControls[options.type][options.PIN.pintype] =  control;
+                existingControls[options.PIN.name +"_"+ options.type] =  control;
 
                 return control;
 

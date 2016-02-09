@@ -1,6 +1,5 @@
 define(['modelfactory'], function (Factory) {
   return Backbone.Collection.extend({
-
       model: function(attrs, options) {
           return Factory.createControl(attrs, options);
       },
@@ -8,8 +7,8 @@ define(['modelfactory'], function (Factory) {
        add: function(models, options){
         var duplicates = this.filter(function(_models) {
 
-         // console.log("LabelID:", _models.get('pinName'), "(== : !=) ", models.pinName);
-            return _models.get('pinName') == models.pinName;
+          // console.log("LabelID:", _models.get('pinValue'), "(== : !=) ", models.pinValue);
+            return _models.get('pinValue') == models.pinValue;
 
         });
 
