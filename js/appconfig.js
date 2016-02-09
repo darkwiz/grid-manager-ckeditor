@@ -7,6 +7,7 @@ define(function () {
         // uiOptions : {width: 1280, autoOpen: true, modal: true},
         rte: {
                     //debug: 1,
+                    cssInclude:'//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css',
                     ckeditor: {
                         customConfig: 'config.js',
                         customValues: {
