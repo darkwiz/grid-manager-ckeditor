@@ -1,0 +1,14 @@
+<label class="{{labelCss}}">{{labelValue}}</label>
+<div class="{{containerCss}}">
+    {{#if dates}}
+    <select data-type="date" >
+        {{#each dates}}<option value="{{this}}" >{{this}}</option>{{/each}}
+    </select>{{/if}}
+    {{#if months}}
+    <select data-type="month" >{{#each months}}
+        <option value="{{this.month}}" >{{this.value}}</option>{{/each}}
+    </select>{{/if}}
+    <select data-type="year" >{{#each years}}
+        <option value="{{this}}" >{{this}}</option>{{/each}}</select>
+    <!-- FTL tag selected selected="{{> selected ../this}}"  -->
+</div>

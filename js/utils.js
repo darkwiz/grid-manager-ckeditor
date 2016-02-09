@@ -2,6 +2,7 @@
 define(['underscore'],  function( _ ) {
     var arr = [12, 11, 10, 9, 8, 7, 6, 5, 4, 3];
     var tabs = ['tab-adv', 'tab-list'];
+
     return {
         getColOpts: function() {
             var percentage = 10;
@@ -93,11 +94,21 @@ define(['underscore'],  function( _ ) {
                 this.hidePage(tabs[i]);
             }
         },
+        getPages: function( key ) {
+            return ({
+                'tab-list' : ['tab-list'],
+                'tab-objectacl': ['tab-list'] //array per mostrare più schede(possibly)
+            }[key]);
+        },
         toggleTabs: function( id ) {
-            for (i in tabs) {
-                this.hidePage(tabs[i]);
+            var pages  = getPages(id);
+            for (var i in tabs) {
+                this.hidePage( tabs[i] );
             }
-            this.showPage( id );
+            for (var j in pages) {
+                this.showPage( pages[j] );
+            }
+
         },
         convertDate: function( dateString ) {
             var date = new Date(dateString);

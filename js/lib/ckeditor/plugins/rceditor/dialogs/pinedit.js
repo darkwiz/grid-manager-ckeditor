@@ -12,22 +12,30 @@
             var select = this.getContentElement('tab-basic', 'colselect'),
                 opts = self.getColOpts();
             for ( var i = 0 ; i < opts.length ; i++){
-                select.add(opts[i][0], opts[i][1]);
+                var oOption = self.addOption( select, opts[i][0], opts[i][1], editor.document);
+                // select.add(opts[i][0], opts[i][1]);
+                if ( i == 3 )
+                {
+                    oOption.setAttribute('selected', 'selected');
+                    oOption.selected = true;
+                }
             }
             this.getContentElement("tab-basic", "colselect").disable();
+
         },
         onShow: function() {
             var self = this;
             require(['collectionmanager', 'views/View', 'viewmanager'], function(CollectionManager, View, ViewManager){
                 var values = self.getContentElement('tab-basic', 'typeselect'),
                     selectedPin = editor.config.customValues.pin;
+
+                hideTabs.call(self);
                 switch(selectedPin.type)
-                {
-                    case 'text':
+                {   case 'text':
                     case 'textRef':
                         var simpleCollection = CollectionManager.getCollection('collection');
-                        optionNames = new Array("<Scegli un controllo>","Generico","Boolean","Tipo Protocollazione","ACL","Codice Fiscale", "Email", "TextArea");
-                        optionVal = new Array("none","text","boolean","tp","acl","cf","email","textarea");
+                        optionNames = new Array("<Scegli un controllo>","Generico","Boolean","Tipo Protocollazione","ACL","Codice Fiscale", "Email", "TextArea", "Lista");
+                        optionVal = new Array("none","text","boolean","tp","acl","cf","email","textarea","list");
 
                         editor._collection = simpleCollection;
                         new View({collection: simpleCollection});
@@ -58,16 +66,17 @@
                         optionVal = new Array("other");
                         break;
                     case 'soggetto':
-                        var simpleCollection = CollectionManager.getCollection('collection');
-                        optionNames = new Array("<Scegli un controllo>", "Soggetto", "Soggetto/PersonaFisica", "Soggetto/PersonaGiuridica", "Soggetto/Amministrazione");
-                        optionVal = new Array("none", "soggetto", "soggettopf", "soggettopg", "soggettoam");
-
-                        editor._collection = simpleCollection;
-                        new View({collection: simpleCollection});
+                        optionNames = new Array("soggetto/PersonaFisica", "soggetto/PersonaGiuridica", "soggetto/Amministrazione");
+                        optionVal = new Array("soggettopf", "soggettopg", "soggettoam");
                         break;
                     case 'object':
-                        optionNames = new Array("Object/ACL");
-                        optionVal = new Array("objectacl");
+                        optionNames = new Array("<Scegli un controllo>","Object/ACL");
+                        optionVal = new Array("<none>","objectacl");
+                        var objCollection = CollectionManager.getCollection('obj');
+
+
+                        editor._collection = objCollection;
+                        new View({collection: objCollection});
                         break;
                     case 'actor':
                         var simpleCollection = CollectionManager.getCollection('collection');
@@ -112,9 +121,12 @@
             // if ( isInsertMode ){
             //     editor.insertElement(data.element);
             //     }
+            if (editor._model)
+                this.commitContent( data );
+            else
+                alert( 'Nessun controllo è stato scelto');
 
-            this.commitContent( data );
-
+            //this.setupContent( 'clear' ); //TODO: Aggiungere al plugin per ripulire la tab list
             // Element might be replaced by commitment.
             // if ( !isInsertMode )
             //     editor.getSelection().selectElement( data.element );
@@ -136,20 +148,19 @@
                             'default': editor.config.customValues.pin.label,
                             commit: function(data) {
                                 var label = data.label,
-                                    self =this,
+                                    self = this,
                                     dialog = this.getDialog(),
                                     editor = dialog.getParentEditor();
                                 id = dialog.getContentElement("tab-adv", "id");
 
                                 //data.type = this.getValue();
-                                editor._model.set({pinLabel: this.getValue(), labelId: id.getValue()})
+                                editor._model.set({labelValue: this.getValue(), labelId: id.getValue()});
 
                                 // label.setText( this.getValue() + ": " );
 
                                 // label.setAttribute('for',  id.getValue() );
                             }
-                        },
-                        //put here other children
+                        } //put here other children
                     ]
                 },
                 { //ROW 2
@@ -165,14 +176,20 @@
                             onChange: function() {
                                 var selected = this.getValue(),
                                     dialog = this.getDialog(),
-                                    editor = dialog.getParentEditor(),
-                                    wselect = dialog.getContentElement("tab-basic", "colselect"),
+                                    editor = dialog.getParentEditor()
+                                wselect = dialog.getContentElement("tab-basic", "colselect"),
                                     selectedPin = editor.config.customValues.pin;
-                                //console.log(editor.name);
                                 editor._model = editor._collection.add({pinValue: selectedPin.name},{type: selected, PIN: selectedPin});
                                 toggleField(wselect, selected);
 
-
+                                //TODO: Risolvere il problema del toggle delle schede in casi tipi complessi
+                                toggleTabs.call(dialog, 'tab-'+ selected);
+                                // if( selected == 'boolean')
+                                //       {  toggleField(checkbox, selected); }
+                                //       else {
+                                //           toggleField(checkbox, false);
+                                //           checkbox.setValue('');
+                                //        }
                             },
                             setup: function( element ) {
                                 this.setValue( element.getAttribute( 'value' ) );
@@ -186,8 +203,7 @@
                                 // var control = getView({model: editor._model, el: editor.element.$});
 
                             }
-                        },
-                        {
+                        },{
                             id: 'colselect',
                             type: 'select',
                             label: "Larghezza Controllo",
@@ -200,11 +216,11 @@
                                 editor._model.setcontainerClass(selected);
 
                             }
-                        }
-                    ]} //END ROW 2
+                        }   //Add here on same row
+                    ]}
             ]}
             ,{
-                id: 'tab-adv',
+                id: 'tab-adv', //Utilizzabile per Lookup
                 label: 'Advanced Settings',
                 elements: [
                     {
@@ -223,7 +239,97 @@
 
                         }
                     }
-                ]}
+                ]},
+            {
+                id: 'tab-list',
+                label: 'List Settings',
+                elements: [
+                    {
+                        type: 'hbox',
+                        widths: [ '66%', '33%' ],
+                        children: [ {
+                            type: 'vbox',
+                            padding: 5,
+                            children: [ {
+                                id: 'txtOptValue',
+                                type: 'text',
+                                label: "Value",
+                                style: 'width:100%',
+                                setup: function( name ) {
+                                    if ( name == 'clear' )
+                                        this.setValue( '' );
+                                }
+                            },
+                                {
+                                    type: 'select',
+                                    id: 'cmbValue',
+                                    label: '',
+                                    size: 5,
+                                    style: 'width:200px;height:75px',
+                                    items: [],
+                                    onChange: function() {
+                                        var dialog = this.getDialog(),
+                                            optValue = dialog.getContentElement( 'tab-list', 'txtOptValue' );
+
+                                        optValue.setValue( this.getValue() );
+
+                                    },
+                                    setup: function( name ) {
+                                        if ( name == 'clear' )
+                                            removeAllOptions( this );
+                                    }
+                                }]
+                        }, {
+                            type: 'vbox',
+                            padding: 5,
+                            children: [ {
+                                type: 'button',
+                                id: 'btnAdd',
+                                label: "Aggiungi",
+                                title: "Aggiungi",
+                                style: 'width:100%;',
+                                onClick: function() {
+                                    //Add new option.
+                                    var dialog = this.getDialog(),
+                                        editor = dialog.getParentEditor(),
+                                        optValue = dialog.getContentElement( 'tab-list', 'txtOptValue' ),
+                                        values = dialog.getContentElement( 'tab-list', 'cmbValue' );
+                                    addOption( values, optValue.getValue(), optValue.getValue(), dialog.getParentEditor().document );
+
+                                    console.log(optValue.getValue());
+                                    editor._model.addOption(optValue.getValue());
+                                    optValue.setValue( '' );
+
+
+                                }
+                            },
+                                {
+                                    type: 'button',
+                                    id: 'btnDelete',
+                                    label: "Rimuovi Selezionati",
+                                    title: "Rimuovi Selezionati",
+                                    style: 'width:100%;',
+                                    onClick: function() {
+                                        //Delete selected option.
+                                        var dialog = this.getDialog(),
+                                            optValue = dialog.getContentElement( 'tab-list', 'txtOptValue' ),
+                                            values = dialog.getContentElement( 'tab-list', 'cmbValue' );
+
+                                        iIndex = getSelectedIndex( values );
+
+                                        if ( iIndex >= 0 ) {
+                                            console.log(iIndex);
+                                            editor._model.removeOption(iIndex);
+                                            removeSelectedOptions(values);
+                                        }
+                                    }
+                                }
+                            ]}
+                        ]
+                    }
+                ]
+
+            }
 
         ],
         buttons: [

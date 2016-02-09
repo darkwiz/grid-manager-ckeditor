@@ -9,24 +9,10 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates"],
 
             tagName:  "div",
             className: "div-container",
-            //Sostituire lo switch con Templates['idtemplate']
+
             getTemplate: function(model){
                          var type = model.get('elem');
-                         return Templates[type];
-                         // switch(type) {
-                         //      case 'text':
-                         //        return Templates.singleSpan;
-                         //      case'year':
-                         //      case'date':
-                         //        return Templates.singleDate;
-                         //      case 'textarea':
-                         //        return Templates.singleTextarea;
-                         //      case 'objacl':
-                         //        return Templates.objacl;
-                         //      default:
-                         //       return Templates.single;
-                         //    }
-
+                         return Templates.getTemplate(type);
                     },
             // View Event Handlers
             events: {

@@ -2,23 +2,23 @@
 define(['models/Base'], function (Base) {
     return Base.extend({
       defaults: _.extend({
-        labelCss:"yearcss",
         elem: "date",
         type:"year",
         elementValues: [""],
         elementCss : "",
       }, Base.prototype.defaults),
 
-       initialize: function(options) {
-            options = options || {};
+       initialize: function(attrs, options) {
+
+           Base.prototype.initialize.call(this, attrs, options);
 
             var today = new Date();
 
             //Schema defaults
-            schema = _.extend({
+            var schema = _.extend({
               yearStart: today.getFullYear() - 100,
               yearEnd: today.getFullYear()
-            }, options.schema || {});
+            }, {});
 
 
             var yearRange = (schema.yearStart < schema.yearEnd)

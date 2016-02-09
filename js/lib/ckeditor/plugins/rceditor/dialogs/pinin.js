@@ -42,9 +42,9 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                         break;
                 case 'date':
                         var simpleCollection = CollectionManager.getCollection('collection');
-                        optionNames = new Array("<Scegli un controllo>","Calendar","Select");
-                        optionVal = new Array("none","calendar","date");
-                        //testare
+                        optionNames = new Array("<Scegli un controllo>","Generico","Calendar(ReadOnly)");
+                        optionVal = new Array("none","date","calendar");
+                        console.log("pippo");
                         editor._collection = simpleCollection;
                         new View({collection: simpleCollection});
 
@@ -59,10 +59,13 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
 
                         break;
                 case 'document':
-                        optionNames = new Array("Other");
-                        //qui i "sottotipi" potrebbero essere presi dinamicamente
-                        // da valutare la soluzione
-                        optionVal = new Array("other");
+                        var simpleCollection = CollectionManager.getCollection('collection');
+                        optionNames = new Array("<Scegli un controllo>","Generico");
+                        optionVal = new Array("none","document");
+                        //testare
+                        editor._collection = simpleCollection;
+                        new View({collection: simpleCollection});
+
                         break;
                 case 'soggetto':
                         var simpleCollection = CollectionManager.getCollection('collection');
@@ -100,9 +103,11 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                     var model = editor._collection.get(editor._model);
                 }
                 for ( var i = 0 ; i < optionNames.length ; i++){
-                    console.log("for ok")
+
                     var oOption = addOption( values, optionNames[ i ], optionVal[ i ], self.getParentEditor().document);
-                    if ( model && optionVal[ i ] == model.get('type') )
+                    console.log("Opt val:", optionVal[ i ]);
+                    console.log("Model type:", model &&  model.get('type'));
+                    if ( model && optionVal[ i ] == model.get('type') ) //TODO: check this assertion
                     {
                         oOption.setAttribute('selected', 'selected');
                         oOption.selected = true;

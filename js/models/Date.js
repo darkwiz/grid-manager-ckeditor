@@ -1,53 +1,68 @@
 //Date.js
 define(['models/Year', 'models/Base'], function (Year, Base) {
-    return Year.extend({
-      defaults: _.extend({
-        labelCss:"datecss",
-        elem: "date",
-        type:"date",
-        elementValues: [""],
-        elementCss : "",
-      }, Base.prototype.defaults),
+    var ReadOnlyDate = Base.extend({
+        // general state and behavior for all pinin controls elements
+        defaults: _.extend({
+            type:"date",
+            elem:"span-date",
+            elementType:"text",
+            elementValues: [""],
+            elementCss:"form-control"
+        }, Base.prototype.defaults)
+    });
 
-       initialize: function(options) {
-           //options = options || {};
+    var Date = Year.extend({
+            defaults: _.extend({
+                type:"date",
+                elem: "date",
+                elementValues: [""],
+                elementCss : "",
+            }, Year.prototype.defaults),
 
-           //Super call
-           Year.prototype.initialize.call(this, options);
+            initialize: function(attrs, options) {
 
-            var Self = this.constructor;
+                //Super call
 
-            //Option defaults
-            options = _.extend({
-              monthNames: Self.monthNames,
-              showMonthNames: Self.showMonthNames
-            }, options);
+                Year.prototype.initialize.call(this, attrs, options);
+
+                var Self = this.constructor;
+
+                //Option defaults
+                options = _.extend({
+                    monthNames: Self.monthNames,
+                    showMonthNames: Self.showMonthNames
+                }, options);
 
 
-            var datesOptions = _.map(_.range(1, 32), function(date) {
-              return date;
-            });
+                var datesOptions = _.map(_.range(1, 32), function(date) {
+                    return date;
+                });
 
-            var monthsOptions = _.map(_.range(0, 12), function(month) {
+                var monthsOptions = _.map(_.range(0, 12), function(month) {
 
-              var value = (options.showMonthNames)
-                  ? options.monthNames[month]
-                  : (month + 1);
+                    var value = (options.showMonthNames)
+                        ? options.monthNames[month]
+                        : (month + 1);
 
-              return {month: month, value: value};
-            });
+                    return {month: month, value: value};
+                });
 
-            this.set("dates", datesOptions);
-            this.set("months", monthsOptions);
-          }
-    },//Statics
- {
-    //Whether to show month names instead of numbers
-    showMonthNames: true,
+                this.set("dates", datesOptions);
+                this.set("months", monthsOptions);
+            }
+        },//Statics
+        {
+            //Whether to show month names instead of numbers
+            showMonthNames: true,
 
-    //Month names to use if showMonthNames is true
-    monthNames: ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre']
+            //Month names to use if showMonthNames is true
+            monthNames: ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre']
+        });
+
+    return {
+        Date: Date,
+        ReadOnlyDate:ReadOnlyDate
+    }
 });
-  });
 
 
