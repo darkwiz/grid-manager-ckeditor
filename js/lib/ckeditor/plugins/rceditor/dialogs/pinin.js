@@ -1,33 +1,33 @@
 CKEDITOR.dialog.add( 'pinin', function( editor ) {
-    var self = this;
-    require(["utils"], function(utils){
-        _.extend(self, utils);
-         });
 
     return { //dialog definition
         title: editor.lang.rceditor.pinin.title,
         minWidth: 400,
         minHeight: 200,
         onLoad: function() {
-            var select = this.getContentElement('tab-basic', 'colselect'),
-                opts = getColOpts();
-            for ( var i = 0 ; i < opts.length ; i++){
-                var oOption = addOption( select, opts[i][0], opts[i][1], editor.document);
-                // select.add(opts[i][0], opts[i][1]);
-                if ( i == 3 )
-                {
-                    oOption.setAttribute('selected', 'selected');
-                    oOption.selected = true;
+            var self = this;
+            require(["utils"], function(utils){
+                var select = self.getContentElement('tab-basic', 'colselect'),
+                    opts = utils.getColOpts();
+                for ( var i = 0 ; i < opts.length ; i++){
+                    var oOption = utils.addOption( select, opts[i][0], opts[i][1], editor.document);
+                    // select.add(opts[i][0], opts[i][1]);
+                    if ( i == 3 )
+                    {
+                        oOption.setAttribute('selected', 'selected');
+                        oOption.selected = true;
+                    }
                 }
-            }
-            this.getContentElement("tab-basic", "colselect").disable();
+                self.getContentElement("tab-basic", "colselect").disable();
+            });
 
         },
         onShow: function() {
             var self = this;
-            require(['collectionmanager', 'views/View', 'viewmanager'], function(CollectionManager, View, ViewManager){
-               var values = self.getContentElement('tab-basic', 'typeselect'),
-                selectedPin = editor.config.customValues.pin;
+            require(['collectionmanager', 'views/View', 'utils'], function(CollectionManager, View, utils){
+                var values = self.getContentElement('tab-basic', 'typeselect'),
+                    selectedPin = editor.config.customValues.pin;
+
                 switch(selectedPin.type)
                 {
                     case 'text':
@@ -98,14 +98,14 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                     //qui vanno tutti gli altri che non hanno sotto opzioni( classifica, cartella etc.)
                 }
 
-                removeAllOptions( values );
+                utils.removeAllOptions( values );
 
                 if (editor._model){
                     var model = editor._collection.get(editor._model);
                 }
                 for ( var i = 0 ; i < optionNames.length ; i++){
 
-                    var oOption = addOption( values, optionNames[ i ], optionVal[ i ], self.getParentEditor().document);
+                    var oOption = utils.addOption( values, optionNames[ i ], optionVal[ i ], self.getParentEditor().document);
                     //console.log("Opt val:", optionVal[ i ]);
                     //console.log("Model type:", model &&  model.get('type'));
                     if ( model && optionVal[ i ] == model.get('type') ) //TODO: check this assertion
@@ -157,10 +157,9 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                                 'default': editor.config.customValues.pin.label,
                                 commit: function(data) {
                                     var label = data.label,
-                                        self =this,
                                         dialog = this.getDialog(),
-                                        editor = dialog.getParentEditor();
-                                    id = dialog.getContentElement("tab-adv", "id");
+                                        editor = dialog.getParentEditor(),
+                                        id = dialog.getContentElement("tab-adv", "id");
 
                                     //data.type = this.getValue();
                                     editor._model.set({labelValue: this.getValue(), labelId: id.getValue()});
@@ -184,17 +183,22 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                             'default': 'none',
                             items: [ [ "<none>",    '' ] ],
                             onChange: function() {
-                                    var selected = this.getValue(),
-                                        dialog = this.getDialog(),
+                                var self = this;
+                                require(["utils"], function(utils) {
+                                    var selected = self.getValue(),
+                                        dialog = self.getDialog(),
                                         editor = dialog.getParentEditor(),
                                         wselect = dialog.getContentElement("tab-basic", "colselect"),
                                         selectedPin = editor.config.customValues.pin;
-                                editor._model = editor._collection.add({pinValue: selectedPin.name},{type: selected, PIN: selectedPin});
-                                toggleField(wselect, selected);
+                                    editor._model = editor._collection.add({pinValue: selectedPin.name}, {
+                                        type: selected,
+                                        PIN: selectedPin
+                                    });
+                                    utils.toggleField(wselect, selected);
 
-                                //toggleTabs.call(dialog, 'tab-'+ selected);
+                                    //toggleTabs.call(dialog, 'tab-'+ selected);
 
-
+                                });
                             },
                             setup: function( element ) {
                                 this.setValue( element.getAttribute( 'value' ) );

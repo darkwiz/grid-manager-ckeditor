@@ -7,10 +7,8 @@ define(["jquery", "underscore","backbone"],
           containerCss:"col-sm-9"
       },
       initialize: function(attrs, options) {
-          console.log(options);
           options = options || {};
           if (options.PIN){
-              console.log("init");
               this.set("pinValue", options.PIN.value);
               this.set("labelValue", options.PIN.label);
             }
