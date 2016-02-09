@@ -1,6 +1,6 @@
 CKEDITOR.dialog.add( 'pinout', function( editor ) {
     var self = this;
-    require(["utils"], function(utils){
+    require(["utils"], function(utils){ //Problemi di sync su inLoad
         _.extend(self, utils);
     });
 
@@ -10,9 +10,9 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
         minHeight: 200,
         onLoad: function() {
             var select = this.getContentElement('tab-basic', 'colselect'),
-                opts = self.getColOpts();
+                opts = getColOpts();
             for ( var i = 0 ; i < opts.length ; i++){
-                var oOption = self.addOption( select, opts[i][0], opts[i][1], editor.document);
+                var oOption = addOption( select, opts[i][0], opts[i][1], editor.document);
                 // select.add(opts[i][0], opts[i][1]);
                 if ( i == 3 )
                 {
