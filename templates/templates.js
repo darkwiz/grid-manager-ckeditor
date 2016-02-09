@@ -47,7 +47,7 @@ define(["handlebars",
 
    return {
        getTemplate: function(type){
-           console.log(type);
+
            return ({
                "input": single,
                "radio": single,

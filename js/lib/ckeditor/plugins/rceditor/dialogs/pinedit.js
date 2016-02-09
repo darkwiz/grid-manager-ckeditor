@@ -24,12 +24,10 @@
         onShow: function() {
             var self = this;
             require(['collectionmanager', 'views/View', 'utils'], function(CollectionManager, View, utils){
-                _.extend(self, utils);
-                console.log(self);
                 var values = self.getContentElement('tab-basic', 'typeselect'),
                     selectedPin = editor.config.customValues.pin;
 
-                self.hideTabs.call(self);
+                utils.hideTabs.call(self);
                 switch(selectedPin.type)
                 {   case 'text':
                     case 'textRef':
@@ -92,10 +90,10 @@
                     //qui vanno tutti gli altri che non hanno sotto opzioni( classifica, cartella etc.)
                 }
 
-                self.removeAllOptions( values );
+                utils.removeAllOptions( values );
 
                 for ( var i = 0 ; i < optionNames.length ; i++){
-                    var oOption = self.addOption( values, optionNames[ i ], optionVal[ i ], self.getParentEditor().document);
+                    var oOption = utils.addOption( values, optionNames[ i ], optionVal[ i ], self.getParentEditor().document);
                     // if ( i == 0 )
                     // {
                     //     oOption.setAttribute('selected', 'selected');
@@ -148,7 +146,6 @@
                             'default': editor.config.customValues.pin.label,
                             commit: function(data) {
                                 var label = data.label,
-                                    self = this,
                                     dialog = this.getDialog(),
                                     editor = dialog.getParentEditor();
                                 id = dialog.getContentElement("tab-adv", "id");
