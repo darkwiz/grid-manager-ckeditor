@@ -10,9 +10,9 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
         minHeight: 200,
         onLoad: function() {
             var select = this.getContentElement('tab-basic', 'colselect'),
-                opts = self.getColOpts();
+                opts = getColOpts();
             for ( var i = 0 ; i < opts.length ; i++){
-                var oOption = self.addOption( select, opts[i][0], opts[i][1], editor.document);
+                var oOption = addOption( select, opts[i][0], opts[i][1], editor.document);
                 // select.add(opts[i][0], opts[i][1]);
                 if ( i == 3 )
                 {
@@ -44,7 +44,8 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                         var simpleCollection = CollectionManager.getCollection('collection');
                         optionNames = new Array("<Scegli un controllo>","Generico","Calendar(ReadOnly)");
                         optionVal = new Array("none","date","calendar");
-                        console.log("pippo");
+
+
                         editor._collection = simpleCollection;
                         new View({collection: simpleCollection});
 
@@ -105,8 +106,8 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                 for ( var i = 0 ; i < optionNames.length ; i++){
 
                     var oOption = addOption( values, optionNames[ i ], optionVal[ i ], self.getParentEditor().document);
-                    console.log("Opt val:", optionVal[ i ]);
-                    console.log("Model type:", model &&  model.get('type'));
+                    //console.log("Opt val:", optionVal[ i ]);
+                    //console.log("Model type:", model &&  model.get('type'));
                     if ( model && optionVal[ i ] == model.get('type') ) //TODO: check this assertion
                     {
                         oOption.setAttribute('selected', 'selected');
@@ -191,13 +192,9 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                                 editor._model = editor._collection.add({pinValue: selectedPin.name},{type: selected, PIN: selectedPin});
                                 toggleField(wselect, selected);
 
-                                toggleTabs.call(dialog, 'tab-'+ selected);
-                                /*  if( selected == 'boolean')
-                                        {  toggleField(field, selected); }
-                                        else {
-                                            toggleField(field, false);
-                                            field.setValue('');
-                                         }*/
+                                //toggleTabs.call(dialog, 'tab-'+ selected);
+
+
                             },
                             setup: function( element ) {
                                 this.setValue( element.getAttribute( 'value' ) );
