@@ -18,7 +18,7 @@ define(["jquery", "underscore","backbone", "handlebars", "text!templates/form.ht
 
             // View constructor
             initialize: function() {
-                _.bindAll(this, 'render'); // every function that uses 'this' as the current object should be in here
+                _.bindAll(this); // every function that uses 'this' as the current object should be in here
                 this.model.on('change', this.render, this);
 
                 this.model.fetch();

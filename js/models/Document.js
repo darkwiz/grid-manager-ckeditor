@@ -1,4 +1,4 @@
-//Object.js
+//Document.js
 define(['models/Radio',
         'models/Base',
         'models/Textarea',
@@ -6,11 +6,10 @@ define(['models/Radio',
     function (Radio, Base, Textarea, Span) {
         "use strict";
 
-
         var DocumentReadOnly = Base.extend({
             defaults: {
-                elem: 'document',
                 type: 'document',
+                elem: 'document',
                 abstract: _.extend({}, Textarea.ReadOnlyTextarea.prototype.defaults),
                 docname: _.extend({}, Span.prototype.defaults),
                 tipo_protocollazione:_.extend({}, Radio.ReadOnlyTpRadio.prototype.defaults),

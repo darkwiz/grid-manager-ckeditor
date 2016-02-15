@@ -9,7 +9,6 @@ define(["jquery","underscore", "backbone", "appconfig"], function ($, _,  Backbo
         this.options = options;
       },
       url: function(){
-          console.log(this.options);
           return "test/" + this.options.data_path;
       },
       parse: function (response) {

@@ -4,9 +4,9 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
         title: editor.lang.rceditor.pinout.title,
         minWidth: 400,
         minHeight: 200,
-        onLoad: function() {
+        onLoad: function() { //chiamata per ogni istanza dell'editor alla prima apertura della dialog
             var self = this;
-            require(["utils"], function(utils) {
+            require(["utils",'collectionmanager','views/View'], function(utils) {
                 var select = self.getContentElement('tab-basic', 'colselect'),
                     opts = utils.getColOpts();
                 for (var i = 0; i < opts.length; i++) {
@@ -18,11 +18,12 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                     }
                 }
                 self.getContentElement("tab-basic", "colselect").disable();
-            })
+            });
+
         },
         onShow: function() {
             var self = this;
-            require(['collectionmanager', 'views/View', 'utils'], function(CollectionManager, View, utils){
+            require(['collectionmanager', 'views/View', 'utils', 'viewmanager'], function(CollectionManager, View, utils, ViewManager ){
                 var values = self.getContentElement('tab-basic', 'typeselect'),
                     selectedPin = editor.config.customValues.pin;
 
@@ -63,17 +64,28 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                         optionVal = new Array("other");
                         break;
                     case 'soggetto':
-                        optionNames = new Array("soggetto/PersonaFisica", "soggetto/PersonaGiuridica", "soggetto/Amministrazione");
-                        optionVal = new Array("soggettopf", "soggettopg", "soggettoam");
+                        var simpleCollection = CollectionManager.getCollection('collection');
+                        optionNames = new Array("<Scegli un controllo>", "Soggetto", "Soggetto/PersonaFisica", "Soggetto/PersonaGiuridica", "Soggetto/Amministrazione");
+                        optionVal = new Array("none", "soggetto", "soggettopf", "soggettopg", "soggettoam");
+                        editor._collection = simpleCollection;
+                        new View({collection: simpleCollection});
+
                         break;
                     case 'object':
                         optionNames = new Array("<Scegli un controllo>","Object/ACL");
                         optionVal = new Array("<none>","objectacl");
                         var objCollection = CollectionManager.getCollection('obj');
 
-
                         editor._collection = objCollection;
                         new View({collection: objCollection});
+                        break;
+                    case 'classifica':
+                        var simpleCollection = CollectionManager.getCollection('collection');
+                        optionNames = new Array("<Scegli un controllo>","Generico");
+                        optionVal = new Array("none", "classifica");
+                        editor._collection = simpleCollection;
+                        ViewManager.getView('simpleview', {collection: simpleCollection});
+
                         break;
                     case 'actor':
                         var simpleCollection = CollectionManager.getCollection('collection');
@@ -178,7 +190,8 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                                         editor = dialog.getParentEditor()
                                     wselect = dialog.getContentElement("tab-basic", "colselect"),
                                         selectedPin = editor.config.customValues.pin;
-                                    editor._model = editor._collection.add({pinValue: selectedPin.name}, {
+                                    //pinvalue è usa
+                                    editor._model = editor._collection.add({}, {
                                         type: selected,
                                         PIN: selectedPin
                                     });
@@ -238,7 +251,7 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                             var dialog = this.getDialog(),
                                 editor = dialog.getParentEditor();
 
-                            editor._model.set({elementId: this.getValue()});
+                         editor._model.set({elementId: this.getValue()});
 
                         }
                     }

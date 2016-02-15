@@ -40,7 +40,7 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                         new View({collection: simpleCollection});
 
                         break;
-                case 'date':
+                    case 'date':
                         var simpleCollection = CollectionManager.getCollection('collection');
                         optionNames = new Array("<Scegli un controllo>","Generico","Calendar(ReadOnly)");
                         optionVal = new Array("none","date","calendar");
@@ -50,7 +50,7 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                         new View({collection: simpleCollection});
 
                         break;
-                case 'year':
+                    case 'year':
                         var simpleCollection = CollectionManager.getCollection('collection');
                         optionNames = new Array("<Scegli un controllo>","Select");
                         optionVal = new Array("none","year");
@@ -59,7 +59,7 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                         new View({collection: simpleCollection});
 
                         break;
-                case 'document':
+                    case 'document':
                         var simpleCollection = CollectionManager.getCollection('collection');
                         optionNames = new Array("<Scegli un controllo>","Generico");
                         optionVal = new Array("none","document");
@@ -68,7 +68,7 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                         new View({collection: simpleCollection});
 
                         break;
-                case 'soggetto':
+                    case 'soggetto':
                         var simpleCollection = CollectionManager.getCollection('collection');
                         optionNames = new Array("<Scegli un controllo>", "Soggetto", "Soggetto/PersonaFisica", "Soggetto/PersonaGiuridica", "Soggetto/Amministrazione");
                         optionVal = new Array("none", "soggetto", "soggettopf", "soggettopg", "soggettoam");
@@ -76,25 +76,41 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                         new View({collection: simpleCollection});
 
                         break;
-                case 'object':
-                    optionNames = new Array("<Scegli un controllo>","Object/ACL");
-                    optionVal = new Array("<none>","objectacl");
-                    var objCollection = CollectionManager.getCollection('obj');
+                    case 'object':
+                        optionNames = new Array("<Scegli un controllo>","Object/ACL");
+                        optionVal = new Array("<none>","objectacl");
+                        var objCollection = CollectionManager.getCollection('obj');
 
-                    editor._collection = objCollection;
-                    new View({collection: objCollection});
-                    break;
-                case 'actor':
-                    var simpleCollection = CollectionManager.getCollection('collection');
-                    optionNames = new Array("<Scegli un controllo>","Generico");
-                    optionVal = new Array("none", "text");
-                    editor._collection = simpleCollection;
-                    new View({collection: simpleCollection});
+                        editor._collection = objCollection;
+                        new View({collection: objCollection});
+                        break;
+                    case 'actor':
+                        var simpleCollection = CollectionManager.getCollection('collection');
+                        optionNames = new Array("<Scegli un controllo>","Generico");
+                        optionVal = new Array("none", "text");
+                        editor._collection = simpleCollection;
+                        new View({collection: simpleCollection});
 
-                    break;
-                default:
-                    optionNames = new Array("<none>"),
-                        optionVal = new Array("");
+                        break;
+                    case 'classifica':
+                        var simpleCollection = CollectionManager.getCollection('collection');
+                        optionNames = new Array("<Scegli un controllo>","Generico");
+                        optionVal = new Array("none", "classifica");
+                        editor._collection = simpleCollection;
+                        new View({collection: simpleCollection});
+
+                        break;
+                    case 'fascicolo':
+                        var simpleCollection = CollectionManager.getCollection('collection');
+                        optionNames = new Array("<Scegli un controllo>","Generico");
+                        optionVal = new Array("none", "fascicolo");
+                        editor._collection = simpleCollection;
+                        new View({collection: simpleCollection});
+
+                        break;
+                    default:
+                        optionNames = new Array("<none>"),
+                            optionVal = new Array("");
                     //qui vanno tutti gli altri che non hanno sotto opzioni( classifica, cartella etc.)
                 }
 

@@ -23,7 +23,7 @@ span {
 
 /* line 19, ../sass/app.sass */
 div.div-container {
-  padding: 45px 15px 15px;
+  padding: 15px 15px 15px;
   margin: 0 -15px 15px;
   border: 1px solid #e5e5e5;
   overflow: hidden;
@@ -35,8 +35,18 @@ div.header {
   margin: 0 auto;
 }
 
+/* line 32, ../sass/app.sass */
+.modal.modal-wide .modal-dialog {
+  width: 90%;
+}
+
+/* line 35, ../sass/app.sass */
+.modal-wide .modal-body {
+  overflow-y: auto;
+}
+
 @media (min-width: 768px) {
-  /* line 32, ../sass/app.sass */
+  /* line 40, ../sass/app.sass */
   div.div-container {
     margin-right: 0;
     margin-left: 0;
@@ -44,13 +54,4 @@ div.header {
     border: 1px solid #ddd;
     border-radius: 4px 4px 0 0;
   }
-}
-/* line 40, ../sass/app.sass */
-.modal.modal-wide .modal-dialog {
-  width: 90%;
-}
-
-/* line 43, ../sass/app.sass */
-.modal-wide .modal-body {
-  overflow-y: auto;
 }

@@ -157,10 +157,11 @@ return {
                    ev.removeListener();
 
           });
+            //detach eventi..con la view singleton probabilmente  perde importanza
           evt.editor.element.on( 'focusout', function( e ){
                 //trigger blur(editor) event
                 var leaving = e.data.getTarget(),
-                    formgroup = leaving.find('div.form-group'); //TODO:Check focusin on form-group! too many editor instances
+                    formgroup = leaving.find('div.div-container'); //TODO:Check focusin on form-group! too many editor instances
                 //  if formgroup exist and focusout -> trigger blur on formgroup(bubble)
                  if (formgroup.$.length > 0)
                     $(formgroup.$).trigger('blur');
@@ -169,7 +170,7 @@ return {
           evt.editor.element.on( 'focusin', function( e ){
                 //trigger focus(editor) event
                 var entering = e.data.getTarget(),
-                    formgroup = entering.find('div.form-group');
+                    formgroup = entering.find('div.div-container');
                 //  if formgroup exist and focusout -> trigger focus on formgroup(bubble)
                 if (formgroup.$.length > 0){
                     $(formgroup.$).trigger('focusin');

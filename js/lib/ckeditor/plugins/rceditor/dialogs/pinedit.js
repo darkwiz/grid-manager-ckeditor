@@ -64,8 +64,12 @@
                         optionVal = new Array("other");
                         break;
                     case 'soggetto':
-                        optionNames = new Array("soggetto/PersonaFisica", "soggetto/PersonaGiuridica", "soggetto/Amministrazione");
-                        optionVal = new Array("soggettopf", "soggettopg", "soggettoam");
+                        var simpleCollection = CollectionManager.getCollection('collection');
+                        optionNames = new Array("<Scegli un controllo>", "Soggetto", "Soggetto/PersonaFisica", "Soggetto/PersonaGiuridica", "Soggetto/Amministrazione");
+                        optionVal = new Array("none", "soggetto", "soggettopf", "soggettopg", "soggettoam");
+                        editor._collection = simpleCollection;
+                        new View({collection: simpleCollection});
+
                         break;
                     case 'object':
                         optionNames = new Array("<Scegli un controllo>","Object/ACL");
