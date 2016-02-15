@@ -1,0 +1,47 @@
+{
+   "_comment": "Test Classifica",
+   "settings":{
+      "inputs":{
+         "classifica_in": {
+            "label": "Classifica",
+            "type": "classifica",
+            "isCollection": false,
+            "value": "classifica_example_in"
+         }
+      },
+      "outputs":{
+         "classifica": {
+            "label": "Classifica out ",
+            "type": "classifica",
+            "isCollection": false,
+            "value": "classifica_example_out"
+         },
+         "classifica_2": {
+            "label": "Classifica out 2",
+            "type": "classifica",
+            "isCollection": false,
+            "value": "classifica_example_out2"
+         },
+         "reason":{
+            "label":"Motivazione",
+            "value":"",
+            "type":"key",
+            "hidden":true
+         }
+      },
+      "props":{
+         "name":{
+            "label":"Nome",
+            "value":"Test Classifica",
+            "type":"text",
+            "hidden":false
+         },
+         "description":{
+            "label":"Note",
+            "value":"Classifica",
+            "type":"note",
+            "hidden":false
+         }
+      }
+   }
+}

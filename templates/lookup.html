@@ -1,0 +1,12 @@
+
+    $(document).ready(function() {
+        var field = "#{{elementId}}";
+        console.debug(field);
+        var source = "{{source}}";
+        source = source.split(",");
+        console.debug(source);
+        $(field).magicSuggest({
+            data: source,
+            cls: 'control-container col-sm-9'
+        });
+    });
