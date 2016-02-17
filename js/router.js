@@ -49,7 +49,7 @@ define(["jquery", "backbone", "models/Form" ,"views/FormView"],
           },
           index: function(){
               if (this.view)
-                this.view.close();
+                this.view.dispose();
            }
 
         });

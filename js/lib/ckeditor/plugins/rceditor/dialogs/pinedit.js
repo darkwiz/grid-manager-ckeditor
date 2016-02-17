@@ -23,7 +23,7 @@
         },
         onShow: function() {
             var self = this;
-            require(['collectionmanager', 'views/View', 'utils'], function(CollectionManager, View, utils){
+            require(['collectionmanager', 'views/View', 'utils', 'viewmanager'], function(CollectionManager, View, utils, ViewManager){
                 var values = self.getContentElement('tab-basic', 'typeselect'),
                     selectedPin = editor.config.customValues.pin;
 
@@ -31,30 +31,18 @@
                 switch(selectedPin.type)
                 {   case 'text':
                     case 'textRef':
-                        var simpleCollection = CollectionManager.getCollection('collection');
                         optionNames = new Array("<Scegli un controllo>","Generico","Boolean","Tipo Protocollazione","ACL","Codice Fiscale", "Email", "TextArea", "Lista");
                         optionVal = new Array("none","text","boolean","tp","acl","cf","email","textarea","list");
 
-                        editor._collection = simpleCollection;
-                        new View({collection: simpleCollection});
-
                         break;
                     case 'date':
-                        var simpleCollection = CollectionManager.getCollection('collection');
                         optionNames = new Array("<Scegli un controllo>","Calendar","Select");
                         optionVal = new Array("none","calendar","date");
-                        //testare
-                        editor._collection = simpleCollection;
-                        new View({collection: simpleCollection});
 
                         break;
                     case 'year':
-                        var simpleCollection = CollectionManager.getCollection('collection');
                         optionNames = new Array("<Scegli un controllo>","Select");
                         optionVal = new Array("none","year");
-                        //testare
-                        editor._collection = simpleCollection;
-                        new View({collection: simpleCollection});
 
                         break;
                     case 'document':
@@ -64,11 +52,8 @@
                         optionVal = new Array("other");
                         break;
                     case 'soggetto':
-                        var simpleCollection = CollectionManager.getCollection('collection');
                         optionNames = new Array("<Scegli un controllo>", "Soggetto", "Soggetto/PersonaFisica", "Soggetto/PersonaGiuridica", "Soggetto/Amministrazione");
                         optionVal = new Array("none", "soggetto", "soggettopf", "soggettopg", "soggettoam");
-                        editor._collection = simpleCollection;
-                        new View({collection: simpleCollection});
 
                         break;
                     case 'object':
@@ -76,16 +61,10 @@
                         optionVal = new Array("<none>","objectacl");
                         var objCollection = CollectionManager.getCollection('obj');
 
-
-                        editor._collection = objCollection;
-                        new View({collection: objCollection});
                         break;
                     case 'actor':
-                        var simpleCollection = CollectionManager.getCollection('collection');
                         optionNames = new Array("<Scegli un controllo>","Lista", "Autocomplete");
                         optionVal = new Array("none", "list", "autocomplete");
-                        editor._collection = simpleCollection;
-                        new View({collection: simpleCollection});
 
                         break;
                     default:
@@ -93,6 +72,8 @@
                             optionVal = new Array("");
                     //qui vanno tutti gli altri che non hanno sotto opzioni( classifica, cartella etc.)
                 }
+                editor._collection = CollectionManager.getCollection('collection');
+                ViewManager.getView('simpleview', {collection: editor._collection});
 
                 utils.removeAllOptions( values );
 
@@ -155,7 +136,7 @@
                                 id = dialog.getContentElement("tab-adv", "id");
 
                                 //data.type = this.getValue();
-                                editor._model.set({labelValue: this.getValue(), labelId: id.getValue()});
+                                editor._model.set({labelValue: this.getValue()});
 
                                 // label.setText( this.getValue() + ": " );
 
@@ -182,7 +163,7 @@
                                         editor = dialog.getParentEditor()
                                     wselect = dialog.getContentElement("tab-basic", "colselect"),
                                         selectedPin = editor.config.customValues.pin;
-                                    editor._model = editor._collection.add({pinValue: selectedPin.name}, {
+                                    editor._model = editor._collection.add({}, {
                                         type: selected,
                                         PIN: selectedPin
                                     });

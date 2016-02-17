@@ -13,7 +13,7 @@ define(["jquery", "underscore","backbone", "handlebars", "text!templates/form.ht
             template: Handlebars.compile(template),
 
               events: {
-                "click .close": "close"
+                "click .close": "dispose"
               },
 
             // View constructor
@@ -39,7 +39,7 @@ define(["jquery", "underscore","backbone", "handlebars", "text!templates/form.ht
                 return this;
 
             },
-            close: function(event){
+            dispose: function(event){
               this.$el.modal('hide');
             }
 

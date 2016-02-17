@@ -2,8 +2,15 @@
 define(["jquery", "underscore","backbone", "handlebars", "templates/templates", "views/ControlView", "views/ScriptView"],
 
     function($, _, Backbone, Handlebars, templates, ControlView, ScriptView){
-
         "use strict";
+        Backbone.View.prototype.close = function(){ //remove zombie views
+            console.log("removing");
+            this.remove();
+            this.unbind();
+            if (this.onClose){
+                this.onClose();
+            }
+        }
 
         var View = Backbone.View.extend({
 
@@ -17,8 +24,8 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
 
             // View Event Handlers
             events: {
-                //"blur .form-group": "onClose", //se usiamo una vista sigleton non possiamo dethachare gli eventi
-                //"focus .form-group": "onOpen"
+            //    "blur .form-group": "onClose", //se usiamo una vista sigleton non possiamo dethachare gli eventi
+            //    "focus .form-group": "onOpen"
             },
 
 
@@ -42,9 +49,8 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
                 this._viewPointers = {};
 
             },
-
             addOne: function(control){
-                console.log('view added');
+                console.log('view added', this._viewPointers);
                 this.setElement(this.getEditorInstanceName());
                 var view = new ControlView({model: control});
                 this._viewPointers[control.cid] = view;
@@ -62,7 +68,8 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
             },
             removeOne: function(control) {
                 console.log('view removed', this._viewPointers[control.cid]);
-                this._viewPointers[control.cid].remove();
+                this._viewPointers[control.cid].close();
+                //this._viewPointers[control.cid].remove();
                 if(control.has("nestedModel")){
                     var nested = control.get("nestedModel");
                     console.log('script removed', this._viewPointers[nested.cid]);
@@ -72,7 +79,7 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
             updateOne: function(control) {
                 console.log('view updated', this._viewPointers[control.cid]);
                 var view = this._viewPointers[control.cid];
-                control.trigger('update');
+                //control.trigger('update');
                 //view.render();
             },
 
@@ -80,11 +87,13 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
                 return CKEDITOR.currentInstance.element.data('instance-elem') ;
             },
 
-            onClose: function( event ){
+            /*  onClose: function( event ){
+                console.log("close")
                 this.collection.off("add", this.addOne);
                 this.collection.off('remove',  this.removeOne);
                 this.collection.off('change', this.updateOne);
             },
+
 
             onOpen: function( event ){
                 this.collection.on("add", this.addOne, this);
@@ -92,7 +101,10 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
                 this.collection.on('change', this.updateOne, this);
             }
 
-           // remove: function(){
+             */
+
+
+            // remove: function(){
                 // return Backbone.View.prototype.remove.apply(this, arguments);}
         });
 

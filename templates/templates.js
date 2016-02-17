@@ -1,5 +1,6 @@
 // templates.js
 define(["handlebars",
+    "text!templates/label.html",
     "text!templates/input.html",
     "text!templates/textarea.html",
     "text!templates/date.html",
@@ -14,14 +15,15 @@ define(["handlebars",
     "text!templates/classifica.html",
     "text!templates/fascicolo.html",
     "text!templates/single-simple.html"
-], function(Handlebars, input, textarea,
+], function(Handlebars, label, input, textarea,
             date, spanDate,  inputAlt,
             inputCheckbox, inputList,
             span, soggetto, object, document, classifica, fascicolo, singleSimple){
     "use strict";
 
     //Templates
-    var single = Handlebars.compile(singleSimple),
+    var nulltpl = Handlebars.compile('<span class="{{containerCss}}">Non è stato scelto alcun controllo per il PIN:<strong> {{pinName}}</strong></span>'),
+        single = Handlebars.compile(singleSimple),
         oggettotpl = Handlebars.compile(object),
         soggettotpl = Handlebars.compile(soggetto),
         documenttpl = Handlebars.compile(document),
@@ -29,6 +31,7 @@ define(["handlebars",
         fascicolotpl = Handlebars.compile(fascicolo);
 
     //Partials
+    Handlebars.registerPartial('label', label);
     Handlebars.registerPartial('span', span);
     Handlebars.registerPartial('span-date', spanDate);
     Handlebars.registerPartial('date', date);
@@ -56,6 +59,7 @@ define(["handlebars",
         getTemplate: function(type){
 
             return ({
+                "null":nulltpl,
                 "input": single,
                 "radio": single,
                 "list": single,

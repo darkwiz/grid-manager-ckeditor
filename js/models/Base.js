@@ -21,7 +21,8 @@ define(["jquery", "underscore","backbone"],
           this.set('containerCss',"control-container" + " " +  part + width );
           width = 12 - width;
           this.set('labelCss', "control-label" + " " + part + width);
-          //this.trigger('update');
+
+          this.trigger('update');
 
           return this;// rimuovere? serviva agli override vari..
       },

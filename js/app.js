@@ -8,37 +8,12 @@ define([
    "appconfig"
 ],function($, _, Backbone, Handlebars, dialog, Router, config){
 
-// var config = {
-//         dialogId : '#container',
-//         // wrapper : '#open',
-//         canvas: '#mycanvas',
-//         // uiOptions : {width: 1280, autoOpen: true, modal: true},
-//         rte: {
-//                     //debug: 1,
-//                     ckeditor: {
-//                         customConfig: 'config.js',
-//                         customValues: {
-//                           pins: [],
-//                           props: {},
-//                           picked:{}
-//                         }
-//                     },
-
-//         },
-//         url: 'data.json',
-//         helper : {
-//         inouts: {},
-//         inputs: {},
-//         outputs: {},
-//         props: {}
-//       }
-//     };
 
 return {
 
     init : function() {
        //$.extend(config, conf);
-       //INSETR ROUTER??
+       //INSERT ROUTER??
         $(config.dialogId).html(dialog);
         // $("#myBtn").click(function(){
         //           $("#tallModal").modal()
@@ -69,7 +44,7 @@ return {
         url: config.url,
         type: 'GET',
         contentType: 'application/json',
-        dataType: 'json'
+        dataTBackbonype: 'json'
       })
       .done(function(response) {
        if( response !== null ){
@@ -161,7 +136,7 @@ return {
           evt.editor.element.on( 'focusout', function( e ){
                 //trigger blur(editor) event
                 var leaving = e.data.getTarget(),
-                    formgroup = leaving.find('div.div-container'); //TODO:Check focusin on form-group! too many editor instances
+                    formgroup = leaving.find('div.form-group'); //TODO:Check focusin on form-group! too many editor instances
                 //  if formgroup exist and focusout -> trigger blur on formgroup(bubble)
                  if (formgroup.$.length > 0)
                     $(formgroup.$).trigger('blur');
@@ -170,7 +145,7 @@ return {
           evt.editor.element.on( 'focusin', function( e ){
                 //trigger focus(editor) event
                 var entering = e.data.getTarget(),
-                    formgroup = entering.find('div.div-container');
+                    formgroup = entering.find('div.form-group');
                 //  if formgroup exist and focusout -> trigger focus on formgroup(bubble)
                 if (formgroup.$.length > 0){
                     $(formgroup.$).trigger('focusin');

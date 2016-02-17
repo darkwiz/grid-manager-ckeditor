@@ -1,4 +1,5 @@
 define(["backbone",
+	"models/Null",
 	"models/Base",
 	"models/Radio",
 	"models/Input",
@@ -12,6 +13,7 @@ define(["backbone",
 	"models/Document",
 	"models/Classifica",
 	"models/Fascicolo"], function(Backbone,
+								  Null,
 								  Base,
 								  Radio,
 								  Input,
@@ -32,6 +34,11 @@ define(["backbone",
 	var existingControls = {};
 
 	var constructors = {
+		'none': {
+			in: Null,
+			out: Null,
+			inout: Null
+		},
 		'text': {
 			in: Span,
 			out: Input.Input,

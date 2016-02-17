@@ -24,7 +24,7 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
         },
         onShow: function() {
             var self = this;
-            require(['collectionmanager', 'views/View', 'utils'], function(CollectionManager, View, utils){
+            require(['collectionmanager', 'views/View', 'utils', 'viewmanager'], function(CollectionManager, View, utils, ViewManager){
                 var values = self.getContentElement('tab-basic', 'typeselect'),
                     selectedPin = editor.config.customValues.pin;
 
@@ -32,80 +32,49 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                 {
                     case 'text':
                     case 'textRef':
-                        var simpleCollection = CollectionManager.getCollection('collection');
                         optionNames = new Array("<Scegli un controllo>","Generico","Boolean","Tipo Protocollazione","ACL","Codice Fiscale", "Email", "TextArea");
                         optionVal = new Array("none","text","boolean","tp","acl","cf","email","textarea");
 
-                        editor._collection = simpleCollection;
-                        new View({collection: simpleCollection});
-
                         break;
                     case 'date':
-                        var simpleCollection = CollectionManager.getCollection('collection');
                         optionNames = new Array("<Scegli un controllo>","Generico","Calendar(ReadOnly)");
                         optionVal = new Array("none","date","calendar");
 
-
-                        editor._collection = simpleCollection;
-                        new View({collection: simpleCollection});
-
                         break;
                     case 'year':
-                        var simpleCollection = CollectionManager.getCollection('collection');
                         optionNames = new Array("<Scegli un controllo>","Select");
                         optionVal = new Array("none","year");
-                        //testare
-                        editor._collection = simpleCollection;
-                        new View({collection: simpleCollection});
 
                         break;
                     case 'document':
-                        var simpleCollection = CollectionManager.getCollection('collection');
                         optionNames = new Array("<Scegli un controllo>","Generico");
                         optionVal = new Array("none","document");
-                        //testare
-                        editor._collection = simpleCollection;
-                        new View({collection: simpleCollection});
 
                         break;
                     case 'soggetto':
-                        var simpleCollection = CollectionManager.getCollection('collection');
                         optionNames = new Array("<Scegli un controllo>", "Soggetto", "Soggetto/PersonaFisica", "Soggetto/PersonaGiuridica", "Soggetto/Amministrazione");
                         optionVal = new Array("none", "soggetto", "soggettopf", "soggettopg", "soggettoam");
-                        editor._collection = simpleCollection;
-                        new View({collection: simpleCollection});
 
                         break;
                     case 'object':
                         optionNames = new Array("<Scegli un controllo>","Object/ACL");
-                        optionVal = new Array("<none>","objectacl");
-                        var objCollection = CollectionManager.getCollection('obj');
+                        optionVal = new Array("none","objectacl");
 
-                        editor._collection = objCollection;
-                        new View({collection: objCollection});
                         break;
                     case 'actor':
-                        var simpleCollection = CollectionManager.getCollection('collection');
                         optionNames = new Array("<Scegli un controllo>","Generico");
                         optionVal = new Array("none", "text");
-                        editor._collection = simpleCollection;
-                        new View({collection: simpleCollection});
 
                         break;
                     case 'classifica':
-                        var simpleCollection = CollectionManager.getCollection('collection');
                         optionNames = new Array("<Scegli un controllo>","Generico");
                         optionVal = new Array("none", "classifica");
-                        editor._collection = simpleCollection;
-                        new View({collection: simpleCollection});
+
 
                         break;
                     case 'fascicolo':
-                        var simpleCollection = CollectionManager.getCollection('collection');
                         optionNames = new Array("<Scegli un controllo>","Generico");
                         optionVal = new Array("none", "fascicolo");
-                        editor._collection = simpleCollection;
-                        new View({collection: simpleCollection});
 
                         break;
                     default:
@@ -114,6 +83,9 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                     //qui vanno tutti gli altri che non hanno sotto opzioni( classifica, cartella etc.)
                 }
 
+
+                editor._collection = CollectionManager.getCollection('collection');
+                ViewManager.getView('simpleview', {collection: editor._collection});
                 utils.removeAllOptions( values );
 
                 if (editor._model){
@@ -178,7 +150,7 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                                         id = dialog.getContentElement("tab-adv", "id");
 
                                     //data.type = this.getValue();
-                                    editor._model.set({labelValue: this.getValue(), labelId: id.getValue()});
+                                    editor._model.set({labelValue: this.getValue()}); //TODO: sostituire set con refresh label
 
                                     // label.setText( this.getValue() + ": " );
 
@@ -206,7 +178,7 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                                         editor = dialog.getParentEditor(),
                                         wselect = dialog.getContentElement("tab-basic", "colselect"),
                                         selectedPin = editor.config.customValues.pin;
-                                    editor._model = editor._collection.add({pinValue: selectedPin.name}, {
+                                    editor._model = editor._collection.add({}, {
                                         type: selected,
                                         PIN: selectedPin
                                     });
@@ -281,8 +253,8 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                     // this = CKEDITOR.ui.dialog.button
                     var dialog = this.getDialog(),
                         editor = dialog.getParentEditor();
-                        //var control = editor._collection.remove(editor._model);
-                        console.log(editor._collection);
+                        var control = editor._collection.remove(editor._model);
+                        console.log(control);
                         // alert( 'Clicked: ' + this.id );
                          }
                     } ]
