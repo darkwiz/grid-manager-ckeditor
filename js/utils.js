@@ -1,7 +1,7 @@
 //utils.js
 define(['underscore'],  function( _ ) {
     var arr = [12, 11, 10, 9, 8, 7, 6, 5, 4, 3];
-    var tabs = ['tab-adv', 'tab-list'];
+    var tabs = ['tab-lookup', 'tab-list'];
     var self = this;
     return {
         getColOpts: function() {
@@ -98,7 +98,9 @@ define(['underscore'],  function( _ ) {
 
             var pages  = ({
                 'tab-list' : ['tab-list'],
-                'tab-objectacl': ['tab-list'] //array per mostrare più schede(possibly)
+                'tab-classifica': ['tab-lookup'], //array per mostrare più schede(possibly)
+                'tab-autocomplete': ['tab-lookup'],
+                'tab-actor': ['tab-lookup'],
             }[id]);
             for (var i in tabs) {
                 this.hidePage( tabs[i] );

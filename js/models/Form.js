@@ -9,7 +9,6 @@ define(["jquery","underscore", "backbone", "appconfig"], function ($, _,  Backbo
         this.options = options;
       },
       url: function(){
-          console.log(this.options);
           return "test/" + this.options.data_path;
       },
       parse: function (response) {
@@ -22,7 +21,6 @@ define(["jquery","underscore", "backbone", "appconfig"], function ($, _,  Backbo
 
         result = this.flattenArray(result, 'inout').concat(inputs, outputs);
         config.rte.ckeditor.customValues.pins = result;
-
 
         return response.settings.props;
       },

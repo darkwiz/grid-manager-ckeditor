@@ -8,37 +8,12 @@ define([
    "appconfig"
 ],function($, _, Backbone, Handlebars, dialog, Router, config){
 
-// var config = {
-//         dialogId : '#container',
-//         // wrapper : '#open',
-//         canvas: '#mycanvas',
-//         // uiOptions : {width: 1280, autoOpen: true, modal: true},
-//         rte: {
-//                     //debug: 1,
-//                     ckeditor: {
-//                         customConfig: 'config.js',
-//                         customValues: {
-//                           pins: [],
-//                           props: {},
-//                           picked:{}
-//                         }
-//                     },
-
-//         },
-//         url: 'data.json',
-//         helper : {
-//         inouts: {},
-//         inputs: {},
-//         outputs: {},
-//         props: {}
-//       }
-//     };
 
 return {
 
     init : function() {
        //$.extend(config, conf);
-       //INSETR ROUTER??
+       //INSERT ROUTER??
         $(config.dialogId).html(dialog);
         // $("#myBtn").click(function(){
         //           $("#tallModal").modal()
@@ -58,9 +33,30 @@ return {
         //this.buildGrid();
         this.clearEditor(); //don't work well...
         //this.getProcessSettings(this.handleDesignerResponse);
+
+        //var buttons = document.getElementsByClassName('btn btn-primary');
+        //for(var i = 0; i < buttons.length; i++) {
+        //    (function(buttons, i) {
+        //        var path = buttons[i].getAttribute("data-url")
+        //        $.ajax({
+        //            url: path,
+        //            success: appendData
+        //        });
+        //        function appendData(data) {
+        //            console.log(i)
+        //            var inp = JSON.stringify(data.settings.inputs, undefined, 12);
+        //            buttons[i].appendChild(document.createElement('pre')).innerHTML = inp;
+        //        }
+        //    })(buttons, i);}
+
+
+
+
+
+
     },
 
-    buildGrid : function() {
+    buildGrid: function() {
        $(config.canvas).gridmanager(config.rte);
     },
 
@@ -69,7 +65,7 @@ return {
         url: config.url,
         type: 'GET',
         contentType: 'application/json',
-        dataType: 'json'
+        dataTBackbonype: 'json'
       })
       .done(function(response) {
        if( response !== null ){
@@ -157,6 +153,7 @@ return {
                    ev.removeListener();
 
           });
+            //detach eventi..con la view singleton probabilmente  perde importanza
           evt.editor.element.on( 'focusout', function( e ){
                 //trigger blur(editor) event
                 var leaving = e.data.getTarget(),

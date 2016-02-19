@@ -25,13 +25,12 @@ define(["models/Base"], function (Base) {
                 options.push(value);
             }
             this.set("elementValues", options);
-            return this;
         },
         removeOption: function(index){
             var options = _.clone(this.get("elementValues"));
                 options.splice(index, 1);
             this.set("elementValues", options);
-            return this;
+
         }
     });
 

@@ -17,7 +17,7 @@ span
 
 div
   &.div-container
-    padding: 45px 15px 15px
+    padding: 15px 15px 15px
     margin: 0 -15px 15px
     border: 1px solid #e5e5e5
     overflow: hidden
@@ -26,6 +26,14 @@ div
     text-align: center
     height: auto
     margin: 0 auto
+
+
+
+.modal.modal-wide .modal-dialog
+  width: 90%
+
+.modal-wide .modal-body
+  overflow-y: auto
 
 @media (min-width: 768px)
   div
@@ -37,8 +45,31 @@ div
       border-radius: 4px 4px 0 0
 
 
-.modal.modal-wide .modal-dialog
-  width: 90%
+#loading
+  z-index: 99999
+  display: none
+  width: 50px
+  height: 57px
+  position: absolute
+  top: 50%
+  left: 50%
+  margin: -28px 0 0 -25px
 
-.modal-wide .modal-body
-  overflow-y: auto
+.description
+  width: 33%
+  display: inline-block
+  float: left
+  background: #c2c2c2
+  pre, code
+    white-space: pre-line //pre-line ,no border
+    background-color: #ffffff
+
+.hrow
+  display: flex /* equal height of the children */
+
+.col
+  flex: 1 /* additionally, equal width */
+  padding: 1em
+  border: solid
+  border-color: #FFFFFF
+  border-radius: 0.5em

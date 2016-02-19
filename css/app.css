@@ -23,7 +23,7 @@ span {
 
 /* line 19, ../sass/app.sass */
 div.div-container {
-  padding: 45px 15px 15px;
+  padding: 15px 15px 15px;
   margin: 0 -15px 15px;
   border: 1px solid #e5e5e5;
   overflow: hidden;
@@ -35,8 +35,18 @@ div.header {
   margin: 0 auto;
 }
 
+/* line 32, ../sass/app.sass */
+.modal.modal-wide .modal-dialog {
+  width: 90%;
+}
+
+/* line 35, ../sass/app.sass */
+.modal-wide .modal-body {
+  overflow-y: auto;
+}
+
 @media (min-width: 768px) {
-  /* line 32, ../sass/app.sass */
+  /* line 40, ../sass/app.sass */
   div.div-container {
     margin-right: 0;
     margin-left: 0;
@@ -45,12 +55,41 @@ div.header {
     border-radius: 4px 4px 0 0;
   }
 }
-/* line 40, ../sass/app.sass */
-.modal.modal-wide .modal-dialog {
-  width: 90%;
+/* line 48, ../sass/app.sass */
+#loading {
+  z-index: 99999;
+  display: none;
+  width: 50px;
+  height: 57px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -28px 0 0 -25px;
 }
 
-/* line 43, ../sass/app.sass */
-.modal-wide .modal-body {
-  overflow-y: auto;
+/* line 58, ../sass/app.sass */
+.description {
+  width: 33%;
+  display: inline-block;
+  float: left;
+  background: #c2c2c2;
+}
+/* line 63, ../sass/app.sass */
+.description pre, .description code {
+  white-space: pre-line;
+  background-color: #ffffff;
+}
+
+/* line 67, ../sass/app.sass */
+.hrow {
+  display: flex;
+}
+
+/* line 70, ../sass/app.sass */
+.col {
+  flex: 1;
+  padding: 1em;
+  border: solid;
+  border-color: #FFFFFF;
+  border-radius: 0.5em;
 }

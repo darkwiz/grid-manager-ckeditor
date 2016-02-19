@@ -8,14 +8,6 @@
         "type": "string",
         "hidden": true
       },
-      "soggetto_banca": {
-        "label": "soggetto_banca",
-        "type": "soggetto",
-        "value": "soggetto_banca",
-        "dynamic": true,
-        "isCollection": false,
-        "hidden": false
-      },
       "soggetto_pf": {
         "label": "soggetto_pf",
         "type": "soggetto",

@@ -1,22 +1,25 @@
-define(['modelfactory'], function (Factory) {
-  return Backbone.Collection.extend({
-      model: function(attrs, options) {
-          return Factory.createControl(attrs, options);
-      },
+define(['jquery','underscore','backbone', 'modelfactory'], function ($, _, Backbone, Factory) {
+    return Backbone.Collection.extend({
+        initialize: function(attrs, options){
+            console.log('init');
+        },
+        model: function(attrs, options) {
+            return Factory.createControl(attrs, options);
+        },
 
-       add: function(models, options){
-        var duplicates = this.filter(function(_models) {
+        add: function(models, options){
 
-          // console.log("LabelID:", _models.get('pinValue'), "(== : !=) ", models.pinValue);
-            return _models.get('pinValue') == models.pinValue;
+            var duplicates = this.filter(function(_models) {
+                console.log("LabelID:", _models.get('pinValue'), "(== : !=) ", options.PIN.value);
+                return _models.get('pinValue') == options.PIN.value;
+            });
 
-        });
+            if ( _(duplicates).size() > 0) {
+                this.remove(duplicates);  //, {silent:true});  rimozione precedente duplicata
+            }
 
-        if (! _(duplicates).length > 0) {
-            this.remove(duplicates, {silent:true});
+            return Backbone.Collection.prototype.add.call(this, models, options);
+
         }
-
-       return Backbone.Collection.prototype.add.call(this, models, options);
-    }
-  });
+    });
 });

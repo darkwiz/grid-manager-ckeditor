@@ -3,9 +3,9 @@
   "settings":{
     "inputs":{
       "tipologie":{
-        "label":"Tipologie documentarie in",
+        "label":"Tipologie documentarie",
         "type":"object",
-        "value":"example_obj_1"
+        "value":"tipologie"
       }
     },
     "outputs":{
@@ -15,10 +15,13 @@
         "type":"key",
         "hidden":true
       },
-      "tipologie":{
-        "label":"Tipologie documentarie out",
+      "Result":{
+        "label":"Result",
         "type":"object",
-        "value":"example_obj_2"
+        "value":"Result",
+        "dynamic":true,
+        "isCollection":false,
+        "hidden":false
       }
     },
     "props":{
