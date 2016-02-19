@@ -19,6 +19,7 @@
                     }
                 }
                 self.getContentElement("tab-basic", "colselect").disable();
+                utils.hideTabs.call(self);
             });
         },
         onShow: function() {
@@ -27,7 +28,7 @@
                 var values = self.getContentElement('tab-basic', 'typeselect'),
                     selectedPin = editor.config.customValues.pin;
 
-                utils.hideTabs.call(self);
+
                 switch(selectedPin.type)
                 {   case 'text':
                     case 'textRef':
@@ -35,7 +36,7 @@
                         optionVal = new Array("none","text","boolean","tp","acl","cf","email","textarea","list");
 
                         break;
-                    case 'date':
+                    case 'datetimeRef':
                         optionNames = new Array("<Scegli un controllo>","Calendar","Select");
                         optionVal = new Array("none","calendar","date");
 
@@ -66,6 +67,10 @@
                         optionNames = new Array("<Scegli un controllo>","Lista", "Autocomplete");
                         optionVal = new Array("none", "list", "autocomplete");
 
+                        break;
+                    case 'fascicolo':
+                        optionNames = new Array("<Scegli un controllo>","Autocomplete");
+                        optionVal = new Array("none", "fascicolo");
                         break;
                     default:
                         optionNames = new Array("<none>"),
@@ -136,7 +141,7 @@
                                 id = dialog.getContentElement("tab-adv", "id");
 
                                 //data.type = this.getValue();
-                                editor._model.set({labelValue: this.getValue()});
+                                editor._model.setControlLabel(this.getValue());
 
                                 // label.setText( this.getValue() + ": " );
 
@@ -206,28 +211,161 @@
                             }
                         }   //Add here on same row
                     ]}
-            ]}
-            ,{
-                id: 'tab-adv', //Utilizzabile per Lookup
-                label: 'Advanced Settings',
+            ]},
+            {
+                id: 'tab-lookup',
+                label: 'Lookup Settings',
+                title: 'Modalità di inserimento sorgenti',
                 elements: [
-                    {
-                        type: 'text',
-                        id: 'id',
-                        label: 'Id',
-                        'default': editor.config.customValues.pin.value,
-                        setup: function( element ) {
-                            this.setValue( element.getAttribute('id'));
-                        },
-                        commit: function(data) {
-                            var dialog = this.getDialog(),
-                                editor = dialog.getParentEditor();
+                    {   //URL
+                        type: 'hbox',
+                        widths: [ '30%', '70%' ],
+                        padding: 5,
+                        children:[
+                            {
+                                type: 'select',
+                                id: 'sourceVal',
+                                label: 'Sorgente dati',
+                                items:  [[' URL ','url'],
+                                    [' Entry ','entry']],
+                                'default':'url',
+                                onChange: function() {
+                                    var self = this;
+                                    require(["utils"], function(utils) {
+                                        var selected = self.getValue(),
+                                            dialog = self.getDialog(),
+                                            urlValue = dialog.getContentElement('tab-lookup', 'UrlValue'),
+                                            txtOptValue = dialog.getContentElement('tab-lookup', 'txtOptValue');
+                                        //document.getElementById(this.getButton('ok').domId).style.display='none';
+                                        //urlValue.getElement.hide() funziona!
 
-                            editor._model.set({elementId: this.getValue()});
+                                        utils.toggleField(urlValue, (selected == "url"));
+                                        utils.toggleField(txtOptValue, !(selected == "url"));
 
-                        }
+
+
+                                    });
+                                },
+                                setup: function( name ) {
+                                    console.log("setup")
+                                    if ( name == 'clear' )
+                                        removeAllOptions( this );
+                                },
+
+                            }, {
+                                id: 'UrlValue',
+                                type: 'text',
+                                label: "URL",
+                                style: 'width:100%',
+                                setup: function( name ) {
+                                    if ( name == 'clear' )
+                                        this.setValue( '' );
+                                },
+                                commit: function( data ){
+                                    var label = data.label,
+                                        dialog = this.getDialog(),
+                                        editor = dialog.getParentEditor(),
+                                        selectValue = dialog.getContentElement('tab-lookup', 'sourceVal');
+
+                                    console.log(selectValue.isVisible());
+                                    if(editor._model && selectValue.isVisible() && selectValue.getValue() == "url" )
+                                        editor._model.setUrl(this.getValue());
+
+                                }
+                            }]
+                    },
+                    { //Entry
+                        type: 'hbox',
+                        widths: [ '66%', '33%' ],
+                        children: [ {
+                            type: 'vbox',
+                            padding: 5,
+                            children: [ {
+                                id: 'txtOptValue',
+                                type: 'text',
+                                label: "Value",
+                                style: 'width:100%',
+                                setup: function( name ) {
+                                    if ( name == 'clear' )
+                                        this.setValue( '' );
+                                }
+                            },
+                                {
+                                    type: 'select',
+                                    id: 'cmbValue',
+                                    label: 'Inserisci i valori per la lookup',
+                                    size: 5,
+                                    style: 'width:200px;height:75px',
+                                    items: [],
+                                    onChange: function() {
+                                        var dialog = this.getDialog(),
+                                            optValue = dialog.getContentElement( 'tab-lookup', 'txtOptValue' );
+
+                                        optValue.setValue( this.getValue() );
+
+                                    },
+                                    setup: function( name ) {
+                                        if ( name == 'clear' )
+                                            removeAllOptions( this );
+                                    }
+                                }]
+                        }, {
+                            type: 'vbox',
+                            padding: 5,
+                            children: [ {
+                                type: 'button',
+                                id: 'btnAdd',
+                                label: "Aggiungi",
+                                title: "Aggiungi",
+                                style: 'width:100%;',
+                                onClick: function() {
+                                    //Add new option.
+                                    var self = this;
+                                    require(["utils"], function(utils) {
+                                        var dialog = self.getDialog(),
+                                            editor = dialog.getParentEditor(),
+                                            optValue = dialog.getContentElement('tab-lookup', 'txtOptValue'),
+                                            values = dialog.getContentElement('tab-lookup', 'cmbValue');
+                                        if (editor._model) {
+                                            utils.addOption(values, optValue.getValue(), optValue.getValue(), dialog.getParentEditor().document);
+
+                                            console.log(optValue.getValue());
+                                            editor._model.addOption(optValue.getValue());
+                                            optValue.setValue('');
+                                        }
+                                    });
+
+                                }
+                            },
+                                {
+                                    type: 'button',
+                                    id: 'btnDelete',
+                                    label: "Rimuovi Selezionati",
+                                    title: "Rimuovi Selezionati",
+                                    style: 'width:100%;',
+                                    onClick: function() {
+                                        //Delete selected option.
+                                        var self = this;
+                                        require(["utils"], function(utils) {
+                                            var dialog = self.getDialog(),
+                                                optValue = dialog.getContentElement('tab-lookup', 'txtOptValue'),
+                                                values = dialog.getContentElement('tab-lookup', 'cmbValue');
+                                            if (editor._model) {
+                                                iIndex = utils.getSelectedIndex(values);
+
+                                                if (iIndex >= 0) {
+                                                    console.log(iIndex);
+                                                    editor._model.removeOption(iIndex);
+                                                    utils.removeSelectedOptions(values);}
+                                            }
+                                        });
+                                    }
+                                }
+                            ]}
+                        ]
                     }
-                ]},
+                ]
+            },
             {
                 id: 'tab-list',
                 label: 'List Settings',
@@ -338,8 +476,8 @@
                     // this = CKEDITOR.ui.dialog.button
                     var dialog = this.getDialog(),
                         editor = dialog.getParentEditor();
-                    //var control = editor._collection.remove(editor._model);
-                    console.log(editor._collection.toJSON());
+                    var control = editor._collection.remove(editor._model);
+                    console.log(control.toJSON());
                     // alert( 'Clicked: ' + this.id );
                 }
             } ]

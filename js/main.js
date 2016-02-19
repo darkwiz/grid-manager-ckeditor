@@ -48,6 +48,13 @@ requirejs(["app", "jquery.bootstrap", "gridmanager","domReady!", "magic"], funct
             e.stopImmediatePropagation();
         }
     });
+/*    $(document).ready(function () {
+        $(document).ajaxStart(function () {
+            $("#loading").fadeIn(300);
+        }).ajaxStop(function () {
+            $("#loading").fadeOut(200);
+        });
+    });*/
 });
 
 

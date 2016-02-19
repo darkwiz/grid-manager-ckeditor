@@ -2,25 +2,19 @@
    "_comment": "Test Classifica",
    "settings":{
       "inputs":{
-         "classifica_in": {
-            "label": "Classifica",
+         "Titolario in": {
+            "label": "Titolario",
             "type": "classifica",
             "isCollection": false,
             "value": "classifica_example_in"
          }
       },
       "outputs":{
-         "classifica": {
-            "label": "Classifica out ",
+         "Titolario out": {
+            "label": "Titolario",
             "type": "classifica",
             "isCollection": false,
             "value": "classifica_example_out"
-         },
-         "classifica_2": {
-            "label": "Classifica out 2",
-            "type": "classifica",
-            "isCollection": false,
-            "value": "classifica_example_out2"
          },
          "reason":{
             "label":"Motivazione",

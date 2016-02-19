@@ -10,6 +10,7 @@ define(["backbone",
 	"models/Object",
 	"models/Soggetto",
 	"models/List",
+	"models/Actor",
 	"models/Document",
 	"models/Classifica",
 	"models/Fascicolo"], function(Backbone,
@@ -24,6 +25,7 @@ define(["backbone",
 								  Object,
 								  Soggetto,
 								  List,
+								  Actor,
 								  Document,
 								  Classifica,
 								  Fascicolo) {
@@ -73,6 +75,9 @@ define(["backbone",
 			out: List,
 			inout: List
 		},
+		'actor':{
+			out: Actor.Actor
+		},
 		'year': {
 			in: Year.ReadOnlyDate,
 			out:Year,
@@ -98,6 +103,10 @@ define(["backbone",
 			out: Soggetto.Soggetto,
 			inout: Soggetto.Soggetto
 		},
+		'soggettoautocomplete': {
+			out: Soggetto.SoggettoLookup,
+			inout: Soggetto.SoggettoLookup
+		},
 		'document': {
 			in: Document.DocumentReadOnly
 		},
@@ -106,7 +115,9 @@ define(["backbone",
 			out: Classifica.Classifica
 		},
 		'fascicolo': {
-			in: Fascicolo.FascicoloReadOnly
+			in: Fascicolo.FascicoloReadOnly,
+			out: Fascicolo.Fascicolo,
+			inout: Fascicolo.Fascicolo
 		}
 	};
 

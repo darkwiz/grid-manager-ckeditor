@@ -1,3 +1,12 @@
-<div class="{{containerCss}}" id="{{elementId}}">
-  <input type="{{elementType}}" name="{{pinValue}}" class="{{elementCss}}" value="${ {{pinValue}} }">
+{{#if childModel}}
+<div class="{{containerCss}}">
+  <div id="{{elementId}}">
+    <input type="{{elementType}}" name="{{pinName}}" class="{{elementCss}}" value="${ {{pinValue}} }">
+  </div>
 </div>
+{{else}}
+<div class="{{containerCss}}" >
+  <input type="{{elementType}}" name="{{pinName}}" class="{{elementCss}}" value="${ {{pinValue}} }">
+</div>
+{{/if}}
+

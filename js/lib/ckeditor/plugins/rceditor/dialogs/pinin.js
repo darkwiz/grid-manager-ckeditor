@@ -19,6 +19,7 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                     }
                 }
                 self.getContentElement("tab-basic", "colselect").disable();
+                utils.hideTabs.call(self);
             });
 
         },
@@ -36,7 +37,7 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                         optionVal = new Array("none","text","boolean","tp","acl","cf","email","textarea");
 
                         break;
-                    case 'date':
+                    case 'datetimeRef':
                         optionNames = new Array("<Scegli un controllo>","Generico","Calendar(ReadOnly)");
                         optionVal = new Array("none","date","calendar");
 
@@ -150,7 +151,7 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                                         id = dialog.getContentElement("tab-adv", "id");
 
                                     //data.type = this.getValue();
-                                    editor._model.set({labelValue: this.getValue()}); //TODO: sostituire set con refresh label
+                                    editor._model.setControlLabel(this.getValue());
 
                                     // label.setText( this.getValue() + ": " );
 
@@ -217,29 +218,7 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                             }
                     ]}
                  ]
-                }
-                ,{
-                id: 'tab-adv',
-                label: 'Advanced Settings',
-                elements: [
-                    {
-                        type: 'text',
-                        id: 'id',
-                        label: 'Id',
-                        'default': editor.config.customValues.pin.value,
-                        setup: function( element ) {
-                            this.setValue( element.getAttribute('id'));
-                        },
-                        commit: function(data) {
-                              var dialog = this.getDialog(),
-                                  editor = dialog.getParentEditor();
-
-                              editor._model.set({elementId: this.getValue()});
-
-                            }
-                    }
-                ]}
-
+                } //other tabs here
             ],
             buttons: [
             CKEDITOR.dialog.okButton,

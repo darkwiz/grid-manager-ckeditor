@@ -8,10 +8,16 @@ define(["jquery", "underscore","backbone"],
       },
       initialize: function(attrs, options) {
           options = options || {};
-          if (options.PIN){
-              this.set("pinValue", options.PIN.value);
+          var pin = options.PIN;
+          if (pin){
+              if(pin.pintype == "inout" || pin.pintype == "in"){
+                  this.set("pinValue", options.PIN.value);
+              } else {
+                  this.set("pinValue", "");
+              }
               this.set("labelValue", options.PIN.label);
-            }
+              this.set("pinName", options.PIN.value);
+          }
       },
       setcontainerClass: function(width) {
           var part = 'col-sm-',

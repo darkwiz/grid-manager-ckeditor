@@ -6,6 +6,10 @@ define(['models/Base',
     function (Base, Span, Lookup, Input) {
         "use strict";       //TODO: se due pin hanno lo stesso nome l'algoritmo non funziona bene, invertire classifica/readonly
 
+        var Scripts = Backbone.Collection.extend({
+            model: Lookup
+        });
+
         var Input = Input.Input;
         var ClassificaReadOnly = Base.extend({
             defaults: {
@@ -39,8 +43,9 @@ define(['models/Base',
         });
         var Classifica = ClassificaReadOnly.extend({
             defaults: {
+                childModels: new Scripts(),
                 classifica: _.extend({}, Input.prototype.defaults),
-                des_titolario: _.extend({}, Input.prototype.defaults), //-> Hidden C'è bisogno di rimandare con la post il nuovo valore?
+                des_titolario: _.extend({}, Input.prototype.defaults),
                 parent_classifica: _.extend({}, Input.prototype.defaults)
             },
             initialize: function(attrs, options){
@@ -48,12 +53,16 @@ define(['models/Base',
 
                 ClassificaReadOnly.prototype.initialize.call(this, attrs, options);
 
-                this.nestedModel = new Lookup({elementId: options.PIN.value});
-                this.set("nestedModel", this.nestedModel);
+                var childModels = this.get("childModels");
+                childModels.add({elementId: options.PIN.value}); //lookup classifica
 
+               /* this.childModel = new Lookup({elementId: options.PIN.value});
+                this.set("childModel", this.childModel);
+                this.includeChild(this.childModel);*/
 
                 this.classifica.labelValue =  options.PIN.label;
                 this.classifica.elementId = options.PIN.value;
+                this.classifica.childModel = true;
                 this.set("classifica", this.classifica);
 
                 this.des_titolario.labelValue = "";
@@ -65,8 +74,17 @@ define(['models/Base',
                 this.set("parent_classifica", this.parent_classifica);
 
             },
+            includeChild: function (child) {
+                child.bind('change', this.onChildChange, this);
+            },
+            onChildChange: function (child) {
+                child.trigger("change", this);
+            },
             addOption: function(value) { //TODO: refresh lookup source data on add url/options
-                Lookup.prototype.addOption.call(this.nestedModel, value);
+                Lookup.prototype.addOption.call(this.childModel, value);
+            },
+            setUrl: function(url){
+                Lookup.prototype.setUrl.call(this.childModel, url);
             }
 
         /*    setcontainerClass: function(width) {

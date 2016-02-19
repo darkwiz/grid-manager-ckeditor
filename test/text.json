@@ -15,9 +15,10 @@
             "isCollection": false,
             "hidden": false
          },
-         "ud_definitiva_in":{
-            "label":"Versione definitiva",
-            "value":"",
+         "esito_approvazione_in":
+         {
+            "label":"Esito approvazione",
+            "value":"esito",
             "type":"textRef",
             "hidden":false
          }
@@ -43,10 +44,12 @@
             "isCollection": false,
             "hidden": false
          },
-         "ud_definitiva_out":{
-            "label":"Versione definitiva",
-            "value":"",
+         "rif_progressivo_fascicolo":{
+            "label":"rif_progressivo_fascicolo",
             "type":"textRef",
+            "value":"rif_progressivo_fascicolo",
+            "dynamic":true,
+            "isCollection":false,
             "hidden":false
          }
       },

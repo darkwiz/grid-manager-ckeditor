@@ -25,7 +25,7 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates"],
                 _.bindAll(this); // every function that uses 'this' as the current object should be in here
 
                 this.model.on('update', this.update, this);
-                this.model.on('change:elementValues', this.refreshControl, this);
+                this.model.on('change:elementValues', this.updateControl, this);
                 //questo viene fatto in automatico
                 //this.$el = $(this.el);
             },
@@ -47,9 +47,9 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates"],
             },
             onClose: function(){
                 this.model.unbind("update", this.update);
-                this.model.unbind("change:elementValues", this.refreshControl);
+                this.model.unbind("change:elementValues", this.updateControl);
             },
-            refreshControl: function(model) {
+            updateControl: function(model) {
                 var partial = Handlebars.partials[this.model.get('elem')]
                 this.$control.html(partial(model.toJSON()));
             }

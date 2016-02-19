@@ -4,7 +4,6 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
     function($, _, Backbone, Handlebars, templates, ControlView, ScriptView){
         "use strict";
         Backbone.View.prototype.close = function(){ //remove zombie views
-            console.log("removing");
             this.remove();
             this.unbind();
             if (this.onClose){
@@ -35,8 +34,7 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
                 _.bindAll(this);// every function that uses 'this' as the current object should be in here
 
                 this.setElement(this.getEditorInstanceName());
-                this.$scripts = $("#mycanvas");
-
+                console.log(this.getEditorInstanceName());
                 // This will be called when an item is added. pushed or unshift
                 this.collection.on('add', this.addOne, this);
                 // This will be called when an item is removed, popped or shifted
@@ -45,35 +43,30 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
                 // var self = this;
                 this.collection.on('change', this.updateOne, this);
                 //chiamato una volta on init
-                // this.render();
                 this._viewPointers = {};
+
+                 //this.$scripts = $("#gm-canvas"); essendo la view singleton per ogni area viene invocata l'initialize
 
             },
             addOne: function(control){
-                console.log('view added', this._viewPointers);
                 this.setElement(this.getEditorInstanceName());
                 var view = new ControlView({model: control});
                 this._viewPointers[control.cid] = view;
                 //Jquery wrapped el
                 this.$el.html(view.render().el); // view.render returns this, so this.el refers to the div-container appended
-                if(control.has("nestedModel")){
-                    var nested = control.get("nestedModel");
-                    var scriptview = new ScriptView({model: nested});
-                    this._viewPointers[nested.cid] = scriptview;
-                    this.$scripts.append(scriptview.render().el);
-                    //$('#formInvio')[0].parentNode.appendChild(scriptview.render().$el[0]); Da valutare le varie soluzioni
-                    //scriptview.render();                                        funzionano tutte con opportune modifiche in scriptview
+
+                if(control.has("childModels")){
+                    this.$scripts = $("#gm-canvas");
+                    this.addAllChildModels(control)
                 }
                 //this.setElement(this.getEditorInstanceName());
             },
             removeOne: function(control) {
-                console.log('view removed', this._viewPointers[control.cid]);
                 this._viewPointers[control.cid].close();
-                //this._viewPointers[control.cid].remove();
-                if(control.has("nestedModel")){
-                    var nested = control.get("nestedModel");
-                    console.log('script removed', this._viewPointers[nested.cid]);
-                    this._viewPointers[nested.cid].remove();
+
+                if(control.has("childModels")){
+                    var scripts = control.get("childModels");
+                    scripts.each( _.bind( this.removeSubModel, this ));
                 }
             },
             updateOne: function(control) {
@@ -82,7 +75,18 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
                 //control.trigger('update');
                 //view.render();
             },
-
+            addAllChildModels: function (control) {
+                var child = control.get("childModels");
+                child.each( _.bind( this.addOneSub, this ));
+            },
+            addOneSub: function (script) {
+                var scriptview = new ScriptView({ model: script });
+                this._viewPointers[script.cid] = scriptview;
+                this.$scripts.append(scriptview.render().el);
+            },
+            removeSubModel: function (script) {
+                this._viewPointers[script.cid].close();
+            },
             getEditorInstanceName: function() {
                 return CKEDITOR.currentInstance.element.data('instance-elem') ;
             },

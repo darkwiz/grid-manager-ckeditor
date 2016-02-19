@@ -19,6 +19,7 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                 }
                 self.getContentElement("tab-basic", "colselect").disable();
                 self.getContentElement('tab-lookup', 'txtOptValue').disable();
+                utils.hideTabs.call(self);
             });
 
         },
@@ -28,7 +29,7 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                 var values = self.getContentElement('tab-basic', 'typeselect'),
                     selectedPin = editor.config.customValues.pin;
 
-                //utils.hideTabs.call(self);
+
                 switch(selectedPin.type)
                 {   case 'text':
                     case 'textRef':
@@ -36,7 +37,7 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                         optionVal = new Array("none","text","boolean","tp","acl","cf","email","textarea","list");
 
                         break;
-                    case 'date':
+                    case 'datetimeRef':
                         optionNames = new Array("<Scegli un controllo>","Calendar","Select");
                         optionVal = new Array("none","calendar","date");
 
@@ -52,8 +53,8 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
 
                         break;
                     case 'soggetto':
-                        optionNames = new Array("<Scegli un controllo>", "Soggetto", "Soggetto/PersonaFisica", "Soggetto/PersonaGiuridica", "Soggetto/Amministrazione");
-                        optionVal = new Array("none", "soggetto", "soggettopf", "soggettopg", "soggettoam");
+                        optionNames = new Array("<Scegli un controllo>", "Form", "Autocomplete");
+                        optionVal = new Array("none", "soggetto", "soggettoautocomplete");
 
                         break;
                     case 'object':
@@ -62,14 +63,18 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
 
                         break;
                     case 'classifica':
-                        optionNames = new Array("<Scegli un controllo>","Generico");
+                        optionNames = new Array("<Scegli un controllo>","Autocomplete");
                         optionVal = new Array("none", "classifica");
 
                         break;
                     case 'actor':
                         optionNames = new Array("<Scegli un controllo>","Lista", "Autocomplete");
-                        optionVal = new Array("none", "list", "autocomplete");
+                        optionVal = new Array("none", "list", "actor");
 
+                        break;
+                    case 'fascicolo':
+                        optionNames = new Array("<Scegli un controllo>","Autocomplete");
+                        optionVal = new Array("none", "fascicolo");
                         break;
                     default:
                         optionNames = new Array("<none>"),
@@ -141,7 +146,7 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                                 id = dialog.getContentElement("tab-adv", "id");
 
                                 //data.type = this.getValue();
-                                editor._model.set({labelValue: this.getValue()});
+                                editor._model.setControlLabel(this.getValue());
 
                                 // label.setText( this.getValue() + ": " );
 
@@ -251,7 +256,8 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                                     console.log("setup")
                                     if ( name == 'clear' )
                                         removeAllOptions( this );
-                                }
+                                },
+
                             }, {
                                 id: 'UrlValue',
                                 type: 'text',
@@ -260,6 +266,17 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                                 setup: function( name ) {
                                     if ( name == 'clear' )
                                         this.setValue( '' );
+                                },
+                                commit: function( data ){
+                                    var label = data.label,
+                                        dialog = this.getDialog(),
+                                        editor = dialog.getParentEditor(),
+                                        selectValue = dialog.getContentElement('tab-lookup', 'sourceVal');
+
+                                        console.log(selectValue.isVisible());
+                                        if(editor._model && selectValue.isVisible() && selectValue.getValue() == "url" )
+                                            editor._model.setUrl(this.getValue());
+
                                 }
                             }]
                     },
@@ -464,8 +481,8 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                     // this = CKEDITOR.ui.dialog.button
                     var dialog = this.getDialog(),
                         editor = dialog.getParentEditor();
-                    //var control = editor._collection.remove(editor._model);
-                    console.log(editor._collection.toJSON());
+                    var control = editor._collection.remove(editor._model);
+                    console.log(control.toJSON());
                     // alert( 'Clicked: ' + this.id );
                 }
             } ]

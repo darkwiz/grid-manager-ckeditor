@@ -25,7 +25,6 @@ define(["models/Base"], function (Base) {
                 options.push(value);
             }
             this.set("elementValues", options);
-            //return this; eliminabile...
         },
         removeOption: function(index){
             var options = _.clone(this.get("elementValues"));

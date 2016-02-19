@@ -1,18 +1,48 @@
 {
   "settings": {
-    "inputs": {
-      "data_in":{
-        "label":"Data inizio",
-        "value":"data_inizio",
-        "type":"date",
+    "inputs":{
+      "comment":{
+        "label":"Commento",
+        "value":"",
+        "type":"string",
+        "hidden":true
+      },
+      "data_inizio_pubblicazione":{
+        "label":"data_inizio_pubblicazione",
+        "type":"datetimeRef",
+        "value":"data_inizio_pubblicazione",
+        "dynamic":true,
+        "isCollection":false,
+        "hidden":false
+      },
+      "data_fine_pubblicazione":{
+        "label":"data_fine_pubblicazione",
+        "type":"datetimeRef",
+        "value":"data_fine_pubblicazione",
+        "dynamic":true,
+        "isCollection":false,
         "hidden":false
       }
     },
-    "outputs": {
-      "ud_definitiva_out":{
-        "label":"Data Fine",
-        "value":"data_fine",
-        "type":"date",
+    "outputs":{
+      "reason":{
+        "label":"Motivazione",
+        "value":"",
+        "type":"key",
+        "hidden":true
+      },
+      "userToken":{
+        "label":"Actual Owner",
+        "value":"humanToken",
+        "type":"userToken",
+        "hidden":false
+      },
+      "data_fine_pubblicazione":{
+        "label":"data_fine_pubblicazione",
+        "type":"datetimeRef",
+        "value":"data_fine_pubblicazione",
+        "dynamic":true,
+        "isCollection":false,
         "hidden":false
       }
     },

@@ -33,9 +33,30 @@ return {
         //this.buildGrid();
         this.clearEditor(); //don't work well...
         //this.getProcessSettings(this.handleDesignerResponse);
+
+        //var buttons = document.getElementsByClassName('btn btn-primary');
+        //for(var i = 0; i < buttons.length; i++) {
+        //    (function(buttons, i) {
+        //        var path = buttons[i].getAttribute("data-url")
+        //        $.ajax({
+        //            url: path,
+        //            success: appendData
+        //        });
+        //        function appendData(data) {
+        //            console.log(i)
+        //            var inp = JSON.stringify(data.settings.inputs, undefined, 12);
+        //            buttons[i].appendChild(document.createElement('pre')).innerHTML = inp;
+        //        }
+        //    })(buttons, i);}
+
+
+
+
+
+
     },
 
-    buildGrid : function() {
+    buildGrid: function() {
        $(config.canvas).gridmanager(config.rte);
     },
 

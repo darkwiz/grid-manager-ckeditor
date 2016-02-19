@@ -2,35 +2,11 @@
    "_comment": "Test Document",
    "settings":{
       "inputs":{
-         "comment":{
-            "label":"Commento",
-            "value":"",
-            "type":"string",
-            "hidden":true
-         },
          "documentoPrincipale":{
             "label":"Documento principale",
             "type":"document",
             "isCollection":false,
-            "value":"example_main_doc"
-         },
-         "allegati":{
-            "label":"Allegati",
-            "type":"document",
-            "isCollection":true,
-            "value":"example_attch_doc"
-         },
-         "annessi":{
-            "label":"Annessi",
-            "type":"document",
-            "isCollection":true,
-            "value":"example_anne_doc"
-         },
-         "annotazioni":{
-            "label":"Annotazioni",
-            "type":"document",
-            "isCollection":true,
-            "value":"example_anno_doc"
+            "value":"principale"
          }
       },
       "outputs":{
@@ -39,12 +15,6 @@
             "value":"",
             "type":"key",
             "hidden":true
-         },
-         "userToken":{
-            "label":"Actual Owner",
-            "value":"humanToken",
-            "type":"userToken",
-            "hidden":false
          }
       },
       "props":{

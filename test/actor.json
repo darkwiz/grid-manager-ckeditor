@@ -12,7 +12,7 @@
     "outputs":{
       "actor_out":{
         "label":"Figura professionale",
-        "value":"",
+        "value":"actor_2",
         "hidden":false,
         "type":"actor"
       }
