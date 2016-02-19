@@ -5,6 +5,7 @@ define(["handlebars",
     "text!templates/textarea.html",
     "text!templates/date.html",
     "text!templates/span-date.html",
+    "text!templates/span-link.html",
     "text!templates/input-alt.html",
     "text!templates/input-checkbox.html",
     "text!templates/input-list.html",
@@ -16,7 +17,7 @@ define(["handlebars",
     "text!templates/fascicolo.html",
     "text!templates/single-simple.html"
 ], function(Handlebars, label, input, textarea,
-            date, spanDate,  inputAlt,
+            date, spanDate, spanLink,  inputAlt,
             inputCheckbox, inputList,
             span, soggetto, object, document, classifica, fascicolo, singleSimple){
     "use strict";
@@ -34,6 +35,7 @@ define(["handlebars",
     Handlebars.registerPartial('label', label);
     Handlebars.registerPartial('span', span);
     Handlebars.registerPartial('span-date', spanDate);
+    Handlebars.registerPartial('span-link', spanLink);
     Handlebars.registerPartial('date', date);
     Handlebars.registerPartial('input', input);
     Handlebars.registerPartial('radio', inputAlt);

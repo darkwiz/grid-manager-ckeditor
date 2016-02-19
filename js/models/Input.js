@@ -9,7 +9,14 @@ define(["models/Base"], function (Base) {
         elementType:"text",
         elementCss:"form-control",
         elementValues: [""],
-      }, Base.prototype.defaults)
+      }, Base.prototype.defaults),
+      initialize: function(attrs, options) {
+          Base.prototype.initialize.call(this, attrs, options);
+          var type = options.type;
+          if(type == "email"){
+              this.set("elementType", type);
+          }
+      }
   });
 
   var CheckboxInput = Input.extend({

@@ -4,7 +4,7 @@ define(['models/Base',
         'models/Lookup',
         'models/Input'],
     function (Base, Span, Lookup, Input) {
-        "use strict";       //TODO: se due pin hanno lo stesso nome l'algoritmo non funziona bene, invertire classifica/readonly
+        "use strict";
 
         var Scripts = Backbone.Collection.extend({
             model: Lookup
@@ -49,16 +49,11 @@ define(['models/Base',
                 parent_classifica: _.extend({}, Input.prototype.defaults)
             },
             initialize: function(attrs, options){
-                //Super call
 
                 ClassificaReadOnly.prototype.initialize.call(this, attrs, options);
 
                 var childModels = this.get("childModels");
-                childModels.add({elementId: options.PIN.value}); //lookup classifica
-
-               /* this.childModel = new Lookup({elementId: options.PIN.value});
-                this.set("childModel", this.childModel);
-                this.includeChild(this.childModel);*/
+                this.childModel = childModels.add({elementId: options.PIN.value}); //lookup classifica
 
                 this.classifica.labelValue =  options.PIN.label;
                 this.classifica.elementId = options.PIN.value;
@@ -80,21 +75,13 @@ define(['models/Base',
             onChildChange: function (child) {
                 child.trigger("change", this);
             },
-            addOption: function(value) { //TODO: refresh lookup source data on add url/options
+            addOption: function(value) {
                 Lookup.prototype.addOption.call(this.childModel, value);
             },
             setUrl: function(url){
                 Lookup.prototype.setUrl.call(this.childModel, url);
             }
 
-        /*    setcontainerClass: function(width) {
-            //Inutile, spostato nella view(come logico)
-
-            var classifica = new Input(this.get("classifica"));
-            var classifica_updated = Input.prototype.setcontainerClass.call(this, width);
-            //Richiede il return this in Base
-            this.set("classifica", classifica_updated.attributes);
-        }*/
         });
 
         // Uses _.defaults to allow the overriding of default values in subclass

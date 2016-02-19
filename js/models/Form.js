@@ -1,5 +1,5 @@
 define(["jquery","underscore", "backbone", "appconfig"], function ($, _,  Backbone, config) {
-  return Backbone.Model.extend({
+  return Backbone.Model.extend({ //TODO: se due pin hanno lo stesso nome l'algoritmo non funziona bene
       defaults: {
        name:{},
        description:{},

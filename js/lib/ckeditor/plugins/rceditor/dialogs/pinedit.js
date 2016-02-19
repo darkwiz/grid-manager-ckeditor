@@ -37,8 +37,8 @@
 
                         break;
                     case 'datetimeRef':
-                        optionNames = new Array("<Scegli un controllo>","Calendar","Select");
-                        optionVal = new Array("none","calendar","date");
+                        optionNames = new Array("<Scegli un controllo>","Calendar","Select","Calendar Time");
+                        optionVal = new Array("none","calendar","date","calendartime");
 
                         break;
                     case 'year':

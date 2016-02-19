@@ -38,8 +38,8 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
 
                         break;
                     case 'datetimeRef':
-                        optionNames = new Array("<Scegli un controllo>","Generico","Calendar(ReadOnly)");
-                        optionVal = new Array("none","date","calendar");
+                        optionNames = new Array("<Scegli un controllo>","Generico","Calendar(ReadOnly)", "Calendar Time(ReadOnly)");
+                        optionVal = new Array("none","date","calendar","calendartime");
 
                         break;
                     case 'year':

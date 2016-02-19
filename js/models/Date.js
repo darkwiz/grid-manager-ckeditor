@@ -1,5 +1,9 @@
 //Date.js
-define(['models/Year', 'models/Base'], function (Year, Base) {
+define(['models/Year', 'models/Base', 'models/Input'], function (Year, Base, Input) {
+    "use strict";
+
+    var Input = Input.Input;
+
     var ReadOnlyDate = Base.extend({
         // general state and behavior for all pinin controls elements
         defaults: _.extend({
@@ -59,9 +63,35 @@ define(['models/Year', 'models/Base'], function (Year, Base) {
             monthNames: ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre']
         });
 
+    var DateCalendar = Input.extend({
+        // general state and behavior for all pinin controls elements
+        defaults: {
+            elementType:"date"
+        },
+        initialize: function(attrs, options) {
+
+            Input.prototype.initialize.call(this, attrs, options);
+            var pin = options.PIN;
+            if(pin.pintype =="in")
+                this.set("disabled", true);
+        }
+    });
+
+    var DateTimeCalendar = DateCalendar.extend({
+        // general state and behavior for all pinin controls elements
+        defaults: {
+            elementType:"datetime-local"
+        }
+    });
+
+    _.defaults(DateCalendar.prototype.defaults, Input.prototype.defaults);
+    _.defaults(DateTimeCalendar.prototype.defaults, DateCalendar.prototype.defaults);
+
     return {
         Date: Date,
-        ReadOnlyDate:ReadOnlyDate
+        ReadOnlyDate:ReadOnlyDate,
+        DateCalendar:DateCalendar,
+        DateTimeCalendar:DateTimeCalendar
     }
 });
 

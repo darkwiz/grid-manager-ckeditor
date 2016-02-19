@@ -35,6 +35,7 @@ CKEDITOR.editorConfig = function( config ) {
 	config.contentsCss = CKEDITOR.basePath + 'contents.css';
 	//, 'lib/ckeditor/bootstrap.min.css']
 	//evita che l'editor rimuova i tag "i" vuoti, ma può valere per tutti CKEDITOR.dtd.$removeEmpty['i'] = false
+	CKEDITOR.dtd.$removeEmpty['i'] = false;
 	CKEDITOR.dtd.$removeEmpty.span = 0;
 	CKEDITOR.dtd.$removeEmpty.head = 0;
 	// Remove some buttons provided by the standard plugins, which are
