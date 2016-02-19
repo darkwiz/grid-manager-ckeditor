@@ -101,6 +101,7 @@ define(['underscore'],  function( _ ) {
                 'tab-classifica': ['tab-lookup'], //array per mostrare più schede(possibly)
                 'tab-autocomplete': ['tab-lookup'],
                 'tab-actor': ['tab-lookup'],
+                'tab-fascicolo': ['tab-lookup'],
             }[id]);
             for (var i in tabs) {
                 this.hidePage( tabs[i] );

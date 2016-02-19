@@ -23,7 +23,7 @@ define(['models/Lookup',
                 this.set("childModel", true);
 
             },
-            addOption: function(value) { //TODO: refresh lookup source data on add url/options
+            addOption: function(value) {
                 Lookup.prototype.addOption.call(this.childModel, value);
             },
             setUrl: function(url){

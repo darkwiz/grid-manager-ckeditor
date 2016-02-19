@@ -30,9 +30,6 @@ define(['models/Radio',
                       right.labelValue = "Permesso:";
                       this.set("right", right);
 
-                      //nested submodels approach
-                      //this.children = new ObjectNodeCollection(this.get("children"), options);
-
                   }
               });
 
@@ -57,22 +54,6 @@ define(['models/Radio',
                   }
               });
 
-   //nested submodels approach
-
-   // var ObjectNodeCollection = Backbone.Collection.extend({
-   //   model: function(attrs, options) {
-   //      console.log("Attrs: ",attrs);
-   //      console.log("Opts: ",options);
-   //      //console.log("Factory: ",Factory); circular deps
-
-   //          if (attrs.children) {
-   //              return new ObjectAcl(attrs, options);
-   //          } else {
-   //              return new Radio.ReadOnlyAclRadio(attrs, options);
-   //              //return Factory.createControl(attrs, options);
-   //          }
-   //    }
-   //  });
               _.defaultsDeep(ObjectAcl.prototype.defaults, ObjectAclReadOnly.prototype.defaults);
 
     return {

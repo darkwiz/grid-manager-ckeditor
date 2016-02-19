@@ -154,7 +154,7 @@ return {
 
           });
             //detach eventi..con la view singleton probabilmente  perde importanza
-          evt.editor.element.on( 'focusout', function( e ){
+          evt.editor.element.on( 'focusout', function( e ){  //TODO:Si può eliminare se non si hanno più problemi di binding alle instanze
                 //trigger blur(editor) event
                 var leaving = e.data.getTarget(),
                     formgroup = leaving.find('div.form-group'); //TODO:Check focusin on form-group! too many editor instances

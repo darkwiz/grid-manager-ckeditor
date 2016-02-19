@@ -80,7 +80,7 @@ define([
             onChildChange: function (child) {
                 child.trigger("change", this);
             },
-            addOption: function(value) { //TODO: refresh lookup source data on add url/options
+            addOption: function(value) {
                 Lookup.prototype.addOption.call(this.childModel, value);
             },
             setUrl: function(url){

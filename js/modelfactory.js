@@ -88,6 +88,16 @@ define(["backbone",
 			in: Date.ReadOnlyDate,
 			inout: Date.Date
 		},
+		'calendar':{
+			out:Date.DateCalendar,
+			in: Date.DateCalendar,
+			inout: Date.DateCalendar
+		},
+		'calendartime':{
+			out:Date.DateTimeCalendar,
+			in:Date.DateTimeCalendar,
+			inout:Date.DateTimeCalendar
+		},
 		'textarea': {
 			in: Textarea.ReadOnlyTextarea,
 			out: Textarea.EditableTextarea,
