@@ -113,11 +113,13 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
             // if ( isInsertMode ){
             //     editor.insertElement(data.element);
             //     }
-            if (editor._model)
+            if (editor._model){
                 this.commitContent( data );
-            else
+            }
+            else{
                 alert( 'Nessun controllo è stato scelto');
-
+                return false;
+            }
             //this.setupContent( 'clear' ); //TODO: Aggiungere al plugin per ripulire la tab list
             // Element might be replaced by commitment.
             // if ( !isInsertMode )
@@ -125,7 +127,8 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
 
         },
 
-        contents: [{
+        contents: [
+            {
             id: 'tab-basic',
             label: 'Basic Settings',
             elements: [
@@ -217,8 +220,8 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                             }
                         }   //Add here on same row
                     ]}
-            ]}
-            ,{
+            ]},
+            {
                 id: 'tab-lookup',
                 label: 'Lookup Settings',
                 title: 'Modalità di inserimento sorgenti',
@@ -233,7 +236,7 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                                 id: 'sourceVal',
                                 label: 'Sorgente dati',
                                 items:  [[' URL ','url'],
-                                        [' Entry ','entry']],
+                                    [' Entry ','entry']],
                                 'default':'url',
                                 onChange: function() {
                                     var self = this;
@@ -242,11 +245,11 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                                             dialog = self.getDialog(),
                                             urlValue = dialog.getContentElement('tab-lookup', 'UrlValue'),
                                             txtOptValue = dialog.getContentElement('tab-lookup', 'txtOptValue');
-                                            //document.getElementById(this.getButton('ok').domId).style.display='none';
-                                            //urlValue.getElement.hide() funziona!
+                                        //document.getElementById(this.getButton('ok').domId).style.display='none';
+                                        //urlValue.getElement.hide() funziona!
 
-                                            utils.toggleField(urlValue, (selected == "url"));
-                                            utils.toggleField(txtOptValue, !(selected == "url"));
+                                        utils.toggleField(urlValue, (selected == "url"));
+                                        utils.toggleField(txtOptValue, !(selected == "url"));
 
 
 
@@ -273,9 +276,9 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                                         editor = dialog.getParentEditor(),
                                         selectValue = dialog.getContentElement('tab-lookup', 'sourceVal');
 
-                                        console.log(selectValue.isVisible());
-                                        if(editor._model && selectValue.isVisible() && selectValue.getValue() == "url" )
-                                            editor._model.setUrl(this.getValue());
+                                    console.log(selectValue.isVisible());
+                                    if(editor._model && selectValue.isVisible() && selectValue.getValue() == "url" )
+                                        editor._model.setUrl(this.getValue());
 
                                 }
                             }]
@@ -371,9 +374,8 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                         ]
                     }
                 ]
-            }
-
-            , {
+            },
+            {
                 id: 'tab-list',
                 label: 'List Settings',
                 elements: [
@@ -465,6 +467,33 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                                 }
                             ]}
                         ]
+                    }
+                ]
+            },
+            {
+                id: 'tab-fascicolo',
+                label: 'Fascicolo Settings',
+                elements: [
+                    {   type:'vbox',
+                        padding:5,
+                        width: '100%',
+                        children:[
+                            {
+                                type: 'text',
+                                id: 'fascicolo-titolario',
+                                label: 'Source Titolario',
+                                'default': '',
+                                validate: function () {
+                                    var dialog = this.getDialog(),
+                                        editor = dialog.getParentEditor(),
+                                        urlTitolario = dialog.getContentElement('tab-fascicolo', 'fascicolo-titolario');
+                                    console.log(urlTitolario.isVisible());
+                                    if (urlTitolario.isVisible() && !urlTitolario.getValue()) {
+                                        alert("Scegli un Url per il titolario!")
+                                        return false;
+                                    }
+                                }
+                            }]
                     }
                 ]
             }

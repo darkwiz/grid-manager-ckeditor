@@ -461,6 +461,63 @@
                     }
                 ]
 
+            },
+            {
+                id: 'tab-fascicolo',
+                label: 'Fascicolo Settings',
+                elements: [
+                    {   type:'vbox',
+                        padding:5,
+                        width: '100%',
+                        children:[
+                            {
+                                id: 'UrlTitolario',
+                                type: 'text',
+                                label: 'URL Titolario',
+                                'default': '',
+                               /* validate: function () {
+                                    if (!this.getValue()) {
+                                        alert("pippo")
+                                        return false;
+                                    }
+                                },*/
+                                commit: function() {
+
+                                }
+                            },
+                            {
+                                id: 'UrlFascicoli',
+                                type: 'text',
+                                label: "URL Fascicoli",
+                                style: 'width:100%',
+                                setup: function( name ) {
+                                    if ( name == 'clear' )
+                                        this.setValue( '' );
+                                },
+                                validate: function () {
+                                        var dialog = this.getDialog(),
+                                            editor = dialog.getParentEditor(),
+                                            urlTitolario = dialog.getContentElement('tab-fascicolo', 'UrlTitolario');
+                                    console.log(urlTitolario.isVisible());
+                                    if (urlTitolario.isVisible() && !urlTitolario.getValue()) {
+                                        alert("Scegli un Url per il titolario!")
+                                        return false;
+                                    }
+                                },
+                                commit: function(  ){
+                                    var dialog = this.getDialog(),
+                                        editor = dialog.getParentEditor(),
+                                        urlTitolario = dialog.getContentElement('tab-fascicolo', 'UrlTitolario');
+
+                                        if(editor._model && urlTitolario.isVisible())
+                                            editor._model.setUrl(this.getValue());
+
+                                }
+                            }
+
+                        ]
+                    }
+                ]
             }
 
         ],
