@@ -157,21 +157,33 @@ return {
           evt.editor.element.on( 'focusout', function( e ){  //TODO:Si può eliminare se non si hanno più problemi di binding alle instanze
                 //trigger blur(editor) event
                 var leaving = e.data.getTarget(),
-                    formgroup = leaving.find('div.form-group'); //TODO:Check focusin on form-group! too many editor instances
+                    editbutton = leaving.find('span.edit');
+                  //  formgroup = leaving.find('div.div-container'); //TODO:Check focusin on form-group! too many editor instances
                 //  if formgroup exist and focusout -> trigger blur on formgroup(bubble)
-                 if (formgroup.$.length > 0)
-                    $(formgroup.$).trigger('blur');
+
+             /* if (formgroup.$.length > 0)
+                    $(formgroup.$).trigger('blur');*/
+            /*  if (editbutton.$.length > 0){
+                  console.log("focusout");
+                  $(editbutton.$).addClass("edit-hidden");
+              }*/
             });
 
           evt.editor.element.on( 'focusin', function( e ){
                 //trigger focus(editor) event
                 var entering = e.data.getTarget(),
-                    formgroup = entering.find('div.form-group');
-                //  if formgroup exist and focusout -> trigger focus on formgroup(bubble)
-                if (formgroup.$.length > 0){
+                    editbutton = entering.find('span.edit');
+                   // formgroup = entering.find('div.div-container');
+                   // if formgroup exist and focusout -> trigger focus on formgroup(bubble)
+                   /*  if (formgroup.$.length > 0){
                     $(formgroup.$).trigger('focusin');
-                   // console.log("focusin")
-                  }
+                    console.log("focusin");
+                  }*/
+             /* if (editbutton.$.length > 0){
+                  console.log("focusin");
+                  $(editbutton.$).removeClass("edit-hidden");
+
+              }*/
             });
 
           });

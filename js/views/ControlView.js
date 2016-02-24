@@ -16,7 +16,8 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates"],
                     },
             // View Event Handlers
             events: {
-                "click #resetButton": "popup"
+                "click #resetButton": "popup",
+                "click .edit": "onEdit",
             },
 
 
@@ -42,8 +43,10 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates"],
 
             },
             update: function () {
-                this.$label.removeClass(this.$label[0].className).addClass(this.model.get('labelCss'));
-                this.$control.removeClass(this.$control[0].className).addClass(this.model.get('containerCss'));
+                if(this.$label[0])
+                    this.$label.removeClass(this.$label[0].className).addClass(this.model.get('labelCss'));
+                if(this.$control[0])
+                    this.$control.removeClass(this.$control[0].className).addClass(this.model.get('containerCss'));
             },
             onClose: function(){
                 this.model.unbind("update", this.update);
@@ -52,8 +55,17 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates"],
             updateControl: function(model) {
                 var partial = Handlebars.partials[this.model.get('elem')]
                 this.$control.html(partial(model.toJSON()));
+            },
+            onEdit: function(event) {
+                console.log("clicked");
+                var pintype = $(event.currentTarget).data("pin");
+                if (pintype == "in")
+                    CKEDITOR.currentInstance.openDialog( 'pinin' );
+                else if (pintype == "out")
+                    CKEDITOR.currentInstance.openDialog( 'pinout' );
+                else
+                    CKEDITOR.currentInstance.openDialog( 'pinedit' );
             }
-
     });
 
         // Returns the View class

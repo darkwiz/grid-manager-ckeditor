@@ -28,7 +28,7 @@ CKEDITOR.editorConfig = function( config ) {
 	];
 
 	config.extraPlugins = 'xml,ajax,lineutils,widget,richcombo,rceditor';
-	config.removePlugins = 'devtools';
+	config.removePlugins = 'devtools,forms,image';
 	//config.autoParagraph = false;
 	config.enterMode = CKEDITOR.ENTER_DIV; // inserts `<div></div>` instead of p
 	config.allowedContent = true;

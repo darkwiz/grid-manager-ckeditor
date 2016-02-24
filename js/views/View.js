@@ -4,6 +4,7 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
     function($, _, Backbone, Handlebars, templates, ControlView, ScriptView){
         "use strict";
         Backbone.View.prototype.close = function(){ //remove zombie views
+            console.log("removed");
             this.remove();
             this.unbind();
             if (this.onClose){
@@ -22,7 +23,7 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
             _viewPointers: null,
 
             // View Event Handlers
-            events: {
+            events:{
             //    "blur .form-group": "onClose", //se usiamo una vista sigleton non possiamo dethachare gli eventi
             //    "focus .form-group": "onOpen"
             },
@@ -89,8 +90,7 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
             },
             getEditorInstanceName: function() {
                 return CKEDITOR.currentInstance.element.data('instance-elem') ;
-            },
-
+            }
             /*  onClose: function( event ){
                 console.log("close")
                 this.collection.off("add", this.addOne);

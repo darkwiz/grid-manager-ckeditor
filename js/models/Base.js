@@ -11,12 +11,13 @@ define(["jquery", "underscore","backbone"],
           var pin = options.PIN;
           if (pin){
               if(pin.pintype == "inout" || pin.pintype == "in"){
-                  this.set("pinValue", options.PIN.value);
+                  this.set("pinValue", pin.value);
               } else {
                   this.set("pinValue", "");
               }
-              this.set("labelValue", options.PIN.label);
-              this.set("pinName", options.PIN.value);
+              this.set("labelValue", pin.label);
+              this.set("pinName", pin.value);
+              this.set("pinType", pin.pintype);
           }
       },
       setcontainerClass: function(width) {
