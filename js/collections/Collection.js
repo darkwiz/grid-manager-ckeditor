@@ -10,7 +10,7 @@ define(['jquery','underscore','backbone', 'modelfactory'], function ($, _, Backb
         add: function(models, options){
 
             var duplicates = this.filter(function(_models) {
-                console.log("LabelID:", _models.get('pinValue'), "(== : !=) ", options.PIN.value);
+              //  console.log("LabelID:", _models.get('pinValue'), "(== : !=) ", options.PIN.value);
                 return _models.get('pinValue') == options.PIN.value;
             });
 

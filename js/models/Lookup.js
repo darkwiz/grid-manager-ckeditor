@@ -18,7 +18,7 @@ define(["models/Base"], function (Base) {
             sourceUrl: 'http://jsonplaceholder.typicode.com/users',
         }, Base.prototype.defaults),
         initialize: function(attrs, options) {
-            Base.prototype.initialize.call(this, attrs, options);
+            //Base.prototype.initialize.call(this, attrs, options);
             this.on('invalid', function(model,error){
                 alert(error);
             });

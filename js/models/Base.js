@@ -9,12 +9,14 @@ define(["jquery", "underscore","backbone"],
       initialize: function(attrs, options) {
           options = options || {};
           var pin = options.PIN;
+          console.log(options.type);
           if (pin){
               if(pin.pintype == "inout" || pin.pintype == "in"){
-                  this.set("pinValue", pin.value);
+                  this.set("pinValue", this.getPinValue(pin.value));
               } else {
                   this.set("pinValue", "");
               }
+              this.set("type", options.type); //per riselezionare il controllo nella dialog
               this.set("labelValue", pin.label);
               this.set("pinName", pin.value);
               this.set("pinType", pin.pintype);
@@ -36,6 +38,9 @@ define(["jquery", "underscore","backbone"],
       setControlLabel: function (value) {
             value = value || this.get("labelValue");
             this.set("labelValue", value);
+      },
+      getPinValue: function(value) {
+          return "${" + value + "}";
       }
 });
 });

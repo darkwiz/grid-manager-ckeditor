@@ -82,13 +82,17 @@
 
                 utils.removeAllOptions( values );
 
+                if (editor._model){
+                    var model = editor._collection.get(editor._model);
+                }
                 for ( var i = 0 ; i < optionNames.length ; i++){
                     var oOption = utils.addOption( values, optionNames[ i ], optionVal[ i ], self.getParentEditor().document);
-                    // if ( i == 0 )
-                    // {
-                    //     oOption.setAttribute('selected', 'selected');
-                    //     oOption.selected = true;
-                    // }
+
+                    if ( model && optionVal[ i ] == model.get('type') ) //TODO: check this assertion
+                    {
+                        oOption.setAttribute('selected', 'selected');
+                        oOption.selected = true;
+                    }
                 }
             });
         },
@@ -121,97 +125,98 @@
 
         },
 
-        contents: [{
-            id: 'tab-basic',
-            label: 'Basic Settings',
-            elements: [
-                {
-                    type: 'hbox',
-                    widths: [ '50%', '50%' ],
-                    children: [
-                        {
-                            id: 'label',
-                            type: 'text',
-                            label: 'Label',
-                            'default': editor.config.customValues.pin.label,
-                            commit: function(data) {
-                                var label = data.label,
-                                    dialog = this.getDialog(),
-                                    editor = dialog.getParentEditor();
-                                id = dialog.getContentElement("tab-adv", "id");
+        contents: [
+            {
+                id: 'tab-basic',
+                label: 'Basic Settings',
+                elements: [
+                    {
+                        type: 'hbox',
+                        widths: [ '50%', '50%' ],
+                        children: [
+                            {
+                                id: 'label',
+                                type: 'text',
+                                label: 'Label',
+                                'default': editor.config.customValues.pin.label,
+                                commit: function(data) {
+                                    var label = data.label,
+                                        dialog = this.getDialog(),
+                                        editor = dialog.getParentEditor();
+                                    id = dialog.getContentElement("tab-adv", "id");
 
-                                //data.type = this.getValue();
-                                editor._model.setControlLabel(this.getValue());
+                                    //data.type = this.getValue();
+                                    editor._model.setControlLabel(this.getValue());
 
-                                // label.setText( this.getValue() + ": " );
+                                    // label.setText( this.getValue() + ": " );
 
-                                // label.setAttribute('for',  id.getValue() );
-                            }
-                        } //put here other children
-                    ]
-                },
-                { //ROW 2
-                    type: 'hbox',
-                    widths: [ '50%', '50%' ],
-                    children: [
-                        {
-                            id: 'typeselect',
-                            type: 'select',
-                            label: "Tipo Controllo",
-                            'default': 'none',
-                            items: [ [ "<none>",    '' ] ],
-                            onChange: function() {
-                                var self = this;
-                                require(["utils"], function(utils) {
-                                    var selected = self.getValue(),
-                                        dialog = self.getDialog(),
-                                        editor = dialog.getParentEditor()
-                                    wselect = dialog.getContentElement("tab-basic", "colselect"),
-                                        selectedPin = editor.config.customValues.pin;
-                                    editor._model = editor._collection.add({}, {
-                                        type: selected,
-                                        PIN: selectedPin
+                                    // label.setAttribute('for',  id.getValue() );
+                                }
+                            } //put here other children
+                        ]
+                    },
+                    { //ROW 2
+                        type: 'hbox',
+                        widths: [ '50%', '50%' ],
+                        children: [
+                            {
+                                id: 'typeselect',
+                                type: 'select',
+                                label: "Tipo Controllo",
+                                'default': 'none',
+                                items: [ [ "<none>",    '' ] ],
+                                onChange: function() {
+                                    var self = this;
+                                    require(["utils"], function(utils) {
+                                        var selected = self.getValue(),
+                                            dialog = self.getDialog(),
+                                            editor = dialog.getParentEditor()
+                                        wselect = dialog.getContentElement("tab-basic", "colselect"),
+                                            selectedPin = editor.config.customValues.pin;
+                                        editor._model = editor._collection.add({}, {
+                                            type: selected,
+                                            PIN: selectedPin
+                                        });
+                                        utils.toggleField(wselect, selected);
+
+                                        //TODO: Risolvere il problema del toggle delle schede in casi tipi complessi
+                                        utils.toggleTabs.call(dialog, 'tab-' + selected);
+                                        // if( selected == 'boolean')
+                                        //       {  toggleField(checkbox, selected); }
+                                        //       else {
+                                        //           toggleField(checkbox, false);
+                                        //           checkbox.setValue('');
+                                        //        }
                                     });
-                                    utils.toggleField(wselect, selected);
+                                },
+                                setup: function( element ) {
+                                    this.setValue( element.getAttribute( 'value' ) );
+                                },
+                                commit: function( data ) {
+                                    var head = CKEDITOR.document.getHead(),
+                                        dialog = this.getDialog(),
+                                        editor = dialog.getParentEditor();
 
-                                    //TODO: Risolvere il problema del toggle delle schede in casi tipi complessi
-                                    utils.toggleTabs.call(dialog, 'tab-' + selected);
-                                    // if( selected == 'boolean')
-                                    //       {  toggleField(checkbox, selected); }
-                                    //       else {
-                                    //           toggleField(checkbox, false);
-                                    //           checkbox.setValue('');
-                                    //        }
-                                });
-                            },
-                            setup: function( element ) {
-                                this.setValue( element.getAttribute( 'value' ) );
-                            },
-                            commit: function( data ) {
-                                var head = CKEDITOR.document.getHead(),
-                                    dialog = this.getDialog(),
-                                    editor = dialog.getParentEditor();
+                                    /* Riga da rivedere passiamo ancora l'editor e la model al commit finale... */
+                                    // var control = getView({model: editor._model, el: editor.element.$});
 
-                                /* Riga da rivedere passiamo ancora l'editor e la model al commit finale... */
-                                // var control = getView({model: editor._model, el: editor.element.$});
+                                }
+                            },{
+                                id: 'colselect',
+                                type: 'select',
+                                label: "Larghezza Controllo",
+                                'default': 'none',
+                                items:  [['--- Select Field Width ---',0]],
+                                onChange: function() {
+                                    var selected = this.getValue(),
+                                        dialog = this.getDialog(),
+                                        editor = dialog.getParentEditor();
+                                    editor._model.setcontainerClass(selected);
 
-                            }
-                        },{
-                            id: 'colselect',
-                            type: 'select',
-                            label: "Larghezza Controllo",
-                            'default': 'none',
-                            items:  [['--- Select Field Width ---',0]],
-                            onChange: function() {
-                                var selected = this.getValue(),
-                                    dialog = this.getDialog(),
-                                    editor = dialog.getParentEditor();
-                                editor._model.setcontainerClass(selected);
-
-                            }
-                        }   //Add here on same row
-                    ]}
-            ]},
+                                }
+                            }   //Add here on same row
+                        ]}
+                ]},
             {
                 id: 'tab-lookup',
                 label: 'Lookup Settings',
@@ -466,60 +471,92 @@
                 id: 'tab-fascicolo',
                 label: 'Fascicolo Settings',
                 elements: [
-                    {   type:'vbox',
+                    {   type:'hbox',
                         padding:5,
-                        width: '100%',
-                        children:[
-                            {
-                                id: 'UrlTitolario',
-                                type: 'text',
-                                label: 'URL Titolario',
-                                'default': '',
-                               /* validate: function () {
-                                    if (!this.getValue()) {
-                                        alert("pippo")
-                                        return false;
-                                    }
-                                },*/
-                                commit: function() {
+                        widths: [ '66%', '33%' ],
+                        children: [ {
+                            id: 'urlTitolario',
+                            type: 'text',
+                            label: 'URL Titolario',
+                            'default': '',
+                            /* validate: function () {
+                             if (!this.getValue()) {
+                             alert("pippo")
+                             return false;
+                             }
+                             },*/
+                            commit: function() {
 
-                                }
-                            },
-                            {
-                                id: 'UrlFascicoli',
-                                type: 'text',
-                                label: "URL Fascicoli",
-                                style: 'width:100%',
-                                setup: function( name ) {
-                                    if ( name == 'clear' )
-                                        this.setValue( '' );
-                                },
-                                validate: function () {
-                                        var dialog = this.getDialog(),
-                                            editor = dialog.getParentEditor(),
-                                            urlTitolario = dialog.getContentElement('tab-fascicolo', 'UrlTitolario');
-                                    console.log(urlTitolario.isVisible());
-                                    if (urlTitolario.isVisible() && !urlTitolario.getValue()) {
-                                        alert("Scegli un Url per il titolario!")
-                                        return false;
-                                    }
-                                },
-                                commit: function(  ){
-                                    var dialog = this.getDialog(),
-                                        editor = dialog.getParentEditor(),
-                                        urlTitolario = dialog.getContentElement('tab-fascicolo', 'UrlTitolario');
-
-                                        if(editor._model && urlTitolario.isVisible())
-                                            editor._model.setUrl(this.getValue());
-
-                                }
                             }
+                        }, {
+                            type: 'vbox',
+                            padding: 5,
+                            children:[
+                                {
+                                    type: 'button',
+                                    id: 'btnFascicoli',
+                                    label: "Ottieni Fascicoli sotto titolario",
+                                    title: "Ottieni Fascicoli sotto titolario",
+                                    style: 'width:100%;',
+                                    onClick: function () {
+                                        //Delete selected option.
+                                        var self = this;
+                                        require(["utils"], function (utils) {
+                                            var dialog = self.getDialog(),
+                                                editor = dialog.getParentEditor(),
+                                                cmbFascicoli = dialog.getContentElement('tab-fascicolo', 'cmbFascicoli');
+                                                if(editor._model)
+                                                  var promise =  editor._model.loadFascicoli("http://jsonplaceholder.typicode.com/users")
+                                            promise.done(function( data ) {
+                                                console.log( data ); // Will alert "Hello Pippo"
+                                                for(var i in data){
+                                                    utils.addOption(cmbFascicoli, data[i], data[i], dialog.getParentEditor().document);
+                                                }
+                                            });
 
+                                        });
+                                    }
+                                },
+                                {
+                                    type: 'button',
+                                    id: 'btnDelete',
+                                    label: "Reset",
+                                    title: "Reset",
+                                    style: 'width:100%;',
+                                    onClick: function () {
+                                        // Delete option.
+                                        var self = this;
+                                        require(["utils"], function (utils) {
+                                            var dialog = self.getDialog(),
+                                                urlTitolario = dialog.getContentElement('tab-fascicolo', 'urlTitolario'),
+                                                cmbFascicoli = dialog.getContentElement('tab-fascicolo', 'cmbFascicoli');
+                                            utils.removeAllOptions(cmbFascicoli);
+                                            urlTitolario.setValue('');
+                                        });
+                                    }
+                                }
+                            ]
+                        }
                         ]
+                    },
+                    {
+                        id: 'cmbFascicoli',
+                        type: 'select',
+                        label: "Fascicoli Padre",
+                        style: 'width:200px;height:75px',
+                        size: 5,
+                        items: [],
+                        onChange: function() {
+                            var dialog = this.getDialog(),
+                                optValue = dialog.getContentElement( 'tab-list', 'txtOptValue' );
+
+                            optValue.setValue( this.getValue() );
+
+                        }
                     }
+
                 ]
             }
-
         ],
         buttons: [
             CKEDITOR.dialog.okButton,
