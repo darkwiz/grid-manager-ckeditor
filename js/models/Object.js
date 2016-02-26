@@ -24,12 +24,12 @@ define(['models/Radio',
                       Base.prototype.initialize.call(this, attrs, options);
 
                       var actor = _.clone(this.get("actor"));
-                      actor.pinValue =  Base.prototype.getPinValue.call(null,options.PIN.value + ".attore");
+                      actor.pinValue =  Base.prototype.getPinValue.call(null,options.PIN.value + ".attore", options.PIN.pintype);
                       actor.labelValue =  "Attore:";
                       this.set("actor", actor);
 
                       var right = _.clone(this.get("right"));
-                      right.pinValue =  Base.prototype.getPinValue.call(null,options.PIN.value + ".permesso");
+                      right.pinValue =  Base.prototype.getPinValue.call(null,options.PIN.value + ".permesso", options.PIN.pintype);
                       right.labelValue = "Permesso:";
                       this.set("right", right);
 

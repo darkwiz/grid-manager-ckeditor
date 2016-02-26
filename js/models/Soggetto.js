@@ -18,12 +18,12 @@ define(['models/Base','models/Input','models/Span', 'models/Lookup'],
                 Base.prototype.initialize.call(this, attrs, options);
 
                 this.name = _.clone(this.get("name"));
-                this.name.pinValue =  Base.prototype.getPinValue.call(null, options.PIN.value + ".name");
+                this.name.pinValue =  Base.prototype.getPinValue.call(null, options.PIN.value + ".name", options.PIN.pintype);
                 this.name.labelValue =  "Nome Soggetto:";
                 this.set("name", this.name);
 
                 this.email = _.clone(this.get("IndirizzoTelematico"));
-                this.email.pinValue =  Base.prototype.getPinValue.call(null, options.PIN.value + ".IndirizzoTelematico");
+                this.email.pinValue =  Base.prototype.getPinValue.call(null, options.PIN.value + ".IndirizzoTelematico", options.PIN.pintype);
                 this.email.labelValue = "IndirizzoTelematico:";
                 this.set("IndirizzoTelematico", this.email);
 

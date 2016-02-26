@@ -78,6 +78,10 @@ CKEDITOR.dialog.add( 'pinin', function( editor ) {
                         optionVal = new Array("none", "fascicolo");
 
                         break;
+                    case 'cartella':
+                        optionNames = new Array("<Scegli un controllo>","Generico");
+                        optionVal = new Array("none", "cartella");
+                        break;
                     default:
                         optionNames = new Array("<none>"),
                             optionVal = new Array("");

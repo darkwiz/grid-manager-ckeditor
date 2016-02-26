@@ -72,6 +72,10 @@
                         optionNames = new Array("<Scegli un controllo>","Autocomplete");
                         optionVal = new Array("none", "fascicolo");
                         break;
+                    case 'cartella':
+                        optionNames = new Array("<Scegli un controllo>","Autocomplete");
+                        optionVal = new Array("none", "cartella");
+                        break;
                     default:
                         optionNames = new Array("<none>"),
                             optionVal = new Array("");
@@ -88,7 +92,7 @@
                 for ( var i = 0 ; i < optionNames.length ; i++){
                     var oOption = utils.addOption( values, optionNames[ i ], optionVal[ i ], self.getParentEditor().document);
 
-                    if ( model && optionVal[ i ] == model.get('type') ) //TODO: check this assertion
+                    if ( model && optionVal[ i ] == model.get('type') )
                     {
                         oOption.setAttribute('selected', 'selected');
                         oOption.selected = true;
@@ -478,7 +482,7 @@
                             id: 'urlTitolario',
                             type: 'text',
                             label: 'URL Titolario',
-                            'default': '',
+                            'default': 'http://localhost:9292/',
                             /* validate: function () {
                              if (!this.getValue()) {
                              alert("pippo")
@@ -504,14 +508,22 @@
                                         require(["utils"], function (utils) {
                                             var dialog = self.getDialog(),
                                                 editor = dialog.getParentEditor(),
+                                                urlTitolario = dialog.getContentElement('tab-fascicolo', 'urlTitolario'),
+                                                cmbTitolari = dialog.getContentElement('tab-fascicolo', 'cmbTitolari'),
                                                 cmbFascicoli = dialog.getContentElement('tab-fascicolo', 'cmbFascicoli');
-                                                if(editor._model)
-                                                  var promise =  editor._model.loadFascicoli("http://jsonplaceholder.typicode.com/users")
+
+                                            if(editor._model)
+                                                var promise =  editor._model.loadFascicoli(urlTitolario.getValue());
                                             promise.done(function( data ) {
-                                                console.log( data ); // Will alert "Hello Pippo"
-                                                for(var i in data){
-                                                    utils.addOption(cmbFascicoli, data[i], data[i], dialog.getParentEditor().document);
+                                                //console.log(data);
+
+                                                for (var i in data.titolario) {
+                                                    utils.addOption(cmbTitolari, data.titolario[i], data.titolario[i], dialog.getParentEditor().document);
                                                 }
+                                                for (var i in data.fascicolo_padre){
+                                                    utils.addOption(cmbFascicoli, data.fascicolo_padre[i], data.fascicolo_padre[i], dialog.getParentEditor().document);
+                                                }
+
                                             });
 
                                         });
@@ -529,9 +541,13 @@
                                         require(["utils"], function (utils) {
                                             var dialog = self.getDialog(),
                                                 urlTitolario = dialog.getContentElement('tab-fascicolo', 'urlTitolario'),
+                                                cmbTitolari = dialog.getContentElement('tab-fascicolo', 'cmbTitolari'),
                                                 cmbFascicoli = dialog.getContentElement('tab-fascicolo', 'cmbFascicoli');
+
                                             utils.removeAllOptions(cmbFascicoli);
+                                            utils.removeAllOptions(cmbTitolari);
                                             urlTitolario.setValue('');
+
                                         });
                                     }
                                 }
@@ -540,21 +556,27 @@
                         ]
                     },
                     {
-                        id: 'cmbFascicoli',
-                        type: 'select',
-                        label: "Fascicoli Padre",
-                        style: 'width:200px;height:75px',
-                        size: 5,
-                        items: [],
-                        onChange: function() {
-                            var dialog = this.getDialog(),
-                                optValue = dialog.getContentElement( 'tab-list', 'txtOptValue' );
-
-                            optValue.setValue( this.getValue() );
-
-                        }
+                        type:'hbox',
+                        padding:5,
+                        widths: [ '50%', '50%' ],
+                        children: [
+                            {
+                                id: 'cmbTitolari',
+                                type: 'select',
+                                label: "Titolari",
+                                style: 'width:275px;height:75px',
+                                size: 5,
+                                items: []
+                            },
+                            {
+                                id: 'cmbFascicoli',
+                                type: 'select',
+                                label: "Fascicoli Padre",
+                                style: 'width:275px;height:75px',
+                                size: 5,
+                                items: []
+                            }]
                     }
-
                 ]
             }
         ],

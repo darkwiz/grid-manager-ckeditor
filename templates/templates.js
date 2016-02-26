@@ -16,11 +16,10 @@ define(["handlebars",
     "text!templates/document.html",
     "text!templates/classifica.html",
     "text!templates/fascicolo.html",
+    "text!templates/cartella.html",
     "text!templates/single-simple.html"
-], function(Handlebars, label, input, textarea,
-            date, spanDate, spanLink,  inputAlt,
-            inputCheckbox, inputList,
-            span, editControl, soggetto, object, document, classifica, fascicolo, singleSimple){
+], function(Handlebars, label, input, textarea, date, spanDate, spanLink,  inputAlt, inputCheckbox, inputList,
+            span, editControl, soggetto, object, document, classifica, fascicolo, cartella,  singleSimple){
     "use strict";
 
     //Templates
@@ -30,7 +29,8 @@ define(["handlebars",
         soggettotpl = Handlebars.compile(soggetto),
         documenttpl = Handlebars.compile(document),
         classificatpl = Handlebars.compile(classifica),
-        fascicolotpl = Handlebars.compile(fascicolo);
+        fascicolotpl = Handlebars.compile(fascicolo),
+        cartellatpl = Handlebars.compile(cartella);
 
     //Partials
     Handlebars.registerPartial('edit-control', editControl);
@@ -76,7 +76,8 @@ define(["handlebars",
                 "soggetto": soggettotpl,
                 "document": documenttpl,
                 "classifica":classificatpl,
-                "fascicolo":fascicolotpl
+                "fascicolo":fascicolotpl,
+                "cartella":cartellatpl
             }[type]);
         }
     }

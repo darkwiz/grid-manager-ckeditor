@@ -76,6 +76,10 @@ CKEDITOR.dialog.add( 'pinout', function( editor ) {
                         optionNames = new Array("<Scegli un controllo>","Autocomplete");
                         optionVal = new Array("none", "fascicolo");
                         break;
+                    case 'cartella':
+                        optionNames = new Array("<Scegli un controllo>","Autocomplete");
+                        optionVal = new Array("none", "cartella");
+                        break;
                     default:
                         optionNames = new Array("<none>"),
                             optionVal = new Array("");
