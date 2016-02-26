@@ -57,7 +57,6 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates"],
                 this.$control.html(partial(model.toJSON()));
             },
             onEdit: function(event) {
-                console.log("clicked");
                 var pintype = $(event.currentTarget).data("pin");
                 if (pintype == "in")
                     CKEDITOR.currentInstance.openDialog( 'pinin' );

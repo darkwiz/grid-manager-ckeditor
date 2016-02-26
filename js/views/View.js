@@ -4,7 +4,6 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
     function($, _, Backbone, Handlebars, templates, ControlView, ScriptView){
         "use strict";
         Backbone.View.prototype.close = function(){ //remove zombie views
-            console.log("removed");
             this.remove();
             this.unbind();
             if (this.onClose){
@@ -35,7 +34,6 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
                 _.bindAll(this);// every function that uses 'this' as the current object should be in here
 
                 this.setElement(this.getEditorInstanceName());
-                console.log(this.getEditorInstanceName());
                 // This will be called when an item is added. pushed or unshift
                 this.collection.on('add', this.addOne, this);
                 // This will be called when an item is removed, popped or shifted
@@ -71,7 +69,7 @@ define(["jquery", "underscore","backbone", "handlebars", "templates/templates", 
                 }
             },
             updateOne: function(control) {
-                console.log('view updated', this._viewPointers[control.cid]);
+                //console.log('view updated', this._viewPointers[control.cid]);
                 var view = this._viewPointers[control.cid];
                 //control.trigger('update');
                 //view.render();
