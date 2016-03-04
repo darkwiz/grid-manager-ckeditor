@@ -29,7 +29,8 @@ requirejs.config({
             deps: ["jquery.bootstrap"]
         },
         "app":{ deps: ["gridmanager"]}
-    }
+    },
+    urlArgs: "bust=" +  (new Date()).getTime() //remove in production!!!
 });
 
 requirejs(["app", "jquery.bootstrap", "gridmanager","domReady!", "magic"], function(App) {
